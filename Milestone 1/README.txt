@@ -1,3 +1,13 @@
+SEPT 2022 Major Assignment 
+
+Team: MCASN
+Members:
+Nathan Boc - s3717205
+Mevlut Saluk - s3717696
+Christodoulos Voulismas - s3850105
+Abida Mohammadi - s3811920
+Sankeath Suriya Arachchiralalage - s3897982
+
 GitHub Repo
 https://github.com/nathan-boc/SEPT2022
 
