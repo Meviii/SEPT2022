@@ -1,8 +1,5 @@
-package com.project.mdonline.controller;
+package com.project.mdonline.Admin;
 
-import com.project.mdonline.model.Admin;
-import com.project.mdonline.repository.AdminRepository;
-import com.project.mdonline.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
