@@ -18,10 +18,16 @@ public class AdminService {
     }
 
     public Admin getAdminById(int id){
+
+
         return adminRepository.findAdminByAdminID(id);
     }
 
     public List<Admin> getAllAdmin(){
         return adminRepository.findAll();
+    }
+
+    public Admin getAdminByEmail(String email){
+        return adminRepository.findAdminByAdminEmail(email);
     }
 }

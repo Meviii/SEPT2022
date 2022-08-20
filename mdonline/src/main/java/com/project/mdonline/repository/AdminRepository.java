@@ -10,6 +10,7 @@ import java.util.List;
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
 
     Admin findAdminByAdminID(int id);
+    Admin findAdminByAdminEmail(String email);
     // Returns admin by id in database
     List<Admin> findAll();
 }
