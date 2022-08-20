@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### DATABASE ###
-application.properties
+mdonline/src/main/resources/application.properties
 
 ### STS ###
 .apt_generated

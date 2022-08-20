@@ -1,7 +1,7 @@
-package com.project.mdonline.service;
+package com.project.mdonline.Admin;
 
-import com.project.mdonline.model.Admin;
-import com.project.mdonline.repository.AdminRepository;
+import com.project.mdonline.Admin.Admin;
+import com.project.mdonline.Admin.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

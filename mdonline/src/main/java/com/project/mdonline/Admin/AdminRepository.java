@@ -1,6 +1,6 @@
-package com.project.mdonline.repository;
+package com.project.mdonline.Admin;
 
-import com.project.mdonline.model.Admin;
+import com.project.mdonline.Admin.Admin;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

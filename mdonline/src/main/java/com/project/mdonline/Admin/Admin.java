@@ -1,4 +1,4 @@
-package com.project.mdonline.model;
+package com.project.mdonline.Admin;
 
 import javax.persistence.*;
 
