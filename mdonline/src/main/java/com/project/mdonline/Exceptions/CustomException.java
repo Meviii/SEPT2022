@@ -4,11 +4,22 @@ package com.project.mdonline.Exceptions;
     This class creates the custom exception.
  */
 
-public class EntityNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class CustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     private String errorMessage;
     private String errorCode;
+    private HttpStatus errorStatus;
+
+    public HttpStatus getErrorStatus() {
+        return errorStatus;
+    }
+
+    public void setErrorStatus(HttpStatus errorStatus) {
+        this.errorStatus = errorStatus;
+    }
 
     public String getErrorMessage() {
         return errorMessage;
@@ -26,13 +37,14 @@ public class EntityNotFoundException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public EntityNotFoundException() {
+    public CustomException() {
 
     }
 
-    public EntityNotFoundException(String errorMessage, String errorCode) {
+    public CustomException(String errorMessage, String errorCode, HttpStatus errorStatus) {
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
+        this.errorStatus = errorStatus;
     }
 
 }

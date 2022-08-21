@@ -1,8 +1,9 @@
 package com.project.mdonline.Patient;
 
 
-import com.project.mdonline.Exceptions.EntityNotFoundException;
+import com.project.mdonline.Exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class PatientService {
         Patient patientToReturn = patientRepository.findPatientByPatientID(id);
 
         if (patientToReturn == null){
-            throw new EntityNotFoundException("Entity not found", "601");
+            throw new CustomException("Entity not found", "601", HttpStatus.NOT_FOUND);
         }
 
         return patientToReturn;
@@ -34,7 +35,7 @@ public class PatientService {
         List<Patient> patientsToReturn = patientRepository.findAll();
 
         if (patientsToReturn == null){
-            throw new EntityNotFoundException("Entity not found", "601");
+            throw new CustomException("Entity not found", "601", HttpStatus.NOT_FOUND);
         }
 
         return patientsToReturn;
@@ -45,7 +46,7 @@ public class PatientService {
         Patient patientToReturn = patientRepository.findPatientByPatientEmail(email);
 
         if (patientToReturn == null){
-            throw new EntityNotFoundException("Entity not found", "601");
+            throw new CustomException("Entity not found", "601", HttpStatus.NOT_FOUND);
         }
 
         return patientToReturn;
