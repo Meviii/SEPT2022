@@ -1,5 +1,6 @@
 package com.project.mdonline.Patient;
 
+import com.project.mdonline.Doctor.Doctor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,8 @@ public interface PatientRepository extends CrudRepository<Patient, Integer> {
 
     // Finds ALL patients
     List<Patient> findAll();
+
+    // Adds new patient
+    @Override
+    <S extends Patient> S save(S entity);
 }

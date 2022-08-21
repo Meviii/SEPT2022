@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 
 @ControllerAdvice
-public class EntityExceptionController {
+public class ExceptionController {
 
-        @ExceptionHandler(EntityNotFoundException.class)
-        public ResponseEntity<String> notFound(EntityNotFoundException exception) {
-            return new ResponseEntity<String>(exception.getErrorMessage(), HttpStatus.NOT_FOUND);
-        }
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<String> customException(CustomException exception) {
+        return new ResponseEntity<String>(exception.getErrorMessage(), HttpStatus.NOT_FOUND);
+    }
+
 }

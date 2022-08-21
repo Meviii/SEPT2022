@@ -8,7 +8,7 @@ import java.sql.Date;
 @Table(name="patient")
 public class Patient {
     @Id
-    @Column (name="patient_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int patientID;
 
     private String patientEmail;
@@ -57,6 +57,10 @@ public class Patient {
         this.patientEmail = patientEmail;
         this.patientPassword = patientPassword;
         this.patientPhone = patientPhone;
+    }
+
+    public void setPatientID(int patientID) {
+        this.patientID = patientID;
     }
 
     public String getPatientEmail() {
