@@ -10,4 +10,15 @@ public class MdonlineApplication {
 		SpringApplication.run(MdonlineApplication.class, args);
 	}
 
+//	@Bean
+//	CommandLineRunner commandLineRunner(AppointmentRepository appointmentRepository){
+//		return args -> {
+//			Appointment appointment = new Appointment();
+//			appointment.setPatientId(1);
+//			appointment.setDoctorId(1);
+//			appointment.setPaymentAmount(55.00);
+//			appointmentRepository.save(appointment);
+//		};
+//	}
+
 }
