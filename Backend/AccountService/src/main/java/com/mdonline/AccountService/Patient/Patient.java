@@ -1,6 +1,8 @@
 package com.mdonline.AccountService.Patient;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -11,18 +13,24 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int patientID;
 
+    @Column(unique = true, nullable = false)
     private String patientEmail;
 
+    @Column(nullable = false)
     private String patientPassword;
 
+    @Column(nullable = false)
     private String patientFirstName;
 
     private String patientMiddleName;
 
+    @Column(nullable = false)
     private String patientLastName;
 
+    @Column(nullable = false)
     private int patientPhone;
 
+    @Column(nullable = false)
     private Date patientBirth;
 
     private int patientStreetNo;
@@ -45,6 +53,8 @@ public class Patient {
 
     private String patientHealthInformation;
 
+    private boolean patientDisabledStatus = false;
+
     public Patient() {
     }
 
@@ -57,6 +67,14 @@ public class Patient {
         this.patientEmail = patientEmail;
         this.patientPassword = patientPassword;
         this.patientPhone = patientPhone;
+    }
+
+    public boolean isPatientDisabledStatus() {
+        return patientDisabledStatus;
+    }
+
+    public void setPatientDisabledStatus(boolean patientDisabledStatus) {
+        this.patientDisabledStatus = patientDisabledStatus;
     }
 
     public void setPatientID(int patientID) {
@@ -254,4 +272,9 @@ public class Patient {
                 ", patientHealthInformation='" + patientHealthInformation + '\'' +
                 '}';
     }
+
+    public boolean isEnabled() {
+        return patientDisabledStatus;
+    }
+
 }
