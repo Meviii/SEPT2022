@@ -1,4 +1,4 @@
-package com.mdonline.AccountService.Patient;
+package com.mdonline.LoginService.Patient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path="/api/v1/account/patient")
+@RequestMapping(path="/api/v1/login/patient")
 public class PatientController {
 
     private final PatientService patientService;
@@ -18,22 +18,21 @@ public class PatientController {
     }
 
     // Returns a patient from specified ID
-    @GetMapping(path="/{id}", consumes = "application/json", produces="application/json")
+    @GetMapping(path="/{id}")
     @ResponseBody
     public Patient getPatientById(@PathVariable int id) {
-
         return patientService.getPatientById(id);
-
     }
 
     // Returns a list of ALL patients
-    @GetMapping(path="/all", consumes = "application/json", produces="application/json")
+    @GetMapping(path="/all")
     public List<Patient> getAllPatients() {
         return patientService.getAllPatient();
     }
 
+
     // Returns a patient from specified EMAIL
-    @RequestMapping(path="/{email}", consumes = "application/json", produces="application/json")
+    @RequestMapping("/{email}")
     @ResponseBody
     public Patient getPatientByEmail(@PathVariable String email) {
         return patientService.getPatientByEmail(email);

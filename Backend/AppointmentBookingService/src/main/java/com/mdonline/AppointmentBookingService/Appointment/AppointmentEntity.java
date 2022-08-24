@@ -12,13 +12,13 @@ public class AppointmentEntity {
     @Column(name = "appointment_id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patientId;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctorId;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "patient_id", nullable = false)
+//    private Patient patientId;
+//
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "doctor_id", nullable = false)
+//    private Doctor doctorId;
 
     @Column(name = "appointment_payment_amount")
     private double paymentAmount;
@@ -31,14 +31,14 @@ public class AppointmentEntity {
 
     public AppointmentEntity() {
     }
-
-    public AppointmentEntity(Patient patientId, Doctor doctorId, double paymentAmount, Date date, Time time) {
-        this.patientId = patientId;
-        this.doctorId = doctorId;
-        this.paymentAmount = paymentAmount;
-        this.date = date;
-        this.time = time;
-    }
+//
+//    public AppointmentEntity(Patient patientId, Doctor doctorId, double paymentAmount, Date date, Time time) {
+//        this.patientId = patientId;
+//        this.doctorId = doctorId;
+//        this.paymentAmount = paymentAmount;
+//        this.date = date;
+//        this.time = time;
+//    }
 
     public int getId() {
         return id;
@@ -48,21 +48,21 @@ public class AppointmentEntity {
         this.id = id;
     }
 
-    public Patient getPatientId() {
-        return patientId;
-    }
+//    public Patient getPatientId() {
+//        return patientId;
+//    }
 
-    public void setPatientId(Patient patientId) {
-        this.patientId = patientId;
-    }
-
-    public Doctor getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Doctor doctorId) {
-        this.doctorId = doctorId;
-    }
+//    public void setPatientId(Patient patientId) {
+//        this.patientId = patientId;
+//    }
+//
+//    public Doctor getDoctorId() {
+//        return doctorId;
+//    }
+//
+//    public void setDoctorId(Doctor doctorId) {
+//        this.doctorId = doctorId;
+//    }
 
     public double getPaymentAmount() {
         return paymentAmount;
@@ -92,8 +92,8 @@ public class AppointmentEntity {
     public String toString() {
         return "Appointment{" +
                 "id=" + id +
-                ", patientId=" + patientId +
-                ", doctorId=" + doctorId +
+//                ", patientId=" + patientId +
+//                ", doctorId=" + doctorId +
                 ", paymentAmount=" + paymentAmount +
                 ", date=" + date +
                 ", time=" + time +

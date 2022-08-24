@@ -1,4 +1,4 @@
-package com.mdonline.AccountService.Admin;
+package com.mdonline.LoginService.Admin;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ public class Admin {
     @Column(unique = true, nullable = false)
     private String adminEmail;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String adminPassword;
 
     public Admin(){}
@@ -47,7 +47,7 @@ public class Admin {
     public String toString() {
         return "Admin{" +
                 "adminID=" + adminID +
-                ", adminEmail='" + adminEmail +
+                ", adminEmail='" + adminEmail + '\'' +
                 '}';
     }
 }

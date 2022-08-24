@@ -14,16 +14,21 @@ public class Doctor {
     @Column(name = "doctor_id")
     private int doctorID;
 
+    @Column(unique = true, nullable = false)
     private String doctorEmail;
 
+    @Column(nullable = false)
     private String doctorPassword;
 
+    @Column(nullable = false)
     private String doctorFirstName;
 
     private String doctorMiddleName;
 
+    @Column(nullable = false)
     private String doctorLastName;
 
+    @Column(nullable = false)
     private int doctorPhone;
 
     private Date doctorBirth;
@@ -42,6 +47,7 @@ public class Doctor {
 
     private boolean doctorVerifiedStatus;
 
+    private boolean doctorDisabledStatus = false;
 
     public Doctor() {
     }
@@ -55,6 +61,24 @@ public class Doctor {
         this.doctorEmail = doctorEmail;
         this.doctorPassword = doctorPassword;
         this.doctorPhone = doctorPhone;
+    }
+
+    public Doctor(String doctorEmail, String doctorPassword, String doctorFirstName, String doctorMiddleName, String doctorLastName, int doctorPhone, Date doctorBirth) {
+        this.doctorEmail = doctorEmail;
+        this.doctorPassword = doctorPassword;
+        this.doctorFirstName = doctorFirstName;
+        this.doctorMiddleName = doctorMiddleName;
+        this.doctorLastName = doctorLastName;
+        this.doctorPhone = doctorPhone;
+        this.doctorBirth = doctorBirth;
+    }
+
+    public boolean isPatientDisabledStatus() {
+        return doctorDisabledStatus;
+    }
+
+    public void setPatientDisabledStatus(boolean patientDisabledStatus) {
+        this.doctorDisabledStatus = patientDisabledStatus;
     }
 
     public void setDoctorID(int doctorID) {
@@ -217,4 +241,9 @@ public class Doctor {
                 ", doctorVerifiedStatus=" + doctorVerifiedStatus +
                 '}';
     }
+
+    public boolean isEnabled() {
+        return doctorDisabledStatus;
+    }
+
 }
