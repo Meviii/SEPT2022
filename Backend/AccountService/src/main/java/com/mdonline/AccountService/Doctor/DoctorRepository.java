@@ -8,17 +8,18 @@ import java.util.List;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
+
     // Finds doctor by ID
-    Doctor findDoctorByDoctorID (int id);
+    Doctor findById(int id);
 
     // Finds doctor by EMAIL
-    Doctor findDoctorByDoctorEmail(String email);
+    Doctor findByEmail(String email);
 
     // Finds ALL doctors
     List<Doctor> findAll();
 
-    // Adds new doctor
-    @Override
-    <S extends Doctor> S save(S entity);
+//    // Adds new doctor
+//    @Override
+//    <S extends Doctor> S save(S entity);
 
 }

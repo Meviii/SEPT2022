@@ -13,7 +13,7 @@ import java.util.Map;
 @RequestMapping(path="/api/v1/doctor")
 public class DoctorController {
 
-    private final DoctorService doctorService;
+    private DoctorService doctorService;
 
     @Autowired
     public DoctorController(DoctorService doctorService){

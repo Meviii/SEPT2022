@@ -1,18 +1,18 @@
 package com.mdonline.AccountService.Patient;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PatientRepository extends CrudRepository<Patient, Integer> {
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
     // Finds patient by ID
-    Patient findPatientByPatientID(int id);
+    Patient findById(int id);
 
     // Finds patient by EMAIL
-    Patient findPatientByPatientEmail(String email);
+    Patient findByEmail(String email);
 
     // Finds ALL patients
     List<Patient> findAll();
