@@ -57,7 +57,9 @@ public class DoctorService {
     // Adds new doctor
     public void addNewDoctor(Doctor doctor) {
 
-        if (doctor.getDoctorEmail() == "" || doctor.getDoctorPassword() == "" || doctor.getDoctorPassword() == null || doctor.getDoctorEmail() == null) {
+        if (doctor.getDoctorEmail() == "" || doctor.getDoctorPassword() == "" ||
+                doctor.getDoctorPassword() == null || doctor.getDoctorEmail() == null ||
+                doctor.getDoctorID() != null) {
             throw new CustomException("Incorrect key values", "603", HttpStatus.BAD_REQUEST);
         }
 

@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1/account/admin")
+@RequestMapping(path="/api/v1/admin")
 public class AdminController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping(path="/all", consumes = "application/json", produces="application/json")
+    @GetMapping(consumes = "application/json", produces="application/json")
     public List<Admin> getAllAdmins() {
         return adminService.getAllAdmin();
     }
