@@ -10,10 +10,10 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(path="/api/v1/patient")
+@RequestMapping(path="/api/v1/patient/")
 public class PatientController {
 
-    private final PatientService patientService;
+    private PatientService patientService;
 
     @Autowired
     public PatientController(PatientService patientService){
@@ -21,7 +21,7 @@ public class PatientController {
     }
 
     // Returns a patient from specified ID, must not need JSON as consumer to allow /{email} to work
-    @GetMapping(path="/{id}")
+    @GetMapping(path="{id}")
     @ResponseBody
     public Patient getPatientById(@PathVariable int id) {
          Patient toReturn;
