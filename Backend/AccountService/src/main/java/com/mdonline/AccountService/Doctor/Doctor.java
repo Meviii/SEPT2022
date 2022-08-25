@@ -12,7 +12,7 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctor_id")
-    private int doctorID;
+    private Integer doctorID;
 
     @Column(unique = true, nullable = false)
     private String doctorEmail;
@@ -198,7 +198,7 @@ public class Doctor {
     }
 
 
-    public int getDoctorID() {
+    public Integer getDoctorID() {
         return doctorID;
     }
 

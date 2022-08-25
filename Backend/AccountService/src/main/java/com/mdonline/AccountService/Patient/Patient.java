@@ -11,29 +11,32 @@ import java.sql.Date;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int patientID;
+    @Column(name = "patient_id")
+    private Integer patientID;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "patient_email", unique = true, nullable = false)
     private String patientEmail;
 
-    @Column(nullable = false)
+    @Column(name = "patient_password",nullable = false)
     private String patientPassword;
 
-    @Column(nullable = false)
+    @Column(name = "patient_first_name",nullable = false)
     private String patientFirstName;
 
+    @Column(name = "patient_middle_name")
     private String patientMiddleName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "patient_last_name")
     private String patientLastName;
 
-    @Column(nullable = false)
-    private int patientPhone;
+    @Column(nullable = false, name = "patient_phone")
+    private Integer patientPhone;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "patient_birth")
     private Date patientBirth;
 
-    private int patientStreetNo;
+    @Column(name = "patient_street_no")
+    private Integer patientStreetNo;
 
     private String patientStreetName;
 
@@ -41,13 +44,13 @@ public class Patient {
 
     private String patientState;
 
-    private int patientPostCode;
+    private Integer patientPostCode;
 
     private String patientCountry;
 
     private boolean patientVerifiedStatus;
 
-    private int patientWeight;
+    private Integer patientWeight;
 
     private String patientHealthStatus;
 
@@ -63,7 +66,7 @@ public class Patient {
         this.patientPassword = patientPassword;
     }
 
-    public Patient(String patientEmail, String patientPassword, int patientPhone) {
+    public Patient(String patientEmail, String patientPassword, Integer patientPhone) {
         this.patientEmail = patientEmail;
         this.patientPassword = patientPassword;
         this.patientPhone = patientPhone;
@@ -77,7 +80,7 @@ public class Patient {
         this.patientDisabledStatus = patientDisabledStatus;
     }
 
-    public void setPatientID(int patientID) {
+    public void setPatientID(Integer patientID) {
         this.patientID = patientID;
     }
 
@@ -121,11 +124,11 @@ public class Patient {
         this.patientLastName = patientLastName;
     }
 
-    public int getPatientPhone() {
+    public Integer getPatientPhone() {
         return patientPhone;
     }
 
-    public void setPatientPhone(int patientPhone) {
+    public void setPatientPhone(Integer patientPhone) {
         this.patientPhone = patientPhone;
     }
 
@@ -169,11 +172,11 @@ public class Patient {
         this.patientState = patientSate;
     }
 
-    public int getPatientPostCode() {
+    public Integer getPatientPostCode() {
         return patientPostCode;
     }
 
-    public void setPatientPostCode(int patientPostCode) {
+    public void setPatientPostCode(Integer patientPostCode) {
         this.patientPostCode = patientPostCode;
     }
 
@@ -193,11 +196,11 @@ public class Patient {
         this.patientVerifiedStatus = patientVerifiedStatus;
     }
 
-    public int getPatientWeight() {
+    public Integer getPatientWeight() {
         return patientWeight;
     }
 
-    public void setPatientWeight(int patientWeight) {
+    public void setPatientWeight(Integer patientWeight) {
         this.patientWeight = patientWeight;
     }
 
@@ -217,7 +220,7 @@ public class Patient {
         this.patientHealthInformation = patientHealthInformation;
     }
 
-    public int getPatientID() {
+    public Integer getPatientID() {
         return patientID;
     }
 
@@ -273,6 +276,7 @@ public class Patient {
                 '}';
     }
 
+    @JsonIgnore
     public boolean isEnabled() {
         return patientDisabledStatus;
     }

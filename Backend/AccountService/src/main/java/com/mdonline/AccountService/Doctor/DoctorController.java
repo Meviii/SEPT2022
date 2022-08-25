@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/api/v1/account/doctor")
+@RequestMapping(path="/api/v1/doctor")
 public class DoctorController {
 
     private final DoctorService doctorService;
@@ -20,8 +20,8 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    // Returns a doctor from specified ID
-    @GetMapping(path="/get/id/{id}", consumes = "application/json", produces="application/json")
+    // Returns a doctor from specified ID, must not need JSON as consumer to allow /{email} to work
+    @GetMapping(path="/{id}")
     @ResponseBody
     public Doctor getDoctorById(@PathVariable int id) {
         Doctor toReturn;
@@ -34,7 +34,7 @@ public class DoctorController {
     }
 
     // Returns a list of ALL doctors
-    @GetMapping(path="/get/all", consumes = "application/json", produces="application/json")
+    @GetMapping(consumes = "application/json", produces="application/json")
     public List<Doctor> getAllDoctors() {
         List<Doctor> toReturn;
         try {
@@ -46,7 +46,7 @@ public class DoctorController {
     }
 
     // Returns a doctor from specified EMAIL
-    @RequestMapping(value = "/get/email/{email}", method = RequestMethod.GET, consumes = "application/json", produces="application/json")
+    @RequestMapping(value = "/{email}", method = RequestMethod.GET, consumes = "application/json", produces="application/json")
     @ResponseBody
     public Doctor getDoctorByEmail(@PathVariable String email) {
         Doctor toReturn;
@@ -60,7 +60,7 @@ public class DoctorController {
 
 
     // Save specified doctor to database
-    @PostMapping(path="/create/", consumes = "application/json", produces="application/json")
+    @PostMapping(path="/", consumes = "application/json", produces="application/json")
     public void addNewDoctor(@RequestBody Doctor doctor){
         try {
             doctorService.addNewDoctor(doctor);
