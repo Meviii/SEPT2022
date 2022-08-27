@@ -1,13 +1,19 @@
 package com.mdonline.AccountService.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLInsert;
 
 import javax.persistence.*;
 import java.sql.Date;
 
-
-@MappedSuperclass
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name = "user_type",
+        discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
 
     @Id
@@ -15,11 +21,14 @@ public abstract class User {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", updatable = false, unique = true, nullable = false)
     private String email;
 
     @Column(name = "password",nullable = false)
     private String password;
+
+    @Column(name = "user_type", insertable = false, updatable = false)
+    private String userType;
 
     @Column(name = "first_name",nullable = false)
     private String firstName;
@@ -51,20 +60,39 @@ public abstract class User {
 
     private boolean verifiedStatus;
 
+    private boolean disabledStatus;
+
     public User() {
     }
 
-    public User(String email, String password, String firstName, String middleName, String lastName, Date birth) {
+    public User(String email, String password, String firstName, String middleName, String lastName, Date birth, Integer phone) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.birth = birth;
+        this.phone = phone;
+    }
+
+    public String getUserType() {
+        return userType;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean getDisabledStatus() {
+        return disabledStatus;
+    }
+
+    public void setDisabledStatus(boolean DisabledStatus) {
+        this.disabledStatus = DisabledStatus;
     }
 
     public String getEmail() {
@@ -188,7 +216,7 @@ public abstract class User {
                 '}';
     }
 
-
+    @JsonIgnore
     public String getAddressString() {
         return "User{" +
                 "streetNo=" + streetNo +
@@ -198,6 +226,17 @@ public abstract class User {
                 ", postCode=" + postCode +
                 ", country='" + country + '\'' +
                 '}';
+    }
+
+    @JsonIgnore
+    public void update(User user){
+        this.email = user.email;
+        this.password = user.password;
+        this.firstName = user.firstName;
+        this.middleName = user.middleName;
+        this.lastName = user.lastName;
+        this.birth = user.birth;
+        this.phone = user.phone;
     }
 
 

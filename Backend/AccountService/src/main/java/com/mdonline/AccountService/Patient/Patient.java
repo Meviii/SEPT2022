@@ -1,6 +1,7 @@
 package com.mdonline.AccountService.Patient;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mdonline.AccountService.User.User;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.sql.Date;
 
 
 @Entity
-@Table(name="patient")
+@DiscriminatorValue(value = "Patient")
 public class Patient extends User {
 
     private Double weight;
@@ -17,49 +18,39 @@ public class Patient extends User {
 
     private String healthInformation;
 
-    private boolean disabledStatus = false;
-
     public Patient() {
     }
 
-
-    public Patient(String email, String password, String firstName, String middleName, String lastName, Date birth, Double weight, String healthStatus, String healthInformation) {
-        super(email, password, firstName, middleName, lastName, birth);
+    public Patient(String email, String password, String firstName, String middleName, String lastName, Date birth, Integer phone, Double weight, String healthStatus, String healthInformation) {
+        super(email, password, firstName, middleName, lastName, birth, phone);
         this.weight = weight;
         this.healthStatus = healthStatus;
         this.healthInformation = healthInformation;
     }
 
-    public Double getPatientWeight() {
+
+    public Double getWeight() {
         return weight;
     }
 
-    public void setPatientWeight(Double Weight) {
+    public void setWeight(Double Weight) {
         this.weight = Weight;
     }
 
-    public String getPatientHealthStatus() {
+    public String getHealthStatus() {
         return healthStatus;
     }
 
-    public void setPatientHealthStatus(String HealthStatus) {
+    public void setHealthStatus(String HealthStatus) {
         this.healthStatus = HealthStatus;
     }
 
-    public String getPatientHealthInformation() {
+    public String getHealthInformation() {
         return healthInformation;
     }
 
-    public void setPatientHealthInformation(String HealthInformation) {
+    public void setHealthInformation(String HealthInformation) {
         this.healthInformation = HealthInformation;
-    }
-
-    public boolean isPatientDisabledStatus() {
-        return disabledStatus;
-    }
-
-    public void setPatientDisabledStatus(boolean DisabledStatus) {
-        this.disabledStatus = DisabledStatus;
     }
 
     @Override
@@ -68,9 +59,15 @@ public class Patient extends User {
                 "Weight=" + weight +
                 ", HealthStatus='" + healthStatus + '\'' +
                 ", HealthInformation='" + healthInformation + '\'' +
-                ", DisabledStatus=" + disabledStatus +
                 '}';
     }
 
+    @JsonIgnore
+    public void update(Patient patient){
+        this.update(patient);
+        this.weight = patient.weight;
+        this.healthStatus = patient.healthStatus;
+        this.healthInformation = patient.healthInformation;
+    }
 
 }

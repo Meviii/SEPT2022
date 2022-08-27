@@ -1,5 +1,11 @@
 package com.mdonline.AccountService.Patient;
 
+import com.mdonline.AccountService.User.User;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -8,68 +14,69 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class PatientRepositoryTest {
-
     @Autowired
     private PatientRepository patientRepository;
 
-    @Test
-    void itShouldFindById() {
-        // given
+    @BeforeEach
+    void setup() {
+
         String date = "2000-02-20";
         Date dt = Date.valueOf(date);
-        Patient patient = new Patient("name", "pass",
+        Patient patientOne = new Patient("email2@gmail.com", "pass",
                 "first", "last", "lasts"
-                , dt,123.0, "he", "asd");
-        patient.setPhone(123);
+                , dt,12312,123.0, "he", "asd");
 
-        patientRepository.save(patient);
-        // when
-        Optional<Patient> toCheck = patientRepository.findById(patient.getId());
-        // then
-        assertThat(toCheck).isNotEmpty();
+        Patient patientTwo = new Patient("email1@gmail.com", "pass",
+                "first", "last", "lasts"
+                , dt,12312,123.0, "he", "asd");
+
+
+        patientRepository.save(patientOne);
+        patientRepository.save(patientTwo);
     }
 
-    @Test
-    void itShouldFindByEmail(){
-        // given
-        String date = "2000-02-20";
-        Date dt = Date.valueOf(date);
-        Patient patient = new Patient("name", "pass",
-                "first", "last", "lasts"
-                , dt,123.0, "he", "asd");
-        patient.setPhone(123);
+    @AfterEach
+    void tearDown(){
+        patientRepository.deleteAll();
+    }
 
-        patientRepository.save(patient);
+
+    @Test
+    void findById() {
+
         // when
-        Patient toCheck = patientRepository.findByEmail(patient.getEmail());
+        Optional<User> toCheck = Optional.ofNullable(patientRepository.findById(2));
         // then
         assertThat(toCheck).isNotNull();
     }
 
     @Test
-    void itShouldFindAll(){
-        // given
-        String date = "2000-02-20";
-        Date dt = Date.valueOf(date);
-        Patient patient = new Patient("name", "pass",
-                "first", "last", "lasts"
-                , dt,123.0, "he", "asd");
-        patient.setPhone(123);
-
-        Patient patientTwo = new Patient("nametwo", "pass",
-                "first", "last", "lasts"
-                , dt,123.0, "he", "asd");
-        patientTwo.setPhone(123);
-
-        patientRepository.save(patient);
-        patientRepository.save(patientTwo);
+    void findByEmail() {
         // when
-        List<Patient> toCheck = patientRepository.findAll();
+        User toCheck = patientRepository.findByEmail("email2@gmail.com");
+
         // then
-        assertThat(toCheck).isNotEmpty();
+        assertThat(toCheck).isNotNull();
+    }
+
+    @Test
+    void findAll() {
+        List<Patient> allUsers = patientRepository.findAll();
+
+        assertThat(allUsers).isNotEmpty();
+    }
+
+    @Test
+    // works in real env
+    void findAllByUserType(){
+
+        List<Patient> users = patientRepository.findUsersByUserType("Patient");
+
+        assertThat(users).isNotEmpty();
     }
 }
