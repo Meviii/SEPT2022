@@ -1,5 +1,7 @@
 package com.mdonline.AccountService.Patient;
 
+
+import com.mdonline.AccountService.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +13,14 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     // Finds patient by ID
     Patient findById(int id);
 
-    // Finds patient by EMAIL
+    // Find patient by email
     Patient findByEmail(String email);
 
     // Finds ALL patients
-    List<Patient> findAll();
+    List<Patient> findUsersByUserType(String usertype);
 
-    // Adds new patient
     @Override
     <S extends Patient> S save(S entity);
+
+    void save(User toCreate);
 }

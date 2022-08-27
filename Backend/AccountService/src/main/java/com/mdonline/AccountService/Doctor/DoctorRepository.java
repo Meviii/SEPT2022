@@ -1,25 +1,29 @@
 package com.mdonline.AccountService.Doctor;
 
+import com.mdonline.AccountService.Patient.Patient;
+import com.mdonline.AccountService.User.User;
+import com.mdonline.AccountService.User.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
 
     // Finds doctor by ID
-    Doctor findById(int id);
+    User findById(int id);
 
-    // Finds doctor by EMAIL
-    Doctor findByEmail(String email);
+    // Find patient by email
+    User findByEmail(String email);
 
-    // Finds ALL doctors
-    List<Doctor> findAll();
+    // Find all doctors
+    List<Doctor> findUsersByUserType(String usertype);
 
-//    // Adds new doctor
-//    @Override
-//    <S extends Doctor> S save(S entity);
+    @Override
+    <S extends Doctor> S save(S entity);
 
+    void save(User toCreate);
 }
