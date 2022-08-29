@@ -1,9 +1,7 @@
 package com.mdonline.AccountService.Patient;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class PatientService {
@@ -14,8 +12,6 @@ public class PatientService {
     public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
         System.out.println("Patient Service layer created.");
-
     }
-
 
 }

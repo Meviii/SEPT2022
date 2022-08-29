@@ -10,20 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
+public interface DoctorRepository extends UserRepository {
 
-
-    // Finds doctor by ID
-    User findById(int id);
-
-    // Find patient by email
-    User findByEmail(String email);
-
-    // Find all doctors
-    List<Doctor> findUsersByUserType(String usertype);
-
-    @Override
-    <S extends Doctor> S save(S entity);
-
-    void save(User toCreate);
 }

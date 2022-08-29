@@ -3,6 +3,7 @@ package com.mdonline.AccountService.Doctor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mdonline.AccountService.Patient.Patient;
+import com.mdonline.AccountService.User.GenderOption;
 import com.mdonline.AccountService.User.User;
 
 import javax.persistence.*;
@@ -24,8 +25,8 @@ public class Doctor extends User {
         this.profession = profession;
     }
 
-    public Doctor(String email, String password, String firstName, String middleName, String lastName, Date birth, Integer phone, String profession) {
-        super(email, password, firstName, middleName, lastName, birth, phone);
+    public Doctor(String email, String password, String firstName, String middleName, String lastName, Date birth, Long phone, GenderOption gender, String profession) {
+        super(email, password, firstName, middleName, lastName, birth, phone, gender);
         this.profession = profession;
     }
 

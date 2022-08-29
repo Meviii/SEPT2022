@@ -8,16 +8,16 @@ import java.util.List;
 @Service
 public class AdminService {
 
-    @Autowired
     AdminRepository adminRepository;
 
-    public AdminService(){
+    @Autowired
+    public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
         System.out.println("Admin service layer created.");
     }
 
     public Admin getAdminById(int id){
-
-        return adminRepository.findAdminByAdminID(id);
+        return adminRepository.findByAdminID(id);
     }
 
     public List<Admin> getAllAdmin(){
@@ -25,6 +25,18 @@ public class AdminService {
     }
 
     public Admin getAdminByEmail(String email){
-        return adminRepository.findAdminByAdminEmail(email);
+        return adminRepository.findByAdminEmail(email);
+    }
+
+    public void updateAdmin(Admin toUpdate) {
+        adminRepository.save(toUpdate);
+    }
+
+    public void createAdmin(Admin toCreate) {
+        adminRepository.save(toCreate);
+    }
+
+    public void deleteUser(int id) {
+        adminRepository.delete(adminRepository.findByAdminID(id));
     }
 }

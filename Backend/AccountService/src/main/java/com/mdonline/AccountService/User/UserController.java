@@ -1,7 +1,16 @@
 package com.mdonline.AccountService.User;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mdonline.AccountService.Doctor.Doctor;
+import com.mdonline.AccountService.Doctor.DoctorService;
 import com.mdonline.AccountService.Exceptions.CustomException;
+import com.mdonline.AccountService.Patient.Patient;
+import com.mdonline.AccountService.Patient.PatientService;
+import com.mdonline.AccountService.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,16 +18,21 @@ import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/api/v1/user")
 public class UserController {
 
     private UserService userService;
+    private Utility utility;
 
     @Autowired
     public UserController(UserService userService){
         this.userService = userService;
+        this.utility = new Utility();
+
     }
 
     @GetMapping
@@ -55,26 +69,34 @@ public class UserController {
     }
 
     @PutMapping(path="/{id}", consumes = "application/json", produces="application/json")
-    public ResponseEntity<String> updateUser(@RequestBody String user, @PathVariable int id){
+    public ResponseEntity<String> updateUser(@RequestBody String jsonString, @PathVariable int id) {
+
         try {
-            userService.updateUser(user, id);
-        }catch (MethodNotAllowedException e){
+            User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
+            if (toUpdate != null) {
+                userService.updateUser(toUpdate, id);
+            }else{
+                return new ResponseEntity<>("Could not update", HttpStatus.NO_CONTENT);
+            }
+        } catch (MethodNotAllowedException e) {
             return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>("User does not exist or incorrect format", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("User updated.", HttpStatus.OK);
     }
 
-    // Update specified patient
+        // Update specified patient
     @PostMapping(consumes = "application/json", produces="application/json")
-    public ResponseEntity<String> createUser(@RequestBody String user) {
+    public ResponseEntity<String> createUser(@RequestBody String jsonString) {
         try {
-            userService.createUser(user);
+            try {
+                userService.createUser(jsonString);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }catch (MethodNotAllowedException e){
             return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (Exception e){
-            return new ResponseEntity<>("Incorrect Format", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("User added.", HttpStatus.OK);
     }
@@ -90,4 +112,5 @@ public class UserController {
         }
         return new ResponseEntity<>("User deleted.", HttpStatus.OK);
     }
+
 }
