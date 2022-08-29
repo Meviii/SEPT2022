@@ -1,9 +1,7 @@
 package com.mdonline.AccountService.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.ResultCheckStyle;
-import org.hibernate.annotations.SQLInsert;
+import com.mdonline.AccountService.Address.Address;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,14 +12,14 @@ import java.sql.Date;
 @DiscriminatorColumn(
         name = "user_type",
         discriminatorType = DiscriminatorType.STRING)
-public abstract class User {
+public abstract class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "email", updatable = false, unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "password",nullable = false)
@@ -39,24 +37,19 @@ public abstract class User {
     @Column(nullable = false, name = "last_name")
     private String lastName;
 
-    @Column(nullable = false, name = "phone")
-    private Integer phone;
+    @Column(nullable = false, name = "phone", unique = true)
+    private Long phone;
 
     @Column(nullable = false, name = "birth")
     private Date birth;
 
-    @Column(name = "street_no")
-    private Integer streetNo;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "gender", nullable = false)
+    private GenderOption gender;
 
-    private String streetName;
-
-    private String city;
-
-    private String state;
-
-    private Integer postCode;
-
-    private String country;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="address_id", referencedColumnName = "id")
+    private Address address;
 
     private boolean verifiedStatus;
 
@@ -65,7 +58,7 @@ public abstract class User {
     public User() {
     }
 
-    public User(String email, String password, String firstName, String middleName, String lastName, Date birth, Integer phone) {
+    public User(String email, String password, String firstName, String middleName, String lastName, Date birth, Long phone, GenderOption gender) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -73,17 +66,18 @@ public abstract class User {
         this.lastName = lastName;
         this.birth = birth;
         this.phone = phone;
+        this.gender = gender;
     }
 
     public String getUserType() {
         return userType;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -135,11 +129,11 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 
@@ -151,60 +145,28 @@ public abstract class User {
         this.birth = birth;
     }
 
-    public Integer getStreetNo() {
-        return streetNo;
-    }
-
-    public void setStreetNo(Integer streetNo) {
-        this.streetNo = streetNo;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Integer getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(Integer postCode) {
-        this.postCode = postCode;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public boolean isVerifiedStatus() {
         return verifiedStatus;
     }
 
     public void setVerifiedStatus(boolean verifiedStatus) {
         this.verifiedStatus = verifiedStatus;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address){
+        this.address = address;
+    }
+
+    public GenderOption getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderOption gender) {
+        this.gender = gender;
     }
 
     @Override
@@ -215,29 +177,5 @@ public abstract class User {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
-
-    @JsonIgnore
-    public String getAddressString() {
-        return "User{" +
-                "streetNo=" + streetNo +
-                ", streetName='" + streetName + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", postCode=" + postCode +
-                ", country='" + country + '\'' +
-                '}';
-    }
-
-    @JsonIgnore
-    public void update(User user){
-        this.email = user.email;
-        this.password = user.password;
-        this.firstName = user.firstName;
-        this.middleName = user.middleName;
-        this.lastName = user.lastName;
-        this.birth = user.birth;
-        this.phone = user.phone;
-    }
-
 
 }

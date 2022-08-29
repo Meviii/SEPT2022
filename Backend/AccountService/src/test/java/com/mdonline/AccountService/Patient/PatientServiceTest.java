@@ -1,5 +1,6 @@
 package com.mdonline.AccountService.Patient;
 
+import com.mdonline.AccountService.User.GenderOption;
 import com.mdonline.AccountService.User.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,11 +27,10 @@ class PatientServiceTest {
         Date dt = Date.valueOf(date);
         Patient patientOne = new Patient("email2@gmail.com", "pass",
                 "first", "last", "lasts"
-                , dt,12312,123.0, "he", "asd");
+                , dt,12312L, GenderOption.MALE, 123.0, 123123.0, "he", HealthStatus.COVID);
 
         Patient patientTwo = new Patient("email1@gmail.com", "pass",
-                "first", "last", "lasts"
-                , dt,12312,123.0, "he", "asd");
+                "first", "last", "lasts", dt, 12312L, GenderOption.MALE);
 
         patientRepository.save(patientOne);
         patientRepository.save(patientTwo);

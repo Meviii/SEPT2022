@@ -1,7 +1,6 @@
 package com.mdonline.AccountService.Patient;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mdonline.AccountService.User.GenderOption;
 import com.mdonline.AccountService.User.User;
 
 import javax.persistence.*;
@@ -12,22 +11,41 @@ import java.sql.Date;
 @DiscriminatorValue(value = "Patient")
 public class Patient extends User {
 
+    @Column(name = "height")
+    private Double height;
+
+    @Column(name = "weight")
     private Double weight;
 
-    private String healthStatus;
-
+    @Column(name = "health_information")
     private String healthInformation;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "health_status")
+    private HealthStatus healthStatus;
 
     public Patient() {
     }
 
-    public Patient(String email, String password, String firstName, String middleName, String lastName, Date birth, Integer phone, Double weight, String healthStatus, String healthInformation) {
-        super(email, password, firstName, middleName, lastName, birth, phone);
-        this.weight = weight;
-        this.healthStatus = healthStatus;
-        this.healthInformation = healthInformation;
+    public Patient(String email, String password, String firstName, String middleName, String lastName, Date birth, Long phone, GenderOption gender) {
+        super(email, password, firstName, middleName, lastName, birth, phone, gender);
     }
 
+    public Patient(String email, String password, String firstName, String middleName, String lastName, Date birth, Long phone, GenderOption gender, Double height, Double weight, String healthInformation, HealthStatus healthStatus) {
+        super(email, password, firstName, middleName, lastName, birth, phone, gender);
+        this.height = height;
+        this.weight = weight;
+        this.healthInformation = healthInformation;
+        this.healthStatus = healthStatus;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
 
     public Double getWeight() {
         return weight;
@@ -37,11 +55,11 @@ public class Patient extends User {
         this.weight = Weight;
     }
 
-    public String getHealthStatus() {
+    public HealthStatus getHealthStatus() {
         return healthStatus;
     }
 
-    public void setHealthStatus(String HealthStatus) {
+    public void setHealthStatus(HealthStatus HealthStatus) {
         this.healthStatus = HealthStatus;
     }
 
@@ -56,18 +74,10 @@ public class Patient extends User {
     @Override
     public String toString() {
         return "Patient{" +
-                "Weight=" + weight +
-                ", HealthStatus='" + healthStatus + '\'' +
-                ", HealthInformation='" + healthInformation + '\'' +
+                "height=" + height +
+                ", weight=" + weight +
+                ", healthInformation='" + healthInformation + '\'' +
+                ", healthStatus=" + healthStatus +
                 '}';
     }
-
-    @JsonIgnore
-    public void update(Patient patient){
-        this.update(patient);
-        this.weight = patient.weight;
-        this.healthStatus = patient.healthStatus;
-        this.healthInformation = patient.healthInformation;
-    }
-
 }
