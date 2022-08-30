@@ -13,6 +13,7 @@ import com.mdonline.AccountService.Utility;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,6 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository userRepository) {
-
         this.userRepository = userRepository;
         this.utility = new Utility();
         System.out.println("User Service layer created.");
@@ -78,5 +78,9 @@ public class UserService {
 
     public void deleteUser(int id){
         userRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 }

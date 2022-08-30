@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
+@Table(name="doctors")
+@DiscriminatorValue(value = "Doctor")
 public class Doctor extends User {
 
     private String profession;

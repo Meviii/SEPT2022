@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Integer> {
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
-    Admin findByAdminID(int id);
-    Admin findByAdminEmail(String email);
+    Admin findById(long id);
+    Admin findByEmail(String email);
     List<Admin> findAll();
 
     @Override

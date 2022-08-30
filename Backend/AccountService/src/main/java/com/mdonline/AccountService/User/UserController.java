@@ -35,7 +35,7 @@ public class UserController {
 
     }
 
-    @GetMapping
+    @GetMapping(produces="application/json")
     public List<User> getAllUsers() {
         List<User> toReturn;
         try {
@@ -46,7 +46,7 @@ public class UserController {
         return toReturn;
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}",produces="application/json")
     public User getUserById(@PathVariable int id) {
         User toReturn = userService.getUserById(id);
 
@@ -98,7 +98,7 @@ public class UserController {
         }catch (MethodNotAllowedException e){
             return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
         }
-        return new ResponseEntity<>("User added.", HttpStatus.OK);
+        return new ResponseEntity<>("User added.", HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -111,6 +111,18 @@ public class UserController {
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("User deleted.", HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/")
+    public ResponseEntity<String> deleteUser(){
+        try {
+            userService.deleteAll();
+        }catch (MethodNotAllowedException e){
+            return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (Exception e){
+            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("All Users deleted.", HttpStatus.OK);
     }
 
 }
