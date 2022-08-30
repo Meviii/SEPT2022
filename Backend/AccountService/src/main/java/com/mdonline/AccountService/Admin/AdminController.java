@@ -57,9 +57,9 @@ public class AdminController {
         } catch (MethodNotAllowedException e) {
             return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
         } catch (Exception e) {
-            return new ResponseEntity<>("User does not exist or incorrect format", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Admin does not exist or incorrect format", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("User updated.", HttpStatus.OK);
+        return new ResponseEntity<>("Admin updated.", HttpStatus.OK);
     }
 
     // Update specified patient
@@ -73,7 +73,7 @@ public class AdminController {
         }catch (Exception e){
             return new ResponseEntity<>("Incorrect Format", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("User added.", HttpStatus.OK);
+        return new ResponseEntity<>("Admin added.", HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -83,8 +83,20 @@ public class AdminController {
         }catch (MethodNotAllowedException e){
             return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
         }catch (Exception e){
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Admin does not exist", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("User deleted.", HttpStatus.OK);
+        return new ResponseEntity<>("Admin deleted.", HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/")
+    public ResponseEntity<String> deleteAll(){
+        try {
+            adminService.deleteAll();
+        }catch (MethodNotAllowedException e){
+            return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (Exception e){
+            return new ResponseEntity<>("Admin does not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("All admins deleted.", HttpStatus.OK);
     }
 }

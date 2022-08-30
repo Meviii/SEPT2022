@@ -17,7 +17,7 @@ public class AdminService {
     }
 
     public Admin getAdminById(int id){
-        return adminRepository.findByAdminID(id);
+        return adminRepository.findById(id);
     }
 
     public List<Admin> getAllAdmin(){
@@ -25,7 +25,7 @@ public class AdminService {
     }
 
     public Admin getAdminByEmail(String email){
-        return adminRepository.findByAdminEmail(email);
+        return adminRepository.findByEmail(email);
     }
 
     public void updateAdmin(Admin toUpdate) {
@@ -37,6 +37,10 @@ public class AdminService {
     }
 
     public void deleteUser(int id) {
-        adminRepository.delete(adminRepository.findByAdminID(id));
+        adminRepository.delete(adminRepository.findById(id));
+    }
+
+    public void deleteAll() {
+        adminRepository.deleteAll();
     }
 }

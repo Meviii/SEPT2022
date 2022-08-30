@@ -20,41 +20,41 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserRepositoryTest {
 
-    @Autowired
-    UserRepository userRepository;
+//    @Autowired
+//    UserRepository userRepository;
+//
+//    @BeforeEach
+//    void setUp() {
+//        this.userRepository = userRepository;
+//
+//        String date = "2000-02-20";
+//        Date dt = Date.valueOf(date);
+//        User patientOne = new Patient("email1@gmail.com", "pass",
+//                "first", "last", "lasts", dt, 12312L, GenderOption.MALE);
+//
+//
+//        userRepository.save(patientOne);
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//        userRepository.deleteAll();
+//    }
 
-    @BeforeEach
-    void setUp() {
-        this.userRepository = userRepository;
-
-        String date = "2000-02-20";
-        Date dt = Date.valueOf(date);
-        User patientOne = new Patient("email1@gmail.com", "pass",
-                "first", "last", "lasts", dt, 12312L, GenderOption.MALE);
-
-
-        userRepository.save(patientOne);
-    }
-
-    @AfterEach
-    void tearDown() {
-        userRepository.deleteAll();
-    }
-
-    @Test
-    void findById() {
-
-        assertThat(userRepository.findById(1)).isNotNull();
-    }
-
-    @Test
-    void findByEmail() {
-        assertThat(userRepository.findByEmail("email1@gmail.com")).isNotNull();
-    }
-
-    @Test
-    void deleteById() {
-        userRepository.deleteById(1);
-        assertThat(userRepository.findById(1)).isNull();
-    }
+//    @Test
+//    void findById() {
+//
+//        assertThat(userRepository.findById(1)).isNotNull();
+//    }
+//
+//    @Test
+//    void findByEmail() {
+//        assertThat(userRepository.findByEmail("email1@gmail.com")).isNotNull();
+//    }
+//
+//    @Test
+//    void deleteById() {
+//        userRepository.deleteById(1);
+//        assertThat(userRepository.findById(1)).isNull();
+//    }
 }

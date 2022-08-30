@@ -8,47 +8,47 @@ public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="admin_id")
-    private int adminID;
+    @Column(name="id")
+    private Long id;
 
-    @Column(name = "admin_email", unique = true, nullable = false)
-    private String adminEmail;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
-    @Column(name = "admin_password",nullable = false)
-    private String adminPassword;
+    @Column(name = "password",nullable = false)
+    private String password;
 
     public Admin(){}
 
-    public Admin(String adminEmail, String adminPassword){
-        this.adminEmail = adminEmail;
-        this.adminPassword = adminPassword;
+    public Admin(String email, String password){
+        this.email = email;
+        this.password = password;
     }
 
-    public int getAdminID() {
-        return adminID;
+    public Long getAdminID() {
+        return id;
     }
 
     public String getAdminEmail() {
-        return adminEmail;
+        return email;
     }
 
-    public void setAdminEmail(String adminEmail) {
-        this.adminEmail = adminEmail;
+    public void setAdminEmail(String email) {
+        this.email = email;
     }
 
     public String getAdminPassword() {
-        return adminPassword;
+        return password;
     }
 
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
+    public void setAdminPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "Admin{" +
-                "adminID=" + adminID +
-                ", adminEmail='" + adminEmail +
+                "adminID=" + id +
+                ", adminEmail='" + email +
                 '}';
     }
 }

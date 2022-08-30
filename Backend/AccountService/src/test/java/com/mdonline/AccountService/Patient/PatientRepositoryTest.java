@@ -15,24 +15,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest()
 class PatientRepositoryTest {
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @BeforeEach
-    void setup() {
-
-        String date = "2000-02-20";
-        Date dt = Date.valueOf(date);
-        Patient patientOne = new Patient("email1@gmail.com", "pass",
-                "first", "last", "lasts", dt, 12312L, GenderOption.MALE);
-
-
-        patientRepository.save(patientOne);
-    }
-
-    @AfterEach
-    void tearDown() {
-        patientRepository.deleteAll();
-    }
+//    @Autowired
+//    private PatientRepository patientRepository;
+//
+//    @BeforeEach
+//    void setup() {
+//
+//        String date = "2000-02-20";
+//        Date dt = Date.valueOf(date);
+//        Patient patientOne = new Patient("email1@gmail.com", "pass",
+//                "first", "last", "lasts", dt, 12312L, GenderOption.MALE);
+//
+//
+//        patientRepository.save(patientOne);
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//        patientRepository.deleteAll();
+//    }
 
 }

@@ -8,6 +8,7 @@ import java.sql.Date;
 
 
 @Entity
+@Table(name="patients")
 @DiscriminatorValue(value = "Patient")
 public class Patient extends User {
 
