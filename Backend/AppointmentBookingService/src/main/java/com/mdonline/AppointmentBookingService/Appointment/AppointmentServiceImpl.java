@@ -27,6 +27,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public void deleteAppointmentById(int id) { repository.deleteById(id); }
+
+    @Override
     public AppointmentEntity getAppointmentById(int id) {
         return repository.findById(id).get();
     }
