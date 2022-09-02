@@ -91,4 +91,14 @@ public class AppointmentController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
+
+    @DeleteMapping(value = "/appointment/delete/{id}")
+    public ResponseEntity<?> deleteAppointmentById(@Valid @PathVariable int id){
+        try {
+            service.deleteAppointmentById(id);
+            return ResponseEntity.ok().body("APPOINTMENT DELETED.");
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        }
+    }
 }
