@@ -1,58 +1,94 @@
 package com.mdonline.AppointmentBookingService.Appointment;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping(path="/api/v1")
 @CrossOrigin(origins = "*")
 public class AppointmentController {
     @Autowired
     AppointmentService service;
-//    PatientService patientService;
-//    DoctorService doctorService;
 
-    @RequestMapping(value = "getallappointments", method = RequestMethod.GET)
+    @GetMapping(value = "/appointments")
     public List<AppointmentEntity> getAllAppointments(){
         return service.getAllAppointments();
     }
+    @GetMapping(value = "/appointments/upcoming")
+    public List<AppointmentEntity> getAllUpcomingAppointments(){
+        return service.getAllUpcomingAppointments();
+    }
 
-//    @PostMapping(value = "saveappointment")
-//    public void saveAppointment(@RequestBody Appointment appointment){
-//        try {
-//            Doctor doctor = doctorService.getDoctorById(appointment.getDoctorId());
-//            Patient patient = patientService.getPatientById(appointment.getPatientId());
-//            AppointmentEntity appointmentEntity = new AppointmentEntity(
-//                    patient,
-//                    doctor,
-//                    appointment.getPaymentAmount(),
-//                    appointment.getDate(),
-//                    appointment.getTime());
-//            service.saveAppointment(appointmentEntity);
-//        } catch (Exception exception) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "");
-//        }
-//
-//    }
+    @GetMapping(value = "/appointments/completed")
+    public List<AppointmentEntity> getAllCompletedAppointments(){
+        return service.getAllCompletedAppointments();
+    }
 
-    @RequestMapping(value = "updateappointment", method = RequestMethod.PUT)
-    public void updateAppointment(@RequestBody AppointmentEntity appointmentEntity){
-        System.out.print(appointmentEntity);
+    @GetMapping(value = "/appointments/patient/{id}")
+    public List<AppointmentEntity> getAppointmentsByPatientId(@PathVariable int id){
+        return service.getAppointmentsByPatientId(id);
+    }
+
+    @GetMapping(value = "/appointments/upcoming/patient/{id}")
+    public List<AppointmentEntity> getUpcomingAppointmentsByPatientId(@PathVariable int id){
+        return service.getUpcomingAppointmentsByPatientId(id);
+    }
+
+    @GetMapping(value = "/appointments/completed/patient/{id}")
+    public List<AppointmentEntity> getCompletedAppointmentsByPatientId(@PathVariable int id){
+        return service.getCompletedAppointmentsByPatientId(id);
+    }
+
+    @GetMapping(value = "/appointments/doctor/{id}")
+    public List<AppointmentEntity> getAppointmentsByDoctorId(@PathVariable int id){
+        return service.getAppointmentsByDoctorId(id);
+    }
+
+    @GetMapping(value = "/appointments/upcoming/doctor/{id}")
+    public List<AppointmentEntity> getUpcomingAppointmentsByDoctorId(@PathVariable int id){
+        return service.getUpcomingAppointmentsByDoctorId(id);
+    }
+
+    @GetMapping(value = "/appointments/completed/doctor/{id}")
+    public List<AppointmentEntity> getCompletedAppointmentsByDoctorId(@PathVariable int id){
+        return service.getCompletedAppointmentsByDoctorId(id);
+    }
+
+    @PostMapping(value = "/appointment/save")
+    public ResponseEntity<?> saveAppointment(@Valid @RequestBody AppointmentEntity appointment){
         try {
-            service.updateAppointment(appointmentEntity);
-        } catch (Exception exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "");
+            AppointmentEntity appointmentEntity  = service.saveAppointment(appointment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(appointmentEntity);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
-    @RequestMapping(value = "deleteappointment", method = RequestMethod.DELETE)
-    public void deleteAppointment(@RequestBody AppointmentEntity appointmentEntity){
+    @PutMapping(value = "/appointment/update")
+    public ResponseEntity<?> updateAppointment(@Valid @RequestBody AppointmentEntity appointment){
         try {
-            service.deleteAppointment(appointmentEntity);
-        } catch (Exception exception){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "");
+            AppointmentEntity appointmentEntity  = service.updateAppointment(appointment);
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentEntity);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        }
+    }
+
+    @DeleteMapping(value = "/appointment/delete")
+    public ResponseEntity<?> deleteAppointment(@Valid @RequestBody AppointmentEntity appointment){
+        try {
+            service.deleteAppointment(appointment);
+            return ResponseEntity.ok().body("APPOINTMENT DELETED.");
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 }
