@@ -6,6 +6,8 @@ public interface AppointmentService {
     AppointmentEntity saveAppointment(AppointmentEntity appointmentEntity);
     AppointmentEntity updateAppointment(AppointmentEntity appointmentEntity);
     void deleteAppointment(AppointmentEntity appointmentEntity);
+
+    void deleteAppointmentById(int id);
     AppointmentEntity getAppointmentById(int id);
     List<AppointmentEntity> getAppointmentsByPatientId(int id);
     List<AppointmentEntity> getUpcomingAppointmentsByPatientId(int id);
