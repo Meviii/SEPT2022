@@ -1,20 +1,9 @@
 package com.mdonline.LoginService.Doctor;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.mdonline.LoginService.User.UserRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
-
-    // Finds doctor by ID
-    Doctor findDoctorByDoctorID (int id);
-
-    // Finds doctor by EMAIL
-    Doctor findDoctorByDoctorEmail(String email);
-
-    // Finds ALL doctors
-    List<Doctor> findAll();
+public interface DoctorRepository extends UserRepository {
 
 }

@@ -1,23 +1,9 @@
 package com.mdonline.LoginService.Patient;
 
-import org.springframework.data.repository.CrudRepository;
+import com.mdonline.LoginService.User.UserRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface PatientRepository extends CrudRepository<Patient, Integer> {
+public interface PatientRepository extends UserRepository {
 
-    // Finds patient by ID
-    Patient findPatientByPatientID(int id);
-
-    // Finds patient by EMAIL
-    Patient findPatientByPatientEmail(String email);
-
-    // Finds ALL patients
-    List<Patient> findAll();
-
-    // Adds new patient
-    @Override
-    <S extends Patient> S save(S entity);
 }
