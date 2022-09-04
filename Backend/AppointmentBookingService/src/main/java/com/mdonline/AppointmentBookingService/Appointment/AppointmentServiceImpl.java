@@ -27,12 +27,55 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public void deleteAppointmentById(int id) { repository.deleteById(id); }
+
+    @Override
     public AppointmentEntity getAppointmentById(int id) {
         return repository.findById(id).get();
     }
 
     @Override
+    public List<AppointmentEntity> getAppointmentsByPatientId(int id) {
+        return repository.findByPatientIdOrderByDateDesc(id);
+    }
+
+    @Override
+    public List<AppointmentEntity> getUpcomingAppointmentsByPatientId(int id) {
+        return repository.findUpcomingAppointmentsByPatientIdOrderByDateAsc(id);
+    }
+
+    @Override
+    public List<AppointmentEntity> getCompletedAppointmentsByPatientId(int id) {
+        return repository.findCompletedAppointmentsByPatientIdOrderByDateDesc(id);
+    }
+
+    @Override
+    public List<AppointmentEntity> getAppointmentsByDoctorId(int id) {
+        return repository.findByDoctorIdOrderByDateDesc(id);
+    }
+
+    @Override
+    public List<AppointmentEntity> getUpcomingAppointmentsByDoctorId(int id) {
+        return repository.findUpcomingAppointmentsByDoctorIdOrderByDateAsc(id);
+    }
+
+    @Override
+    public List<AppointmentEntity> getCompletedAppointmentsByDoctorId(int id) {
+        return repository.findCompletedAppointmentsByDoctorIdOrderByDateDesc(id);
+    }
+
+    @Override
     public List<AppointmentEntity> getAllAppointments() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<AppointmentEntity> getAllUpcomingAppointments() {
+        return repository.findUpcomingAppointmentsOrderByDateAsc();
+    }
+
+    @Override
+    public List<AppointmentEntity> getAllCompletedAppointments() {
+        return repository.findCompletedAppointmentsOrderByDateDesc();
     }
 }
