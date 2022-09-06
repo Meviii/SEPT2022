@@ -1,16 +1,9 @@
 package com.mdonline.AccountService.User;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mdonline.AccountService.Doctor.Doctor;
-import com.mdonline.AccountService.Doctor.DoctorService;
 import com.mdonline.AccountService.Exceptions.CustomException;
-import com.mdonline.AccountService.Patient.Patient;
-import com.mdonline.AccountService.Patient.PatientService;
 import com.mdonline.AccountService.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +11,6 @@ import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/api/v1/user")

@@ -1,6 +1,10 @@
 package com.mdonline.LoginService.User;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -8,7 +12,7 @@ import javax.persistence.*;
 @DiscriminatorColumn(
         name = "user_type",
         discriminatorType = DiscriminatorType.STRING)
-public abstract class User{
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +27,9 @@ public abstract class User{
 
     @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
+
+    @Column(name = "disabled_status")
+    private Boolean disabledStatus;
 
     public User() {
     }
@@ -57,5 +64,47 @@ public abstract class User{
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public Boolean getDisabledStatus() {
+        return disabledStatus;
+    }
+
+    public void setDisabledStatus(Boolean disabledStatus) {
+        this.disabledStatus = disabledStatus;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if (this.disabledStatus == false){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

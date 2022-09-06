@@ -1,9 +1,9 @@
 package com.mdonline.AccountService.User;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mdonline.AccountService.Address.Address;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.sql.Date;
 
 @Entity
@@ -20,6 +20,7 @@ public abstract class User{
     private Long id;
 
     @Column(name = "email", unique = true, nullable = false)
+    @Email
     private String email;
 
     @Column(name = "password",nullable = false)
