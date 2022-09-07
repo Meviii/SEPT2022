@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mdonline.LoginService.Doctor.Doctor;
 import com.mdonline.LoginService.Patient.Patient;
 import com.mdonline.LoginService.User.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Utility {
 
 
