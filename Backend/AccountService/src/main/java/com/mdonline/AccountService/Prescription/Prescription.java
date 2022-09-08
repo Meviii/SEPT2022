@@ -1,6 +1,6 @@
-package com.mdonline.PrescriptionService.Prescription;
+package com.mdonline.AccountService.Prescription;
 
-import com.mdonline.PrescriptionService.Medicine.MedicineEntity;
+import com.mdonline.AccountService.Medicine.Medicine;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,17 +10,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "Prescription")
-public class PrescriptionEntity {
+public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @ManyToMany
-    @JoinTable(name = "Prescription_Medicine",
+    @JoinTable(name = "Prescription_medicine",
             joinColumns = @JoinColumn(name = "prescription_id"),
             inverseJoinColumns = @JoinColumn(name = "medicine_id"))
-    private List<MedicineEntity> medicines = new ArrayList<>();
+    private List<Medicine> medicines = new ArrayList<>();
 
     @Column(name = "duration")
     @NotNull(message = "Duration value is missing")
@@ -36,22 +36,11 @@ public class PrescriptionEntity {
 
     @Column(name = "doctor_id")
     @NotNull(message = "Doctor id is missing")
-    private long doctorId;
+    private int doctorId;
 
     @Column(name = "patient_id")
     @NotNull(message = "Patient id is missing")
-    private long patientId;
-
-    public PrescriptionEntity() {
-    }
-
-    public PrescriptionEntity(String prescriptionDuration, String prescriptionDesc, Date prescriptionDate, long doctorId, long patientId) {
-        this.prescriptionDuration = prescriptionDuration;
-        this.prescriptionDesc = prescriptionDesc;
-        this.prescriptionDate = prescriptionDate;
-        this.doctorId = doctorId;
-        this.patientId = patientId;
-    }
+    private int patientId;
 
     @Override
     public String toString() {

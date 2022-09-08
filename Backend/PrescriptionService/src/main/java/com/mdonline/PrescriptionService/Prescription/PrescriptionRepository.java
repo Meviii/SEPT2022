@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 @Repository
-public interface PrescriptionRepository extends JpaRepository<PrescriptionEntity, Integer> {
-    @Query(value = "SELECT * FROM Prescription WHERE patient_id = ?1 ORDER BY prescription_date DESC",
-            nativeQuery = true)
-    List<PrescriptionEntity> findPrescriptionByPatientIdOrderByDateDesc(int patientId);
+public interface PrescriptionRepository extends JpaRepository<PrescriptionEntity, Long> {
 
-    @Query(value = "SELECT * FROM Prescription WHERE doctor_id = ?1 ORDER BY prescription_date DESC",
+    @Query(value = "SELECT * FROM Prescription WHERE patient_id = ?1 ORDER BY date DESC",
             nativeQuery = true)
-    List<PrescriptionEntity> findPrescriptionByDoctorIdOrderByDateDesc(int doctorId);
+    List<PrescriptionEntity> findPrescriptionByPatientIdOrderByDateDesc(long patientId);
+
+    @Query(value = "SELECT * FROM Prescription WHERE doctor_id = ?1 ORDER BY date DESC",
+            nativeQuery = true)
+    List<PrescriptionEntity> findPrescriptionByDoctorIdOrderByDateDesc(long doctorId);
 }

@@ -77,7 +77,7 @@ public class UserController {
         return new ResponseEntity<>("User updated.", HttpStatus.OK);
     }
 
-        // Update specified patient
+    // Update specified patient
     @PostMapping(consumes = "application/json", produces="application/json")
     public ResponseEntity<String> createUser(@RequestBody String jsonString) {
         try {

@@ -8,8 +8,12 @@ import java.util.List;
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService{
 
-    @Autowired
     private PrescriptionRepository repository;
+
+    @Autowired
+    public PrescriptionServiceImpl(PrescriptionRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public PrescriptionEntity savePrescription(PrescriptionEntity prescriptionEntity) {
@@ -27,22 +31,22 @@ public class PrescriptionServiceImpl implements PrescriptionService{
     }
 
     @Override
-    public void deletePrescriptionById(int id) {
+    public void deletePrescriptionById(long id) {
             repository.deleteById(id);
     }
 
     @Override
-    public PrescriptionEntity getPrescriptionById(int id) {
+    public PrescriptionEntity getPrescriptionById(long id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public List<PrescriptionEntity> getPrescriptionByPatientId(int id) {
+    public List<PrescriptionEntity> getPrescriptionByPatientId(long id) {
         return repository.findPrescriptionByPatientIdOrderByDateDesc(id);
     }
 
     @Override
-    public List<PrescriptionEntity> getPrescriptionByDoctorId(int id) {
+    public List<PrescriptionEntity> getPrescriptionByDoctorId(long id) {
         return repository.findPrescriptionByDoctorIdOrderByDateDesc(id);
     }
 

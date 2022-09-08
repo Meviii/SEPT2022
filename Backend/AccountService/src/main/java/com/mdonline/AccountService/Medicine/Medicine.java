@@ -1,7 +1,7 @@
-package com.mdonline.PrescriptionService.Medicine;
+package com.mdonline.AccountService.Medicine;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mdonline.PrescriptionService.Prescription.PrescriptionEntity;
+import com.mdonline.AccountService.Prescription.Prescription;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Medicine")
-public class MedicineEntity {
+public class Medicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,7 +31,7 @@ public class MedicineEntity {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "medicines")
-    private List<PrescriptionEntity> prescribed = new ArrayList<>();
+    private List<Prescription> prescribed = new ArrayList<>();
 
     @Override
     public String toString() {

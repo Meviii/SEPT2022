@@ -9,13 +9,13 @@ public interface PrescriptionService {
 
     void deletePrescription(PrescriptionEntity prescriptionEntity);
 
-    void deletePrescriptionById(int id);
+    void deletePrescriptionById(long id);
 
-    PrescriptionEntity getPrescriptionById(int id);
+    PrescriptionEntity getPrescriptionById(long id);
 
-    List<PrescriptionEntity> getPrescriptionByPatientId(int id);
+    List<PrescriptionEntity> getPrescriptionByPatientId(long id);
 
-    List<PrescriptionEntity>  getPrescriptionByDoctorId(int id);
+    List<PrescriptionEntity>  getPrescriptionByDoctorId(long id);
 
     List<PrescriptionEntity> getAllPrescriptions();
 }

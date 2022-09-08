@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Backend/AccountService/AccountService.iml" filepath="$PROJECT_DIR$/Backend/AccountService/AccountService.iml" />
       <module fileurl="file://$PROJECT_DIR$/Backend/AppointmentBookingService/AppointmentBookingService.iml" filepath="$PROJECT_DIR$/Backend/AppointmentBookingService/AppointmentBookingService.iml" />
       <module fileurl="file://$PROJECT_DIR$/Backend/ChatService/ChatService.iml" filepath="$PROJECT_DIR$/Backend/ChatService/ChatService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Backend/DiscoveryServer/DiscoveryServer.iml" filepath="$PROJECT_DIR$/Backend/DiscoveryServer/DiscoveryServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Backend/LoginService/LoginService.iml" filepath="$PROJECT_DIR$/Backend/LoginService/LoginService.iml" />
       <module fileurl="file://$PROJECT_DIR$/Backend/PrescriptionService/PrescriptionService.iml" filepath="$PROJECT_DIR$/Backend/PrescriptionService/PrescriptionService.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SEPT2022.iml" filepath="$PROJECT_DIR$/.idea/SEPT2022.iml" />
