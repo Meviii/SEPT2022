@@ -52,8 +52,10 @@ public abstract class User{
     @JoinColumn(name="address_id", referencedColumnName = "id")
     private Address address;
 
+    @Column(name="verified_status")
     private boolean verifiedStatus;
 
+    @Column(name="disabled_status")
     private boolean disabledStatus;
 
     public User() {

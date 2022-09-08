@@ -12,8 +12,13 @@ import java.util.List;
 @RequestMapping(path="/api/v1")
 @CrossOrigin(origins = "*")
 public class MedicineController {
-    @Autowired
+
     MedicineService service;
+
+    @Autowired
+    public MedicineController(MedicineService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/medicine")
     public List<MedicineEntity> getAllMedicines(){

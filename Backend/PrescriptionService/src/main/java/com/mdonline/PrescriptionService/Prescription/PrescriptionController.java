@@ -13,8 +13,13 @@ import java.util.List;
 @RequestMapping(path="/api/v1")
 @CrossOrigin(origins = "*")
 public class PrescriptionController {
+
+    private PrescriptionService service;
+
     @Autowired
-    PrescriptionService service;
+    public PrescriptionController(PrescriptionService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/prescription")
     public List<PrescriptionEntity> getAllPrescriptions() {
@@ -28,12 +33,12 @@ public class PrescriptionController {
 
 
     @GetMapping(value = "/prescription/doctor/{id}")
-    public List<PrescriptionEntity> getPrescriptionByDoctorId(@PathVariable int id) {
+    public List<PrescriptionEntity> getPrescriptionByDoctorId(@PathVariable long id) {
         return service.getPrescriptionByDoctorId(id);
     }
 
     @GetMapping(value = "/prescription/patient/{id}")
-    public List<PrescriptionEntity> getPrescriptionByPatientId(@PathVariable int id) {
+    public List<PrescriptionEntity> getPrescriptionByPatientId(@PathVariable long id) {
         return service.getPrescriptionByPatientId(id);
     }
 

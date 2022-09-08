@@ -8,8 +8,13 @@ import java.util.List;
 @Service
 public class MedicineServiceImpl implements MedicineService {
 
-    @Autowired
+
     private MedicineRepository repository;
+
+    @Autowired
+    public MedicineServiceImpl(MedicineRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public MedicineEntity saveMedicine(MedicineEntity medicineEntity) {
