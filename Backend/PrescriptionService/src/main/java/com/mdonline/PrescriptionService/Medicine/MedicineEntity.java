@@ -1,5 +1,6 @@
 package com.mdonline.PrescriptionService.Medicine;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mdonline.PrescriptionService.Prescription.PrescriptionEntity;
 
@@ -15,18 +16,22 @@ public class MedicineEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private long id;
 
     @Column(name = "name")
     @NotBlank(message = "Drug name is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String medicineName;
 
     @Column(name = "description")
     @NotBlank(message = "Drug information is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String medicineDesc;
 
     @Column(name = "dosage")
     @NotNull(message = "Drug dosage information is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private double medicineDosage;
 
     @JsonIgnore
