@@ -7,8 +7,8 @@ public interface MedicineService {
     MedicineEntity updateMedicine(MedicineEntity medicineEntity);
     void deleteMedicine(MedicineEntity medicineEntity);
 
-    void deleteById(int id);
-    MedicineEntity getMedicineById(int id);
+    void deleteById(long id);
+    MedicineEntity getMedicineById(long id);
     MedicineEntity getMedicineByName(String name);
     List<MedicineEntity> getAllMedicines();
 }
