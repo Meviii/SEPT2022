@@ -1,17 +1,13 @@
 package com.mdonline.AccountService;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.json.JsonReadContext;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.mdonline.AccountService.Admin.Admin;
-import com.mdonline.AccountService.Doctor.Doctor;
-import com.mdonline.AccountService.Patient.Patient;
-import com.mdonline.AccountService.User.User;
+import com.mdonline.AccountService.Model.Admin;
+import com.mdonline.AccountService.Model.User.Doctor;
+import com.mdonline.AccountService.Model.User.Patient;
+import com.mdonline.AccountService.Model.User.User;
 
 public class Utility {
 
