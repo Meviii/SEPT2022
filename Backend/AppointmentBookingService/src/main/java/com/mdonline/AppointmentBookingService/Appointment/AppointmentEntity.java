@@ -1,12 +1,13 @@
 package com.mdonline.AppointmentBookingService.Appointment;
 
 
-import org.hibernate.validator.constraints.Length;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Appointment")
@@ -14,28 +15,37 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
-    private int id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long id;
 
     @Column(name = "patient_id")
     @NotNull(message = "Patient Id is required")
-    private int patientId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long patientId;
 
     @Column(name = "doctor_id")
     @NotNull(message = "Doctor Id is required")
-    private int doctorId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long doctorId;
 
     @Column(name = "appointment_payment_amount")
     @DecimalMin(value = "1.00", message = "Payment amount cannot be less than 1.00")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private double paymentAmount;
 
-    @Column(name = "appointment_date")
+    @Column(name = "appointment_start")
     @Future
-    @NotNull(message = "Date cannot be null")
-    private Date date;
+    @NotNull(message = "Start Datetime cannot be null")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime start;
 
-    @Column(name = "appointment_time")
-    @NotNull(message = "Time cannot be null")
-    private Time time;
+    @Column(name = "appointment_end")
+    @Future
+    @NotNull(message = "End Datetime cannot be null")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime end;
 
     @Override
     public String toString() {
@@ -44,8 +54,8 @@ public class AppointmentEntity {
                 ", patientId=" + patientId +
                 ", doctorId=" + doctorId +
                 ", paymentAmount=" + paymentAmount +
-                ", date=" + date +
-                ", time=" + time +
+                ", start=" + start +
+                ", end=" + end +
                 '}';
     }
 }
