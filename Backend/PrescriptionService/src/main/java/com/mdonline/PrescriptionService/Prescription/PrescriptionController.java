@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1")
+@RequestMapping(path="/api/v1/prescription")
 @CrossOrigin(origins = "*")
 public class PrescriptionController {
 
@@ -21,28 +21,28 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    @GetMapping(value = "/prescription")
+    @GetMapping(value = "/")
     public List<PrescriptionEntity> getAllPrescriptions() {
         return service.getAllPrescriptions();
     }
 
-    @GetMapping(value = "/prescription/{id}")
-    public PrescriptionEntity getPrescriptionById(@PathVariable int id) {
+    @GetMapping(value = "/{id}")
+    public PrescriptionEntity getPrescriptionById(@PathVariable long id) {
         return service.getPrescriptionById(id);
     }
 
 
-    @GetMapping(value = "/prescription/doctor/{id}")
+    @GetMapping(value = "/doctor/{id}")
     public List<PrescriptionEntity> getPrescriptionByDoctorId(@PathVariable long id) {
         return service.getPrescriptionByDoctorId(id);
     }
 
-    @GetMapping(value = "/prescription/patient/{id}")
+    @GetMapping(value = "/patient/{id}")
     public List<PrescriptionEntity> getPrescriptionByPatientId(@PathVariable long id) {
         return service.getPrescriptionByPatientId(id);
     }
 
-    @PostMapping(value = "/prescription/save")
+    @PostMapping(value = "/")
     public ResponseEntity<?> savePrescription(@Valid @RequestBody PrescriptionEntity prescription){
         try{
             PrescriptionEntity prescriptionEntity = service.savePrescription(prescription);
@@ -52,7 +52,7 @@ public class PrescriptionController {
         }
     }
 
-    @PutMapping(value = "/prescription/update")
+    @PutMapping(value = "/")
     public ResponseEntity<?> updatePrescription(@Valid @RequestBody PrescriptionEntity prescription){
         try{
             PrescriptionEntity prescriptionEntity = service.updatePrescription(prescription);
@@ -62,7 +62,7 @@ public class PrescriptionController {
         }
     }
 
-    @DeleteMapping(value = "/prescription/delete")
+    @DeleteMapping(value = "/")
     public ResponseEntity<?> deletePrescription(@RequestBody PrescriptionEntity prescription){
         try{
             service.deletePrescription(prescription);
@@ -72,7 +72,7 @@ public class PrescriptionController {
         }
     }
 
-    @DeleteMapping(value = "/prescription/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deletePrescriptionById(@PathVariable int id){
         try{
             service.deletePrescriptionById(id);

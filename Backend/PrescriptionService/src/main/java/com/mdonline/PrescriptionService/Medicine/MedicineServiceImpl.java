@@ -8,7 +8,6 @@ import java.util.List;
 @Service
 public class MedicineServiceImpl implements MedicineService {
 
-
     private MedicineRepository repository;
 
     @Autowired
@@ -32,10 +31,10 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public void deleteById(int id) { repository.deleteById(id); }
+    public void deleteById(long id) { repository.deleteById(id); }
 
     @Override
-    public MedicineEntity getMedicineById(int id) {
+    public MedicineEntity getMedicineById(long id) {
         return repository.findById(id).get();
     }
 
