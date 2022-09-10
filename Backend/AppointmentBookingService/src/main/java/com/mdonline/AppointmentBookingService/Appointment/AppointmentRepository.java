@@ -4,36 +4,39 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Integer>{
-    List<AppointmentEntity> findByPatientIdOrderByDateDesc(int patientId);
+public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long>{
+    List<AppointmentEntity> findByPatientIdOrderByStartAsc(Long patientId);
 
-    @Query(value = "SELECT * FROM Appointment WHERE patient_id = ?1 AND appointment_date >= NOW() ORDER BY appointment_date ASC, appointment_time ASC",
+    @Query(value = "SELECT * FROM Appointment WHERE patient_id = ?1 AND appointment_start >= NOW() ORDER BY appointment_start ASC",
             nativeQuery = true)
-    List<AppointmentEntity> findUpcomingAppointmentsByPatientIdOrderByDateAsc(int patientId);
+    List<AppointmentEntity> findUpcomingAppointmentByPatientIdOrderByDateAsc(Long patientId);
 
-    @Query(value = "SELECT * FROM Appointment WHERE patient_id = ?1 AND appointment_date <= NOW() ORDER BY appointment_date DESC, appointment_time DESC",
+    @Query(value = "SELECT * FROM Appointment WHERE patient_id = ?1 AND appointment_start < NOW() ORDER BY appointment_start DESC",
             nativeQuery = true)
-    List<AppointmentEntity> findCompletedAppointmentsByPatientIdOrderByDateDesc(int patientId);
+    List<AppointmentEntity> findCompletedAppointmentByPatientIdOrderByDateDesc(Long patientId);
 
-    List<AppointmentEntity> findByDoctorIdOrderByDateDesc(int doctorId);
+    List<AppointmentEntity> findByDoctorIdOrderByStartAsc(Long doctorId);
 
-    @Query(value = "SELECT * FROM Appointment WHERE doctor_id = ?1 AND appointment_date >= NOW() ORDER BY appointment_date ASC, appointment_time ASC",
+    @Query(value = "SELECT * FROM Appointment WHERE doctor_id = ?1 AND appointment_start >= NOW() ORDER BY appointment_start ASC",
             nativeQuery = true)
-    List<AppointmentEntity> findUpcomingAppointmentsByDoctorIdOrderByDateAsc(int doctorId);
+    List<AppointmentEntity> findUpcomingAppointmentByDoctorIdOrderByDateAsc(Long doctorId);
 
-    @Query(value = "SELECT * FROM Appointment WHERE doctor_id = ?1 AND appointment_date <= NOW() ORDER BY appointment_date DESC, appointment_time DESC",
+    @Query(value = "SELECT * FROM Appointment WHERE doctor_id = ?1 AND appointment_start < NOW() ORDER BY appointment_start DESC",
             nativeQuery = true)
-    List<AppointmentEntity> findCompletedAppointmentsByDoctorIdOrderByDateDesc(int doctorId);
+    List<AppointmentEntity> findCompletedAppointmentByDoctorIdOrderByDateDesc(Long doctorId);
 
-    @Query(value = "SELECT * FROM Appointment WHERE appointment_date >= NOW() ORDER BY appointment_date ASC, appointment_time ASC",
+    @Query(value = "SELECT * FROM Appointment WHERE appointment_start >= NOW() ORDER BY appointment_start ASC",
             nativeQuery = true)
-    List<AppointmentEntity> findUpcomingAppointmentsOrderByDateAsc();
+    List<AppointmentEntity> findUpcomingAppointmentOrderByDateAsc();
 
-    @Query(value = "SELECT * FROM Appointment WHERE appointment_date <= NOW() ORDER BY appointment_date DESC, appointment_time DESC",
+    @Query(value = "SELECT * FROM Appointment WHERE appointment_start < NOW() ORDER BY appointment_start DESC",
             nativeQuery = true)
-    List<AppointmentEntity> findCompletedAppointmentsOrderByDateDesc();
+    List<AppointmentEntity> findCompletedAppointmentOrderByDateDesc();
 
+    @Query(value = "SELECT appointment_start as start, appointment_end as end FROM Appointment WHERE doctor_id = ?1 AND CAST(appointment_start as DATE) = ?2 ORDER BY appointment_start ASC", nativeQuery = true)
+    List<AppointmentTimeSlot> findAvailableTimeByDoctorIdAndDate(Long id, Date date);
 }

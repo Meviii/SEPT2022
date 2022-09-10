@@ -1,9 +1,14 @@
 package com.mdonline.AppointmentBookingService.Appointment;
 
+import com.mdonline.AppointmentBookingService.Util.TimeSlot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -27,41 +32,41 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void deleteAppointmentById(int id) { repository.deleteById(id); }
+    public void deleteAppointmentById(Long id) { repository.deleteById(id); }
 
     @Override
-    public AppointmentEntity getAppointmentById(int id) {
+    public AppointmentEntity getAppointmentById(Long id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public List<AppointmentEntity> getAppointmentsByPatientId(int id) {
-        return repository.findByPatientIdOrderByDateDesc(id);
+    public List<AppointmentEntity> getAppointmentsByPatientId(Long id) {
+        return repository.findByPatientIdOrderByStartAsc(id);
     }
 
     @Override
-    public List<AppointmentEntity> getUpcomingAppointmentsByPatientId(int id) {
-        return repository.findUpcomingAppointmentsByPatientIdOrderByDateAsc(id);
+    public List<AppointmentEntity> getUpcomingAppointmentByPatientId(Long id) {
+        return repository.findUpcomingAppointmentByPatientIdOrderByDateAsc(id);
     }
 
     @Override
-    public List<AppointmentEntity> getCompletedAppointmentsByPatientId(int id) {
-        return repository.findCompletedAppointmentsByPatientIdOrderByDateDesc(id);
+    public List<AppointmentEntity> getCompletedAppointmentByPatientId(Long id) {
+        return repository.findCompletedAppointmentByPatientIdOrderByDateDesc(id);
     }
 
     @Override
-    public List<AppointmentEntity> getAppointmentsByDoctorId(int id) {
-        return repository.findByDoctorIdOrderByDateDesc(id);
+    public List<AppointmentEntity> getAppointmentByDoctorId(Long id) {
+        return repository.findByDoctorIdOrderByStartAsc(id);
     }
 
     @Override
-    public List<AppointmentEntity> getUpcomingAppointmentsByDoctorId(int id) {
-        return repository.findUpcomingAppointmentsByDoctorIdOrderByDateAsc(id);
+    public List<AppointmentEntity> getUpcomingAppointmentByDoctorId(Long id) {
+        return repository.findUpcomingAppointmentByDoctorIdOrderByDateAsc(id);
     }
 
     @Override
-    public List<AppointmentEntity> getCompletedAppointmentsByDoctorId(int id) {
-        return repository.findCompletedAppointmentsByDoctorIdOrderByDateDesc(id);
+    public List<AppointmentEntity> getCompletedAppointmentByDoctorId(Long id) {
+        return repository.findCompletedAppointmentByDoctorIdOrderByDateDesc(id);
     }
 
     @Override
@@ -71,11 +76,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentEntity> getAllUpcomingAppointments() {
-        return repository.findUpcomingAppointmentsOrderByDateAsc();
+        return repository.findUpcomingAppointmentOrderByDateAsc();
     }
 
     @Override
     public List<AppointmentEntity> getAllCompletedAppointments() {
-        return repository.findCompletedAppointmentsOrderByDateDesc();
+        return repository.findCompletedAppointmentOrderByDateDesc();
+    }
+    @Override
+    public List<AppointmentTimeSlotImpl> getAvailableTime(Long id, Date date) {
+        List<AppointmentTimeSlot> bookedTimeslots = repository.findAvailableTimeByDoctorIdAndDate(id, date);
+        List<LocalDateTime> timeSlots = new TimeSlot(date).getTimeSlots();
+
+        Set<LocalDateTime> takenStartTime = bookedTimeslots.stream()
+                .map(AppointmentTimeSlot::getStart)
+                .collect(Collectors.toSet());
+
+        List<AppointmentTimeSlotImpl> availableSlots = timeSlots.stream()
+                .filter(dateTime -> !takenStartTime.contains(dateTime))
+                .map(dateTime -> new AppointmentTimeSlotImpl(dateTime, dateTime.plusMinutes(15)))
+                .collect(Collectors.toList());
+
+        return availableSlots;
     }
 }
