@@ -1,15 +1,11 @@
 package com.mdonline.AccountService.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mdonline.AccountService.Model.User.User;
 import com.mdonline.AccountService.Repository.UserRepository;
 import com.mdonline.AccountService.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,7 +22,6 @@ public class UserService {
         this.utility = new Utility();
         this.passwordEncoder = passwordEncoder;
         System.out.println("User Service layer created.");
-
     }
 
     // Returns all patients if found, else, throws error
@@ -45,34 +40,50 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public void updateUser(User user, long id){
+    public Boolean updateUser(User user, long id){
+        Boolean isUpdated = true;
+
         try{
             user.setId(id);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }catch (Exception e){
-            System.out.println(e);
+            isUpdated = false;
         }
+        return isUpdated;
+
     }
 
-    public void createUser(String jsonString) throws JsonProcessingException {
+    public Boolean createUser(User user) {
+        Boolean isCreated = true;
 
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+
+        }catch (Exception e){
+            isCreated = false;
+        }
+        return isCreated;
+    }
+
+    public Boolean deleteUser(long id){
+        Boolean isDeleted = true;
         try {
-            User userToCreate = utility.jsonStringToDoctorOrPatient(jsonString);
-            if (userToCreate != null){
-                userToCreate.setPassword(passwordEncoder.encode(userToCreate.getPassword()));
-                userRepository.save(userToCreate);
-            }
-        }catch (DataIntegrityViolationException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Unique value conflict.");
+            userRepository.deleteById(id);
+        }catch (Exception e){
+            isDeleted = false;
         }
+        return isDeleted;
     }
 
-    public void deleteUser(long id){
-        userRepository.deleteById(id);
-    }
-
-    public void deleteAll() {
-        userRepository.deleteAll();
+    public Boolean deleteAll() {
+        Boolean isDeleted = true;
+        try {
+            userRepository.deleteAll();
+        }catch (Exception e){
+            isDeleted = false;
+        }
+        return isDeleted;
     }
 }

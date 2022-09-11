@@ -26,6 +26,7 @@ public class AdminService {
     }
 
     public List<Admin> getAllAdmin(){
+
         return adminRepository.findAll();
     }
 
@@ -33,22 +34,48 @@ public class AdminService {
         return adminRepository.findByEmail(email);
     }
 
-    public void updateAdmin(Admin toUpdate, long id) {
-        toUpdate.setId(id);
-        toUpdate.setPassword(passwordEncoder.encode(toUpdate.getPassword()));
-        adminRepository.save(toUpdate);
+    public Boolean updateAdmin(Admin toUpdate, long id) {
+        Boolean isUpdated = true;
+        try {
+            toUpdate.setId(id);
+            toUpdate.setPassword(passwordEncoder.encode(toUpdate.getPassword()));
+            adminRepository.save(toUpdate);
+        }catch (Exception e){
+            isUpdated = false;
+        }
+
+        return isUpdated;
     }
 
-    public void createAdmin(Admin toCreate) {
-        toCreate.setPassword(passwordEncoder.encode(toCreate.getPassword()));
-        adminRepository.save(toCreate);
+    public Boolean createAdmin(Admin toCreate) {
+        Boolean isCreated = true;
+        try {
+            toCreate.setPassword(passwordEncoder.encode(toCreate.getPassword()));
+            adminRepository.save(toCreate);
+        }catch (Exception e){
+            isCreated = false;
+        }
+
+        return isCreated;
     }
 
-    public void deleteAdmin(long id) {
-        adminRepository.delete(adminRepository.findById(id));
+    public Boolean deleteAdmin(long id) {
+        Boolean isDeleted = true;
+        try {
+            adminRepository.delete(adminRepository.findById(id));
+        }catch (Exception e){
+            isDeleted = false;
+        }
+        return isDeleted;
     }
 
-    public void deleteAll() {
-        adminRepository.deleteAll();
+    public Boolean deleteAll() {
+        Boolean isDeleted = true;
+        try {
+            adminRepository.deleteAll();
+        }catch (Exception e){
+            isDeleted = false;
+        }
+        return isDeleted;
     }
 }

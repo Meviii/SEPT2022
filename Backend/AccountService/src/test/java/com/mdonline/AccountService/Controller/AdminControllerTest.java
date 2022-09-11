@@ -69,28 +69,28 @@ class AdminControllerTest {
     @Test
     void createAdmin() {
         Admin admin2 = new Admin("admin2@gmail.com", "a_password");
-        String admin2String = admin2.toString();
-        ResponseEntity<String> response = new ResponseEntity<>("Admin added.", HttpStatus.CREATED);
-        when(adminController.createAdmin(admin2String)).thenReturn(response);
 
-        assertEquals(response, adminController.createAdmin(admin2String));
+        ResponseEntity<?> response = new ResponseEntity<>("Admin added.", HttpStatus.CREATED);
+        when(adminController.createAdmin(admin2)).thenReturn((ResponseEntity) response);
+
+        assertEquals(response, adminController.createAdmin(admin2));
     }
 
     @Test
     void deleteAdmin() {
 
-        ResponseEntity<String> response = new ResponseEntity<>("Admin deleted.", HttpStatus.OK);
+        ResponseEntity<?> response = new ResponseEntity<>("Admin deleted.", HttpStatus.OK);
 
-        when(adminController.deleteAdmin(1)).thenReturn(response);
+        when(adminController.deleteAdmin(1)).thenReturn((ResponseEntity) response);
 
         assertEquals(response, adminController.deleteAdmin(1));
     }
 
     @Test
     void deleteAll() {
-        ResponseEntity<String> response = new ResponseEntity<>("All admins deleted.", HttpStatus.OK);
+        ResponseEntity<?> response = new ResponseEntity<>("All admins deleted.", HttpStatus.OK);
 
-        when(adminController.deleteAll()).thenReturn(response);
+        when(adminController.deleteAll()).thenReturn((ResponseEntity) response);
 
         assertEquals(response, adminController.deleteAll());
     }

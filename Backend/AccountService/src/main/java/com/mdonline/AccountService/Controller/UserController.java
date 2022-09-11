@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.MethodNotAllowedException;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1/user")
+@RequestMapping(path="/api/v1/users")
 public class UserController {
 
     private UserService userService;
@@ -30,91 +28,84 @@ public class UserController {
 
     @GetMapping(produces="application/json")
     public List<User> getAllUsers() {
-        List<User> toReturn;
-        try {
-            toReturn = userService.getAllUsers();
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        List<User> toReturn = userService.getAllUsers();
+
+        if (toReturn.isEmpty()){
+            throw new CustomException("No users currently.", HttpStatus.NOT_FOUND);
         }
         return toReturn;
     }
 
     @GetMapping(path = "/{id}",produces="application/json")
-    public User getUserById(@PathVariable int id) {
+    @ResponseBody
+    public User getUserById(@PathVariable long id) {
         User toReturn = userService.getUserById(id);
 
         if (toReturn == null){
-            throw new CustomException("User does not exist", HttpStatus.NOT_FOUND);
+            throw new CustomException("User doesn't not exist", HttpStatus.NOT_FOUND);
         }
 
         return toReturn;
     }
 
-    @GetMapping(path="/email/{email}")
+    @GetMapping(path="email/{email}")
+    @ResponseBody
     public User getUserByEmail(@PathVariable String email) {
-        User toReturn;
-        try {
-            toReturn = userService.getUserByEmail(email);
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        User toReturn = userService.getUserByEmail(email);
+
+        if (toReturn == null){
+            throw new CustomException("User doesn't exist", HttpStatus.NOT_FOUND);
         }
+
         return toReturn;
     }
 
     @PutMapping(path="/{id}", consumes = "application/json", produces="application/json")
-    public ResponseEntity<String> updateUser(@RequestBody String jsonString, @PathVariable int id) {
+    public ResponseEntity<String> updateUser(@RequestBody String jsonString, @PathVariable long id) throws JsonProcessingException {
 
-        try {
-            User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
-            if (toUpdate != null) {
-                userService.updateUser(toUpdate, id);
-            }else{
-                return new ResponseEntity<>("Could not update", HttpStatus.NO_CONTENT);
-            }
-        } catch (MethodNotAllowedException e) {
-            return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("User does not exist or incorrect format", HttpStatus.BAD_REQUEST);
+        User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
+        Boolean isUpdated = userService.updateUser(toUpdate, id);
+
+        if (isUpdated == false){
+            throw new CustomException("Couldn't update user", HttpStatus.BAD_REQUEST);
         }
+
         return new ResponseEntity<>("User updated.", HttpStatus.OK);
     }
 
     // Update specified patient
     @PostMapping(produces="application/json")
-    public ResponseEntity<String> createUser(@RequestBody String jsonString) {
-        try {
-            try {
-                userService.createUser(jsonString);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        }catch (MethodNotAllowedException e){
-            return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
+    public ResponseEntity<String> createUser(@RequestBody String jsonString) throws JsonProcessingException {
+        User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
+        Boolean isCreated = userService.createUser(toUpdate);
+
+        if (isCreated == false){
+            throw new CustomException("Couldn't create user", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("User added.", HttpStatus.CREATED);
+
+        return new ResponseEntity<>("User created.", HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id){
-        try {
-            userService.deleteUser(id);
-        }catch (MethodNotAllowedException e){
-            return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (Exception e){
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> deleteUser(@PathVariable long id){
+
+        Boolean isDeleted = userService.deleteUser(id);
+
+        if (isDeleted == false){
+            throw new CustomException("Couldn't delete user", HttpStatus.BAD_REQUEST);
         }
+
         return new ResponseEntity<>("User deleted.", HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/")
     public ResponseEntity<String> deleteUser(){
-        try {
-            userService.deleteAll();
-        }catch (MethodNotAllowedException e){
-            return new ResponseEntity<>("Incorrect Method", HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (Exception e){
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+        Boolean isDeleted = userService.deleteAll();
+
+        if (isDeleted == false){
+            throw new CustomException("Couldn't delete users", HttpStatus.BAD_REQUEST);
         }
+
         return new ResponseEntity<>("All Users deleted.", HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package com.mdonline.AccountService.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mdonline.AccountService.Model.User.GenderOption;
 import com.mdonline.AccountService.Model.User.HealthStatus;
 import com.mdonline.AccountService.Model.User.Patient;
@@ -73,7 +74,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser() {
+    void createUser() throws JsonProcessingException {
         Date date = new Date(-1);
 
         User patient = new Patient("email@gmail.com", "password", "Name", "Middle", "Last",
