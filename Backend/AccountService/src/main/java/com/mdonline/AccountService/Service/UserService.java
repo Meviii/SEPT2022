@@ -1,13 +1,12 @@
 package com.mdonline.AccountService.Service;
 
 import com.mdonline.AccountService.Model.User.User;
+import com.mdonline.AccountService.Model.User.UserList;
 import com.mdonline.AccountService.Repository.UserRepository;
 import com.mdonline.AccountService.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -25,9 +24,9 @@ public class UserService {
     }
 
     // Returns all patients if found, else, throws error
-    public List<User> getAllUsers() {
-
-        return userRepository.findAll();
+    public UserList getAllUsers() {
+        UserList userList = new UserList(userRepository.findAll());
+        return userList;
     }
 
     public User getUserById(long id){

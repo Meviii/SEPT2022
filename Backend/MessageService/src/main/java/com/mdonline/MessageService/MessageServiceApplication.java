@@ -1,4 +1,4 @@
-package com.mdonline.ChatService;
+package com.mdonline.MessageService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class ChatServiceApplication {
+public class MessageServiceApplication {
 
 	@Bean
 	@LoadBalanced
@@ -18,7 +18,7 @@ public class ChatServiceApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChatServiceApplication.class, args);
+		SpringApplication.run(MessageServiceApplication.class, args);
 	}
 
 }

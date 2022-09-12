@@ -3,14 +3,13 @@ package com.mdonline.AccountService.Controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mdonline.AccountService.Exceptions.CustomException;
 import com.mdonline.AccountService.Model.User.User;
+import com.mdonline.AccountService.Model.User.UserList;
 import com.mdonline.AccountService.Service.UserService;
 import com.mdonline.AccountService.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path="/api/v1/users")
@@ -27,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping(produces="application/json")
-    public List<User> getAllUsers() {
-        List<User> toReturn = userService.getAllUsers();
+    public UserList getAllUsers() {
+        UserList toReturn = userService.getAllUsers();
 
         if (toReturn.isEmpty()){
             throw new CustomException("No users currently.", HttpStatus.NOT_FOUND);

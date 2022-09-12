@@ -1,10 +1,7 @@
 package com.mdonline.AccountService.Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mdonline.AccountService.Model.User.GenderOption;
-import com.mdonline.AccountService.Model.User.HealthStatus;
-import com.mdonline.AccountService.Model.User.Patient;
-import com.mdonline.AccountService.Model.User.User;
+import com.mdonline.AccountService.Model.User.*;
 import com.mdonline.AccountService.Repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +45,8 @@ class UserControllerTest {
 
     @Test
     void getAllUsers() {
-        List<User> userList = userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        UserList userList = new UserList(users);
         when(userController.getAllUsers()).thenReturn(userList);
         assertEquals(userList, userController.getAllUsers());
     }

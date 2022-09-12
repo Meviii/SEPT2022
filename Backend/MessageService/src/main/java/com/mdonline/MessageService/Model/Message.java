@@ -1,4 +1,4 @@
-package com.mdonline.ChatService.Model;
+package com.mdonline.MessageService.Model;
 
 import javax.persistence.*;
 
