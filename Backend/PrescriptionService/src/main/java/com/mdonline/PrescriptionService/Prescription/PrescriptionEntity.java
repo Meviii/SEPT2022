@@ -1,5 +1,6 @@
 package com.mdonline.PrescriptionService.Prescription;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mdonline.PrescriptionService.Medicine.MedicineEntity;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class PrescriptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
 
     @ManyToMany
@@ -24,22 +26,27 @@ public class PrescriptionEntity {
 
     @Column(name = "duration")
     @NotNull(message = "Duration value is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String prescriptionDuration;
 
     @Column(name = "description")
     @NotNull(message = "Prescription information is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String prescriptionDesc;
 
     @Column(name = "date")
     @NotNull(message = "Prescription date is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date prescriptionDate;
 
     @Column(name = "doctor_id")
     @NotNull(message = "Doctor id is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long doctorId;
 
     @Column(name = "patient_id")
     @NotNull(message = "Patient id is missing")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long patientId;
 
     public PrescriptionEntity() {
