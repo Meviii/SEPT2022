@@ -1,6 +1,9 @@
 package com.mdonline.ChatService.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity(name="chats")
@@ -11,13 +14,16 @@ public class Chat {
     @Column(name = "id")
     private long id;
 
-    @Column(name="creation_date", nullable = false)
+    @Column(name="creation_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
     private Date creationDate;
 
-    @Column(name="doctor_id", nullable = false)
+    @Column(name="doctor_id")
+    @NotNull
     private long doctorId;
 
-    @Column(name="patient_id", nullable = false)
+    @Column(name="patient_id")
+    @NotNull
     private long patientId;
 
     public Chat() {
@@ -62,4 +68,13 @@ public class Chat {
         this.patientId = patientId;
     }
 
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", creationDate=" + creationDate +
+                ", doctorId=" + doctorId +
+                ", patientId=" + patientId +
+                '}';
+    }
 }

@@ -14,6 +14,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query(value = "SELECT * FROM Chats WHERE doctor_id = ?1 OR patient_id = ?1", nativeQuery = true)
     List<Chat> findAllByUserId(long id);
 
-    @Query(value = "SELECT * FROM Chats WHERE doctor_id = ?1 AND patient_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Chats WHERE doctor_id = ?2 AND patient_id = ?1", nativeQuery = true)
     List<Chat> findChatsByDoctorIdAndPatientId(long patient_id, long doctor_id);
 }

@@ -24,13 +24,16 @@ public class ChatService {
     }
 
     public Boolean createChat(Chat chat) {
-        Boolean isCreated = true;
-
+        Boolean isCreated;
         List<Chat> chats = chatRepository.findChatsByDoctorIdAndPatientId(chat.getPatientId(), chat.getDoctorId());
+
         try {
             if (chats.isEmpty()) {
-                chatRepository.save(chat);
-            }else throw new Exception();
+                    chatRepository.save(chat);
+                    isCreated = true;
+            }else{
+                throw new Exception();
+            }
         }catch (Exception e){
             isCreated = false;
         }
