@@ -1,5 +1,4 @@
 package com.mdonline.AppointmentBookingService.Appointment;
-import com.mdonline.AppointmentBookingService.Event.EventDuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,11 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path="/api/v1/appointment")
@@ -87,7 +82,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping(value = "/")
-    public ResponseEntity<?> deleteAppointment(@Valid @RequestBody AppointmentEntity appointment){
+    public ResponseEntity<?> deleteAppointment(@RequestBody AppointmentEntity appointment){
         try {
             service.deleteAppointment(appointment);
             return ResponseEntity.ok().body("APPOINTMENT DELETED.");
@@ -97,7 +92,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteAppointmentById(@Valid @PathVariable Long id){
+    public ResponseEntity<?> deleteAppointmentById(@PathVariable Long id){
         try {
             service.deleteAppointmentById(id);
             return ResponseEntity.ok().body("APPOINTMENT DELETED.");

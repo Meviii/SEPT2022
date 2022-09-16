@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +75,10 @@ public class EventController {
         long id = Long.parseLong(payload.get("id"));
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = (java.util.Date) dateFormatter.parse(payload.get("date"));
-        return appointmentService.getAvailableTime(id, date);
+        EventEntity isAvailableOnDate = service.getEventByDoctorIdAndDate(id, date);
+        if(isAvailableOnDate != null){
+            return appointmentService.getAvailableTime(id, date);
+        }
+        return Collections.emptyList();
     }
-
 }

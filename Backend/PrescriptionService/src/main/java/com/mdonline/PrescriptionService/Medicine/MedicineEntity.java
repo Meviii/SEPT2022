@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Medicine")
+@Table(name = "Medicines")
 public class MedicineEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +22,17 @@ public class MedicineEntity {
     @Column(name = "name")
     @NotBlank(message = "Drug name is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private String medicineName;
+    private String name;
 
     @Column(name = "description")
     @NotBlank(message = "Drug information is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private String medicineDesc;
+    private String description;
 
     @Column(name = "dosage")
     @NotNull(message = "Drug dosage information is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private double medicineDosage;
+    private double dosage;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "medicines")
@@ -42,9 +42,9 @@ public class MedicineEntity {
     public String toString() {
         return "MedicineEntity{" +
                 "id=" + id +
-                ", medicineName='" + medicineName + '\'' +
-                ", medicineDesc='" + medicineDesc + '\'' +
-                ", medicineDosage=" + medicineDosage +
+                ", medicineName='" + name + '\'' +
+                ", medicineDesc='" + description + '\'' +
+                ", medicineDosage=" + dosage +
                 '}';
     }
 }

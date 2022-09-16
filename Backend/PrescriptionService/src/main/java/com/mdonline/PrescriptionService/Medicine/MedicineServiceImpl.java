@@ -40,7 +40,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public MedicineEntity getMedicineByName(String name) {
-        return repository.findByMedicineName(name);
+        return repository.findByName(name);
     }
 
     @Override

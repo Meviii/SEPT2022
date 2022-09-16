@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Prescription")
+@Table(name = "Prescriptions")
 public class PrescriptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class PrescriptionEntity {
     private long id;
 
     @ManyToMany
-    @JoinTable(name = "Prescription_Medicine",
+    @JoinTable(name = "Medicine_Prescription",
             joinColumns = @JoinColumn(name = "prescription_id"),
             inverseJoinColumns = @JoinColumn(name = "medicine_id"))
     private List<MedicineEntity> medicines = new ArrayList<>();
@@ -27,17 +27,17 @@ public class PrescriptionEntity {
     @Column(name = "duration")
     @NotNull(message = "Duration value is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private String prescriptionDuration;
+    private String duration;
 
     @Column(name = "description")
     @NotNull(message = "Prescription information is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private String prescriptionDesc;
+    private String description;
 
     @Column(name = "date")
     @NotNull(message = "Prescription date is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date prescriptionDate;
+    private Date date;
 
     @Column(name = "doctor_id")
     @NotNull(message = "Doctor id is missing")
@@ -49,25 +49,14 @@ public class PrescriptionEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long patientId;
 
-    public PrescriptionEntity() {
-    }
-
-    public PrescriptionEntity(String prescriptionDuration, String prescriptionDesc, Date prescriptionDate, long doctorId, long patientId) {
-        this.prescriptionDuration = prescriptionDuration;
-        this.prescriptionDesc = prescriptionDesc;
-        this.prescriptionDate = prescriptionDate;
-        this.doctorId = doctorId;
-        this.patientId = patientId;
-    }
-
     @Override
     public String toString() {
         return "PrescriptionEntity{" +
                 "id=" + id +
                 ", medicines=" + medicines +
-                ", PrescriptionDuration=" + prescriptionDuration +
-                ", PrescriptionDesc=" + prescriptionDesc +
-                ", PrescriptionDate=" + prescriptionDate +
+                ", PrescriptionDuration=" + duration +
+                ", PrescriptionDesc=" + description +
+                ", PrescriptionDate=" + date +
                 ", doctorId=" + doctorId +
                 ", patientId=" + patientId +
                 '}';
