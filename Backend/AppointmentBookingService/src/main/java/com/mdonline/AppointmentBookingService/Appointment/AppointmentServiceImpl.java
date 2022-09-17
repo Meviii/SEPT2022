@@ -40,7 +40,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentEntity> getAppointmentsByPatientId(Long id) {
+    public List<AppointmentEntity> getAppointmentByPatientId(Long id) {
         return repository.findByPatientIdOrderByStartAsc(id);
     }
 

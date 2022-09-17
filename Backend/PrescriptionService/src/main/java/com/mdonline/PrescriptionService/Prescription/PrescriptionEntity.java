@@ -5,7 +5,7 @@ import com.mdonline.PrescriptionService.Medicine.MedicineEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +48,74 @@ public class PrescriptionEntity {
     @NotNull(message = "Patient id is missing")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long patientId;
+
+    public PrescriptionEntity() {
+    }
+
+    public PrescriptionEntity(List<MedicineEntity> medicines, String duration, String description, Date date, long doctorId, long patientId) {
+        this.medicines = medicines;
+        this.duration = duration;
+        this.description = description;
+        this.date = date;
+        this.doctorId = doctorId;
+        this.patientId = patientId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public List<MedicineEntity> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<MedicineEntity> medicines) {
+        this.medicines = medicines;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(long patientId) {
+        this.patientId = patientId;
+    }
 
     @Override
     public String toString() {

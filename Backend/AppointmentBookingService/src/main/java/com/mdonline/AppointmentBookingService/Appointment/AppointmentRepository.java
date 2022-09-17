@@ -37,6 +37,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             nativeQuery = true)
     List<AppointmentEntity> findCompletedAppointmentOrderByDateDesc();
 
-    @Query(value = "SELECT start, end FROM Appointments WHERE doctor_id = ?1 AND CAST(start as DATE) = ?2 ORDER BY start ASC", nativeQuery = true)
+    @Query(value = "SELECT start, 'end' FROM Appointments a WHERE doctor_id = ?1 AND CAST(start as DATE) = ?2 ORDER BY start ASC", nativeQuery = true)
     List<AppointmentTimeSlot> findAvailableTimeByDoctorIdAndDate(Long id, Date date);
 }

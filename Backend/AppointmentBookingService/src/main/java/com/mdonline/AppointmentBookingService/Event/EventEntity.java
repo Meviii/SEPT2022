@@ -37,4 +37,54 @@ public class EventEntity {
     @Column(name = "doctor_id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long doctorId;
+
+    public EventEntity() {
+    }
+
+    public EventEntity(LocalDate date, String type, Long creatorId, Long doctorId) {
+        this.date = date;
+        this.type = type;
+        this.creatorId = creatorId;
+        this.doctorId = doctorId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
 }

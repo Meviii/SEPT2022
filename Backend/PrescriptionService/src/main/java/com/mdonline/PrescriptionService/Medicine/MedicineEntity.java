@@ -38,6 +38,47 @@ public class MedicineEntity {
     @ManyToMany(mappedBy = "medicines")
     private List<PrescriptionEntity> prescribed = new ArrayList<>();
 
+    public MedicineEntity(String name, String description, double dosage) {
+        this.name = name;
+        this.description = description;
+        this.dosage = dosage;
+    }
+
+    public MedicineEntity() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(double dosage) {
+        this.dosage = dosage;
+    }
+
     @Override
     public String toString() {
         return "MedicineEntity{" +
