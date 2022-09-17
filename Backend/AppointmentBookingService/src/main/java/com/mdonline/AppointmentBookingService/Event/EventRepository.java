@@ -9,12 +9,14 @@ import java.util.Date;
 
 @Repository
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
-    @Query(value = "SELECT * FROM Event WHERE doctor_id = ?1 ORDER BY (event_date >= CURDATE()) ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Events WHERE doctor_id = ?1 ORDER BY (date >= CURDATE()) ASC", nativeQuery = true)
     List<EventEntity> findByDoctorIdOrderByDateAsc(Long id);
+    @Query(value = "SELECT * FROM Events WHERE doctor_id = ?1 AND date = ?2", nativeQuery = true)
+    EventEntity findByDoctorIdAndDate(Long id, Date date);
 
-    @Query(value = "SELECT * FROM Event WHERE doctor_id = ?1 AND event_date >= CURDATE() ORDER BY event_date ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Events WHERE doctor_id = ?1 AND date >= CURDATE() ORDER BY date ASC", nativeQuery = true)
     List<EventEntity> findUpcomingEventByDoctorIdOrderByDateAsc(Long id);
 
-    @Query(value = "SELECT * FROM Event WHERE doctor_id = ?1 AND event_date < CURDATE() ORDER BY event_date DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Events WHERE doctor_id = ?1 AND date < CURDATE() ORDER BY date DESC", nativeQuery = true)
     List<EventEntity> findPastEventByDoctorIdOrderByDateDesc(Long id);
 }

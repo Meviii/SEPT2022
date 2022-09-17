@@ -8,6 +8,7 @@ public interface EventService {
     void deleteEventById(Long id);
     EventEntity getEventById(Long id);
     List<EventEntity> getEventByUserId(Long id);
+    EventEntity getEventByDoctorIdAndDate(Long id, Date date);
     List<EventEntity> getUpcomingEventByUserId(Long id);
     List<EventEntity> getPastEventByUserId(Long id);
 }

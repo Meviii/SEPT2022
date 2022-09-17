@@ -27,6 +27,9 @@ public class EventServiceImpl implements EventService{
     public List<EventEntity> getEventByUserId(Long id) { return repository.findByDoctorIdOrderByDateAsc(id); }
 
     @Override
+    public EventEntity getEventByDoctorIdAndDate(Long id, Date date) { return repository.findByDoctorIdAndDate(id, date); }
+
+    @Override
     public List<EventEntity> getUpcomingEventByUserId(Long id) {
         return repository.findUpcomingEventByDoctorIdOrderByDateAsc(id);
     }

@@ -10,11 +10,11 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Appointment")
+@Table(name = "Appointments")
 public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointment_id")
+    @Column(name = "id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
@@ -28,24 +28,83 @@ public class AppointmentEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long doctorId;
 
-    @Column(name = "appointment_payment_amount")
+    @Column(name = "payment_amount")
     @DecimalMin(value = "1.00", message = "Payment amount cannot be less than 1.00")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private double paymentAmount;
 
-    @Column(name = "appointment_start")
+    @Column(name = "start")
     @Future
     @NotNull(message = "Start Datetime cannot be null")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime start;
 
-    @Column(name = "appointment_end")
+    @Column(name = "`end`")
     @Future
     @NotNull(message = "End Datetime cannot be null")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime end;
+
+    public AppointmentEntity(Long patientId, Long doctorId, double paymentAmount, LocalDateTime start, LocalDateTime end) {
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.paymentAmount = paymentAmount;
+        this.start = start;
+        this.end = end;
+    }
+
+    public AppointmentEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public Long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public double getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(double paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
 
     @Override
     public String toString() {
