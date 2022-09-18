@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'SecondPage.dart';
+import 'Patient/Patient_Profile/Profile_screen.dart';
 
 const Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -46,7 +47,9 @@ class MyWidget extends StatelessWidget {
         ),
         ElevatedButton(
             child: const Text('Patient'),
-            onPressed: () => print('Patient button pressed')),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile_screen()));
+            }
       ]),
     ));
   }
