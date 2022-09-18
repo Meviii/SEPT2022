@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+
+/**
+ * This interface handles the Prescription related database queries via JPA and Hibernate
+ */
 @Repository
 public interface PrescriptionRepository extends JpaRepository<PrescriptionEntity, Long> {
 

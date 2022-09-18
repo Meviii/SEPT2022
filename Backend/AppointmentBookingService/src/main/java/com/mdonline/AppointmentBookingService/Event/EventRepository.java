@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Date;
 
+/**
+ * This interface handles the Event related database queries via JPA and Hibernate
+ */
+
 @Repository
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
     @Query(value = "SELECT * FROM Events WHERE doctor_id = ?1 ORDER BY (date >= CURDATE()) ASC", nativeQuery = true)

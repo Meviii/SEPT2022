@@ -9,6 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
+/**
+ * This class holds the data of the Appointment object.
+ */
+
 @Entity
 @Table(name = "Appointments")
 public class AppointmentEntity {
