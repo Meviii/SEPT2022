@@ -7,7 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-
+/**
+ * This class holds the data of the Event object.
+ */
 @Entity
 @Table(name = "Events")
 public class EventEntity {
