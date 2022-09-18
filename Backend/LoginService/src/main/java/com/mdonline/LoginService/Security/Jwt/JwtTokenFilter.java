@@ -1,6 +1,6 @@
-package com.mdonline.LoginService.Jwt;
+package com.mdonline.LoginService.Security.Jwt;
 
-import com.mdonline.LoginService.User.User;
+import com.mdonline.LoginService.Model.User;
 import com.mdonline.LoginService.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,49 +26,83 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private JwtTokenUtil jwtTokenUtil;
     private Utility utility;
 
+    /**
+     * Main constructor for JWT Token Filter.
+     *
+     * @param jwtTokenUtil - Initializes JWT token util for jwt related utility access
+     */
     @Autowired
-    public JwtTokenFilter(JwtTokenUtil jwtTokenUtil, Utility utility) {
+    public JwtTokenFilter(JwtTokenUtil jwtTokenUtil) {
         this.jwtTokenUtil = jwtTokenUtil;
-        this.utility = new Utility();
     }
 
+    /**
+     * This functions Overrides default internal filtering configuration
+     *
+     * @param request - Handles incoming request data
+     * @param filterChain -
+     * @param response - provides a response for the requested data
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        // Break filter if there is no Authorization bearer
         if (!hasAuthorizationBearer(request)) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Get token of incoming request
         String token = getAccessToken(request);
 
+        // Break filter if token is invalid
         if (!jwtTokenUtil.validateAccessToken(token)) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Set the authentication context
         setAuthenticationContext(token, request);
+
+        // Do filtering
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * This function checks to see if incoming request has an authorization bearer.
+     *
+     * @param request - Handles incoming request
+     * @Return - Boolean if request has authorization bearer
+     */
     private boolean hasAuthorizationBearer(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         if (ObjectUtils.isEmpty(header) || !header.startsWith("Bearer")) {
             LOGGER.trace("No Bearer in Authorization");
             return false;
         }
-
         return true;
     }
 
+    /**
+     * This function returns the token included in the request
+     *
+     * @param request - Handles incoming request
+     * @Return - Boolean if request has authorization bearer
+     */
     private String getAccessToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         String token = header.split(" ")[1].trim();
         return token;
     }
 
+    /**
+     * This function sets the Authentication Context. Assigns user with authority.
+     *
+     * @param request - Handles incoming request
+     * @param token - Request token
+     */
     private void setAuthenticationContext(String token, HttpServletRequest request) {
         UserDetails userDetails = getUserDetails(token);
 
@@ -81,6 +115,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    /**
+     * This function returns the UserDetails from a JWT.
+     *
+     * @param token - Request token
+     * @Return - UserDetails
+     */
     private UserDetails getUserDetails(String token) {
         // TODO : Separate tasks for doctor and patient
         User userDetails = new User();

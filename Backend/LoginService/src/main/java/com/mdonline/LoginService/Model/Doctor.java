@@ -1,12 +1,15 @@
-package com.mdonline.LoginService.Doctor;
+package com.mdonline.LoginService.Model;
 
-
-import com.mdonline.LoginService.User.User;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @Child Child of the User class
+ *
+ * This class holds the data of the doctor object.
+ */
 @Entity
 @Table(name="doctors")
 @DiscriminatorValue(value = "Doctor")

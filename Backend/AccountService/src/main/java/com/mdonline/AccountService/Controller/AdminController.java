@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * WEB Endpoint controller/ URI Controller
+ */
 @RestController
 @RequestMapping(path="/api/v1/admins")
 public class AdminController {
@@ -18,12 +21,20 @@ public class AdminController {
     private AdminService adminService;
     private Utility utility;
 
+    /**
+     * Main constructor for the admin controller with admin service
+     * @param adminService
+     */
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
         this.utility = new Utility();
     }
 
+    /**
+     * Returns the admin details by the unique admin id
+     * @param id - admin id
+     */
     @GetMapping(path="/{id}", produces="application/json")
     @ResponseBody
     public Admin getAdminById(@PathVariable long id) {
@@ -36,6 +47,9 @@ public class AdminController {
         return admin;
     }
 
+    /**
+     * Returns the details of all admins
+     */
     @GetMapping(produces="application/json")
     public List<Admin> getAllAdmins() {
         List<Admin> admins = adminService.getAllAdmin();
@@ -47,6 +61,10 @@ public class AdminController {
         return admins;
     }
 
+    /**
+     * Returns the admin details by the unique admin email
+     * @param email - admin email
+     */
     @RequestMapping(path = "email/{email}", produces="application/json")
     @ResponseBody
     public Admin getAdminByEmail(@PathVariable String email) {
@@ -59,7 +77,12 @@ public class AdminController {
         return adminService.getAdminByEmail(email);
     }
 
-
+    /**
+     * Updates the admin by the given payload and id
+     *
+     * @param id - user id
+     * @param admin - Entity object of admin
+     */
     @PutMapping(path="/{id}", consumes = "application/json", produces="application/json")
     public ResponseEntity<String> updateAdmin(@RequestBody Admin admin, @PathVariable long id) {
 
@@ -71,7 +94,11 @@ public class AdminController {
         return new ResponseEntity<>("Admin updated.", HttpStatus.OK);
     }
 
-    // Update specified patient
+    /**
+     * Creates a user by a given valid payload
+     *
+     * @param admin - Entity object of admin
+     */
     @PostMapping(consumes = "application/json", produces="application/json")
     public ResponseEntity<?> createAdmin(@RequestBody Admin admin) {
 
@@ -83,6 +110,11 @@ public class AdminController {
         return new ResponseEntity<>("Admin added.", HttpStatus.CREATED);
     }
 
+    /**
+     * Deletes an admin by a given valid id
+     *
+     * @param id - id of admin
+     */
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteAdmin(@PathVariable long id){
 
@@ -94,6 +126,10 @@ public class AdminController {
         return new ResponseEntity<>("Admin deleted.", HttpStatus.OK);
     }
 
+    /**
+     * Deletes all users
+     *
+     */
     @DeleteMapping(path = "/")
     public ResponseEntity<?> deleteAll(){
 

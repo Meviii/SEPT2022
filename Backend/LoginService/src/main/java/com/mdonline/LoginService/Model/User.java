@@ -1,4 +1,4 @@
-package com.mdonline.LoginService.User;
+package com.mdonline.LoginService.Model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,6 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @Parent Parent of the Patient, Doctor classes
+ * @Implements User Details which allows control for authentication configurations
+ *
+ * This class holds the data of the base user object.
+ */
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -101,7 +107,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (this.disabledStatus == false){
+        if (!this.disabledStatus){
             return true;
         }else{
             return false;

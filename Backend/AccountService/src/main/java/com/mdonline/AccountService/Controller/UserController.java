@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * WEB Endpoint controller/ URI Controller
+ */
 @RestController
 @RequestMapping(path="/api/v1/users")
 public class UserController {
@@ -18,6 +21,10 @@ public class UserController {
     private UserService userService;
     private Utility utility;
 
+    /**
+     * Main constructor for the user controller with user service
+     * @param userService
+     */
     @Autowired
     public UserController(UserService userService){
         this.userService = userService;
@@ -25,6 +32,9 @@ public class UserController {
 
     }
 
+    /**
+     * Returns the details of all users
+     */
     @GetMapping(produces="application/json")
     public UserList getAllUsers() {
         UserList toReturn = userService.getAllUsers();
@@ -35,6 +45,10 @@ public class UserController {
         return toReturn;
     }
 
+    /**
+     * Returns the user details by the unique user id
+     * @param id - user id
+     */
     @GetMapping(path = "/{id}",produces="application/json")
     @ResponseBody
     public User getUserById(@PathVariable long id) {
@@ -47,6 +61,10 @@ public class UserController {
         return toReturn;
     }
 
+    /**
+     * Returns the user details by the unique user email
+     * @param email - user email
+     */
     @GetMapping(path="email/{email}")
     @ResponseBody
     public User getUserByEmail(@PathVariable String email) {
@@ -59,6 +77,12 @@ public class UserController {
         return toReturn;
     }
 
+    /**
+     * Updates the user by the given payload and id
+     *
+     * @param id - user id
+     * @param jsonString - Json string of user payload
+     */
     @PutMapping(path="/{id}", consumes = "application/json", produces="application/json")
     public ResponseEntity<String> updateUser(@RequestBody String jsonString, @PathVariable long id) throws JsonProcessingException {
 
@@ -72,7 +96,11 @@ public class UserController {
         return new ResponseEntity<>("User updated.", HttpStatus.OK);
     }
 
-    // Update specified patient
+    /**
+     * Creates a user by a given valid payload
+     *
+     * @param jsonString - Json string of user payload
+     */
     @PostMapping(produces="application/json")
     public ResponseEntity<String> createUser(@RequestBody String jsonString) throws JsonProcessingException {
         User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
@@ -85,6 +113,11 @@ public class UserController {
         return new ResponseEntity<>("User created.", HttpStatus.CREATED);
     }
 
+    /**
+     * Deletes a user by the given id
+     *
+     * @param id - user id
+     */
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable long id){
 
@@ -97,6 +130,10 @@ public class UserController {
         return new ResponseEntity<>("User deleted.", HttpStatus.OK);
     }
 
+    /**
+     * Deletes all users
+     *
+     */
     @DeleteMapping(path = "/")
     public ResponseEntity<String> deleteUser(){
         Boolean isDeleted = userService.deleteAll();

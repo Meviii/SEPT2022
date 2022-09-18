@@ -1,7 +1,7 @@
 package com.mdonline.LoginService.Security;
 
-import com.mdonline.LoginService.Jwt.JwtTokenFilter;
-import com.mdonline.LoginService.User.UserRepository;
+import com.mdonline.LoginService.Security.Jwt.JwtTokenFilter;
+import com.mdonline.LoginService.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This class controls and configures URI authorization and security related beans.
+ */
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
@@ -26,6 +29,12 @@ public class SecurityConfiguration {
     private UserRepository userRepository;
     private JwtTokenFilter jwtTokenFilter;
 
+    /**
+     * Main constructor for Security Configuration.
+     *
+     * @param userRepository - Initializes user repository for database access
+     * @param jwtTokenFilter - Initializes the Authentication Manager which authenticates an auth request
+     */
     @Autowired
     public SecurityConfiguration(UserRepository userRepository, JwtTokenFilter jwtTokenFilter) {
         this.userRepository = userRepository;
@@ -41,7 +50,6 @@ public class SecurityConfiguration {
                 throw new UsernameNotFoundException("User not found");
             }
         };
-
     }
 
     @Bean
@@ -57,6 +65,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        // disable login page
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -2,6 +2,11 @@ package com.mdonline.AccountService.Model;
 
 import javax.persistence.*;
 
+/**
+ * @Dependant This class depends on the User object.
+ *
+ * Each User object can hold an object of this class.
+ */
 @Entity
 @Table(name="addresses")
 public class Address{

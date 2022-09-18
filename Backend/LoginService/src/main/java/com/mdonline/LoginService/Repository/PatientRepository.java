@@ -1,4 +1,4 @@
-package com.mdonline.AccountService.Repository;
+package com.mdonline.LoginService.Repository;
 
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.mdonline.LoginService.Jwt;
+package com.mdonline.LoginService.Security.Jwt;
 
-import com.mdonline.LoginService.User.User;
+import com.mdonline.LoginService.Model.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,15 +12,27 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 
+/**
+ * This utility class is designed to hold utility functions for JWT
+ */
 @Component
 public class JwtTokenUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
+
+    // Expire duration for a token
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24hrs
 
+    // secret key for JWT token
     @Value("${app.jwt.secret}")
     private String secretKey;
 
+    /**
+     * This function returns a newly generated JWT token for the passed user.
+     *
+     * @param user - User payload
+     * @Return - This function returns a JWT token in String format
+     */
     public String generateAccessToken(User user){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
@@ -35,6 +47,12 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    /**
+     * This function validates a JWT token.
+     *
+     * @param token - JWT token in string format
+     * @Return - Boolean. True if validated, false otherwise
+     */
     public boolean validateAccessToken(String token) {
         try {
             LOGGER.trace("Validating access token...");
@@ -60,10 +78,22 @@ public class JwtTokenUtil {
         return false;
     }
 
+    /**
+     * This function returns the subject of a passed JWT token
+     *
+     * @param token - JWT token in string format
+     * @Return - subject of token
+     */
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
     }
 
+    /**
+     * This function returns the claims of a passed JWT token
+     *
+     * @param token - JWT token in string format
+     * @Return - Claims of token
+     */
     private Claims parseClaims(String token) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
@@ -74,6 +104,5 @@ public class JwtTokenUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
     }
 }

@@ -1,4 +1,4 @@
-package com.mdonline.LoginService.Auth;
+package com.mdonline.LoginService.Security.Auth;
 
 import org.hibernate.validator.constraints.Length;
 
