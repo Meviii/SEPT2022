@@ -3,7 +3,11 @@ package com.mdonline.AccountService.Model.User;
 import javax.persistence.*;
 import java.sql.Date;
 
-
+/**
+ * @Child Child of the User class
+ *
+ * This class holds the data of the patient object.
+ */
 @Entity
 @Table(name="patients")
 @DiscriminatorValue(value = "Patient")

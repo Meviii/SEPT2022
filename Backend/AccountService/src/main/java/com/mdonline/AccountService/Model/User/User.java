@@ -6,6 +6,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.sql.Date;
 
+/**
+ * @Parent Parent of the Patient, Doctor classes
+ * @ClassType Abstract
+ *
+ * This class holds the data of the base user object.
+ */
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
