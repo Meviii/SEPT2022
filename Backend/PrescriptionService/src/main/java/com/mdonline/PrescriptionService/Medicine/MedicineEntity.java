@@ -10,6 +10,10 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class holds the data of the Medicine object.
+ */
 @Entity
 @Table(name = "Medicines")
 public class MedicineEntity {

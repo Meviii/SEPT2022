@@ -9,6 +9,10 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class holds the data of the Prescription object.
+ */
 @Entity
 @Table(name = "Prescriptions")
 public class PrescriptionEntity {

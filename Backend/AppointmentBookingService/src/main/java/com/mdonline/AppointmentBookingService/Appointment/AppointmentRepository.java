@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This interface handles the Appointment related database queries via JPA and Hibernate
+ */
+
 @Repository
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long>{
     List<AppointmentEntity> findByPatientIdOrderByStartAsc(Long patientId);
