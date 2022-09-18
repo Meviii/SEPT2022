@@ -163,18 +163,19 @@ class _AccountCreationState extends State<AccountCreation> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(15),
-          child: ListView(children: const <Widget>[
-            Padding(
+          child: Form(
+          child: ListView(children: <Widget>[
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'First Name',
-                  hintText: 'Enter Your First Name',
+                  hintText: 'Enter First Name',
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 decoration: InputDecoration(
@@ -184,7 +185,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 decoration: InputDecoration(
@@ -194,7 +195,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 decoration: InputDecoration(
@@ -204,7 +205,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 obscureText: true,
@@ -215,7 +216,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 obscureText: true,
@@ -226,7 +227,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 obscureText: true,
@@ -237,8 +238,11 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.all(15), child: GenderDropdownItem()),
-            Padding(
+            const Padding(
+              padding: EdgeInsets.all(15),
+              child: GenderDropdownItem()
+              ),
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 obscureText: true,
@@ -249,7 +253,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
                 obscureText: true,
@@ -260,8 +264,16 @@ class _AccountCreationState extends State<AccountCreation> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.all(15), child: UserDropdownItem())
+            const Padding(
+              padding: EdgeInsets.all(15),
+              child: UserDropdownItem()
+              ),
+            ElevatedButton(
+                onPressed: () {},
+                child: const Text('Submit'),
+              )
           ]),
+            ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -434,12 +446,13 @@ class _GenderDropdownItemState extends State<GenderDropdownItem> {
   Widget build(BuildContext context) {
     return DropdownButton(
         value: selectedValue,
-        onChanged: (String? newValue) {
-          setState(() {
-            selectedValue = newValue!;
-          });
-        },
-        items: getGenderDropdownItems);
+      onChanged: (String? newValue){
+        setState(() {
+          selectedValue = newValue!;
+        });
+      },
+      items: getGenderDropdownItems
+      );
   }
 }
 
@@ -454,7 +467,6 @@ List<DropdownMenuItem<String>> get getRoleDropdownItems {
 
 class UserDropdownItem extends StatefulWidget {
   const UserDropdownItem({Key? key}) : super(key: key);
-
   @override
   State<UserDropdownItem> createState() => _UserDropdownItemState();
 }
@@ -465,11 +477,12 @@ class _UserDropdownItemState extends State<UserDropdownItem> {
   Widget build(BuildContext context) {
     return DropdownButton(
         value: selectedValue,
-        onChanged: (String? newValue) {
-          setState(() {
-            selectedValue = newValue!;
-          });
-        },
-        items: getRoleDropdownItems);
+      onChanged: (String? newValue){
+        setState(() {
+          selectedValue = newValue!;
+        });
+      },
+      items: getRoleDropdownItems
+      );
   }
 }
