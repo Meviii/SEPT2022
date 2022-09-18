@@ -11,6 +11,7 @@ class AdminFeatures extends StatefulWidget {
   State<AdminFeatures> createState() => _AdminFeaturesState();
 }
 
+//Title and header for the main page
 class _AdminFeaturesState extends State<AdminFeatures> {
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,8 @@ class _AdminFeaturesState extends State<AdminFeatures> {
                     onPressed: () {}),
               ],
             ),
+            //Using FirstScreen method to load the main page which is on a
+            //different widget and adding navigation bar
             body: const FirstScreen(),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
@@ -71,7 +74,7 @@ class _AdminFeaturesState extends State<AdminFeatures> {
             )));
   }
 }
-
+//FirstScreen class and widget for the main page for the admin
 class FirstScreen extends StatelessWidget {
   const FirstScreen({Key? key}) : super(key: key);
 
@@ -129,7 +132,7 @@ class FirstScreen extends StatelessWidget {
     );
   }
 }
-
+//Page for the account creation button
 class AccountCreation extends StatefulWidget {
   const AccountCreation({Key? key}) : super(key: key);
 
@@ -161,6 +164,7 @@ class _AccountCreationState extends State<AccountCreation> {
                 onPressed: () {}),
           ],
         ),
+        //All the fields in order to create the user.
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Form(
@@ -310,7 +314,7 @@ class _AccountCreationState extends State<AccountCreation> {
         ));
   }
 }
-
+//Class and widget for the DataGeneration button
 class DataGeneration extends StatefulWidget {
   const DataGeneration({Key? key}) : super(key: key);
 
@@ -423,7 +427,8 @@ class _DataGenerationState extends State<DataGeneration> {
         ));
   }
 }
-
+//List for the dropdown options in the AccountCreation page. This dropdownlist
+//is for the gender selection
 List<DropdownMenuItem<String>> get getGenderDropdownItems {
   List<DropdownMenuItem<String>> genderItems = [
     const DropdownMenuItem(value: "Male", child: Text("Male")),
@@ -456,6 +461,8 @@ class _GenderDropdownItemState extends State<GenderDropdownItem> {
   }
 }
 
+//List for the dropdown options in the AccountCreation page. This dropdownlist
+//is for the User type selection
 List<DropdownMenuItem<String>> get getRoleDropdownItems {
   List<DropdownMenuItem<String>> userItems = [
     const DropdownMenuItem(value: "Admin", child: Text("Admin")),
