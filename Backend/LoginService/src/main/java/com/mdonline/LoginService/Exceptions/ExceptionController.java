@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-/*
-    This class controls our custom exceptions for an entity
+/**
+ * This class controls the custom exceptions for an entity
+ *
  */
 
 @ControllerAdvice

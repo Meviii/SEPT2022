@@ -3,8 +3,12 @@ package com.mdonline.AccountService.Model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
+/**
+ * This class holds the data of the Admin object.
+ */
+
 @Entity
-@Table(name="admin")
+@Table(name="admins")
 public class Admin {
 
     @Id

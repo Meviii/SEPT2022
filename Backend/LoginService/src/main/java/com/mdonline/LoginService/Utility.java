@@ -4,11 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mdonline.LoginService.Doctor.Doctor;
-import com.mdonline.LoginService.Patient.Patient;
-import com.mdonline.LoginService.User.User;
+import com.mdonline.LoginService.Model.Doctor;
+import com.mdonline.LoginService.Model.Patient;
+import com.mdonline.LoginService.Model.User;
 import org.springframework.stereotype.Component;
 
+/**
+ * This is a utility class designed for clean code by eliminating code redundancy and confusion
+ *
+ * Designed to hold utility functions including String de/serialization, parsing etc.
+ */
 @Component
 public class Utility {
 
