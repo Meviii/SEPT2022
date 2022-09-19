@@ -12,7 +12,9 @@ class SecondPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Go Back")),
-        ));
+              child: const Text("Go Back")
+          ),
+        )
+      );
   }
 }
