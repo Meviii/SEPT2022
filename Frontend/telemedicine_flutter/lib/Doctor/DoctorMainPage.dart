@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../HelperFunctions.dart';
+import 'DoctorViewPatientsPage.dart';
 
 class DoctorMainPage extends StatelessWidget {
   const DoctorMainPage({super.key});
@@ -56,7 +57,7 @@ class DoctorMainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   // TODO link this up to register account page
-                  context, MaterialPageRoute(builder: (context) => DoctorMainPage()));
+                  context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
               },
               child: const Align(
                 alignment: Alignment.centerLeft,
