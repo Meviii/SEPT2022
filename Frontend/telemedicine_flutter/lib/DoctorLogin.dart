@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'HelperFunctions.dart';
-import 'DoctorMainPage.dart';
+import 'Doctor/DoctorMainPage.dart';
 
 class DoctorLogin extends StatefulWidget {
   const DoctorLogin({super.key});

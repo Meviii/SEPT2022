@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'HelperFunctions.dart';
+import '../HelperFunctions.dart';
 
 class DoctorMainPage extends StatelessWidget {
   const DoctorMainPage({super.key});
