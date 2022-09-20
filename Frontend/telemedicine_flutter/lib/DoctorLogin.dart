@@ -78,7 +78,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                               // TODO Process data
                             }
                           },
-                          child: const Text("Submit")
+                          child: const Text("Login")
                         ),
                       ),
                     ),
