@@ -67,8 +67,8 @@ class _DoctorLoginState extends State<DoctorLogin> {
                         ),
                       ),
                     ),
-                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 60),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
                       child: SizedBox(
                         width: screenWidth(context) * 0.4,
                         height: 50,
@@ -86,6 +86,29 @@ class _DoctorLoginState extends State<DoctorLogin> {
                 )
               )
             ),
+
+            // Signup new account button
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+              child: SizedBox(
+                width: screenWidth(context) * 0.3,
+                height: 30,
+                child: ElevatedButton(
+                   style: ElevatedButton.styleFrom(
+                    primary: Colors.red[800],
+                    textStyle: const TextStyle(
+                      fontSize: 12, fontFamily: 'Georgia'
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => DoctorLogin()));
+                  },
+                  child: const Text("Register New Account")
+                ),
+              ),
+            ),
+
           ])
         ),]
       )
