@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'PatientLogin.dart';
+import 'DoctorLogin.dart';
 import 'HelperFunctions.dart';
 import 'Patient/Patient_Profile/Profile_screen.dart';
 
@@ -49,7 +50,7 @@ class HomePage extends StatelessWidget {
                   child: const Text('Doctor Login'),
                   onPressed: () {
                     Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Profile_screen()));
+                      context, MaterialPageRoute(builder: (context) => DoctorLogin()));
                   }
                 ),
               ),
