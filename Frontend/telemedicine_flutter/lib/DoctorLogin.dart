@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'HelperFunctions.dart';
 
-class PatientLogin extends StatefulWidget {
-  const PatientLogin({super.key});
+class DoctorLogin extends StatefulWidget {
+  const DoctorLogin({super.key});
 
   @override
-  State<PatientLogin> createState() => _PatientLoginState();
+  State<DoctorLogin> createState() => _DoctorLoginState();
 }
 
 
-class _PatientLoginState extends State<PatientLogin> {
+class _DoctorLoginState extends State<DoctorLogin> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Patient Login")),
+      appBar: AppBar(title: const Text("Doctor Login")),
       body: ListView(
         children: [ Center(
           child: Column( children: [
@@ -67,8 +67,8 @@ class _PatientLoginState extends State<PatientLogin> {
                         ),
                       ),
                     ),
-                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 60),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 30),
                       child: SizedBox(
                         width: screenWidth(context) * 0.4,
                         height: 50,
@@ -86,6 +86,60 @@ class _PatientLoginState extends State<PatientLogin> {
                 )
               )
             ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+              child: Row( 
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Signup new account button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                    child: SizedBox(
+                      width: screenWidth(context) * 0.3,
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red[800],
+                          textStyle: const TextStyle(
+                            fontSize: 12, fontFamily: 'Georgia'
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            // TODO link this up to register account page
+                            context, MaterialPageRoute(builder: (context) => DoctorLogin()));
+                        },
+                        child: const Text("Register New Account")
+                      ),
+                    ),
+                  ),
+
+                  // Forgot password button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: SizedBox(
+                      width: screenWidth(context) * 0.3,
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 5, 40, 117),
+                          textStyle: const TextStyle(
+                            fontSize: 12, fontFamily: 'Georgia'
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            // TODO link this up to forgot password page
+                            context, MaterialPageRoute(builder: (context) => DoctorLogin()));
+                        },
+                        child: const Text("Forgot Password")
+                      ),
+                    ),
+                  ),
+                  
+              ]),
+            )
           ])
         ),]
       )
