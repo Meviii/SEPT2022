@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'PatientLogin.dart';
 import 'DoctorLogin.dart';
+import 'AdminLogin.dart';
 import 'HelperFunctions.dart';
-import 'Patient/Patient_Profile/Profile_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,7 +23,10 @@ class HomePage extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   child: const Text('Admin Login'),
-                  onPressed: () => print('Admin button pressed')
+                  onPressed: () {
+                     Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => AdminLogin()));
+                  }
                 ),
               ),
             ),
