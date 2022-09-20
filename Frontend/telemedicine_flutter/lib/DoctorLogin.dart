@@ -68,7 +68,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 30),
                       child: SizedBox(
                         width: screenWidth(context) * 0.4,
                         height: 50,
@@ -87,28 +87,59 @@ class _DoctorLoginState extends State<DoctorLogin> {
               )
             ),
 
-            // Signup new account button
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-              child: SizedBox(
-                width: screenWidth(context) * 0.3,
-                height: 30,
-                child: ElevatedButton(
-                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red[800],
-                    textStyle: const TextStyle(
-                      fontSize: 12, fontFamily: 'Georgia'
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+              child: Row( 
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Signup new account button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                    child: SizedBox(
+                      width: screenWidth(context) * 0.3,
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red[800],
+                          textStyle: const TextStyle(
+                            fontSize: 12, fontFamily: 'Georgia'
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            // TODO link this up to register account page
+                            context, MaterialPageRoute(builder: (context) => DoctorLogin()));
+                        },
+                        child: const Text("Register New Account")
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => DoctorLogin()));
-                  },
-                  child: const Text("Register New Account")
-                ),
-              ),
-            ),
 
+                  // Forgot password button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: SizedBox(
+                      width: screenWidth(context) * 0.3,
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 5, 40, 117),
+                          textStyle: const TextStyle(
+                            fontSize: 12, fontFamily: 'Georgia'
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            // TODO link this up to forgot password page
+                            context, MaterialPageRoute(builder: (context) => DoctorLogin()));
+                        },
+                        child: const Text("Forgot Password")
+                      ),
+                    ),
+                  ),
+                  
+              ]),
+            )
           ])
         ),]
       )
