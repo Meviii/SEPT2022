@@ -7,7 +7,7 @@ class DoctorViewPatientsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("MD Telemedicine")),
+      appBar: AppBar(title: const Text("My Patients")),
       body: ListView(children: [ 
 
 
@@ -21,62 +21,78 @@ class DoctorViewPatientsPage extends StatelessWidget {
 
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row( children: [
+          child: Row( 
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
             
-            // Container holding patient name and ID
-            Column( children: [
-              Container(child: const Text("Patient Full Name")),
-              Container(child: const Text("Patient ID")),
-            ]),
-            
-
-            // Button for managing the selected patient
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: SizedBox(
-                width: screenWidth(context) * 0.15,
-                height: 30,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.lightBlue[800],
-                    textStyle: const TextStyle(
-                      fontSize: 12, fontFamily: 'Georgia'
+              // Container holding patient name and ID
+              // TODO fix left align
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Column( children: [
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Patient Full Name")
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Patient ID")
+                  ),
+                ]),
+              ),
+              
+              
+              // Button for managing the selected patient
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                    child: SizedBox(
+                      width: screenWidth(context) * 0.15,
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlue[800],
+                          textStyle: const TextStyle(
+                            fontSize: 12, fontFamily: 'Georgia'
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            // TODO link this up to register account page
+                            context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
+                        },
+                        child: const Text("Manage")
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      // TODO link this up to register account page
-                      context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-                  },
-                  child: const Text("Manage")
-                ),
-              ),
-            ),
+                
 
-            //Button for removing the selected patient
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: SizedBox(
-                width: screenWidth(context) * 0.15,
-                height: 30,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[800],
-                    textStyle: const TextStyle(
-                      fontSize: 12, fontFamily: 'Georgia'
+                //Button for removing the selected patient
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: SizedBox(
+                    width: screenWidth(context) * 0.15,
+                    height: 30,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red[800],
+                        textStyle: const TextStyle(
+                          fontSize: 12, fontFamily: 'Georgia'
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          // TODO link this up to register account page
+                          context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
+                      },
+                      child: const Text("Remove")
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      // TODO link this up to register account page
-                      context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-                  },
-                  child: const Text("Remove")
                 ),
-              ),
-            ),
+              ]),
 
-          ],),
+          ]),
         ),
 
       ]),
