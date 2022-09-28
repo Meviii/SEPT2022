@@ -3,9 +3,6 @@ import 'package:intl/intl.dart';
 
 import 'AddressModel.dart';
 
-Patient patientJson(String str) =>
-  Patient.fromJson(json.decode(str));
-
 String patientToJson(Patient data) => json.encode(data.toJson());
 
 class Patient {

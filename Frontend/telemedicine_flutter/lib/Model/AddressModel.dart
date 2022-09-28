@@ -1,13 +1,5 @@
 import 'dart:convert';
 
-Address addressJson(String str) {
-  
-  print("The address JSON: " + str);
-  
-  return Address.fromJson(json.decode(str));
-}
-  
-
 String addressToJson(Address? data) {
   
   if(data != null) {
