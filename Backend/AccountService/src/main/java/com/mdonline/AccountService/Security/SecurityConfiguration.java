@@ -8,6 +8,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +31,19 @@ public class SecurityConfiguration {
     }
 
     /**
+     * Configures CORS for endpoints
+     */
+    @Bean
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/v1/users").allowedOrigins("http://localhost:8081");
+            }
+        };
+    }
+
+    /**
      * This creates a global bean of the security filter chain which controls
      * endpoint authorizations.
      *
@@ -41,7 +56,7 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers("/api/v1/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(
