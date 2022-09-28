@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
+import 'AddressModel.dart';
 
 Patient patientJson(String str) =>
   Patient.fromJson(json.decode(str));
@@ -10,16 +13,16 @@ class Patient {
   int id;
   String email;
   String password;
-  String userType;
+  String? userType;
   String firstName;
-  String middleName;
+  String? middleName;
   String lastName;
-  int phone;
+  int? phone;
   DateTime birth;
-  String gender;
-  String address;
-  String verifiedStatus;
-  String disabledStatus;
+  String? gender;
+  Address? address;
+  bool? verifiedStatus;
+  bool? disabledStatus;
   double height;
   double weight;
   String healthInformation;
@@ -39,9 +42,9 @@ class Patient {
     middleName = json["middleName"],
     lastName = json["lastName"],
     phone = json["phone"],
-    birth = json["birth"],
+    birth = DateFormat('yy-MM-dd').parse(json["birth"]),
     gender = json["gender"],
-    address = json["address"],
+    address = Address.fromJson(json["address"]),
     verifiedStatus = json["verifiedStatus"],
     disabledStatus = json["disabledStatus"],
     height = json["height"],
@@ -61,7 +64,7 @@ class Patient {
     "phone": phone,
     "birth": birth,
     "gender": gender,
-    "address": address,
+    "address": addressToJson(address),
     "verifiedStatus": verifiedStatus,
     "disabledStatus": disabledStatus,
     "height": height,
@@ -70,21 +73,21 @@ class Patient {
     "healthStatus": healthStatus
   };
 
-  String get getId => id.toString();
+  int get getId => id;
   String get getEmail => email;
   String get getPassword => password;
-  String get getUserType => userType;
+  String? get getUserType => userType;
   String get getFirstName => firstName;
-  String get getMiddleName => middleName;
+  String? get getMiddleName => middleName;
   String get getLastName => lastName;
-  String get getPhone => phone.toString();
-  String get getBirth => birth.toString();
-  String get getGender => gender;
-  String get getAddress => address;
-  String get getVerifiedStatus => verifiedStatus;
-  String get getDisabledStatus => disabledStatus;
-  String get getHeight => height.toString();
-  String get getWeight => weight.toString();
+  int? get getPhone => phone;
+  DateTime get getBirth => birth;
+  String? get getGender => gender;
+  Address? get getAddress => address;
+  bool? get getVerifiedStatus => verifiedStatus;
+  bool? get getDisabledStatus => disabledStatus;
+  double get getHeight => height;
+  double get getWeight => weight;
   String get getHealthInformation => healthInformation;
   String get getHealthStatus => healthStatus;
 

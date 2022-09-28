@@ -2,23 +2,32 @@ import 'package:flutter/material.dart';
 import '../HelperFunctions.dart';
 import 'package:http/http.dart' as http;
 import '../Model/PatientModel.dart';
+import '../Model/AddressModel.dart';
 import 'dart:convert';
 
 Future<List<Patient>> fetchPatients() async {
 
   print("Fetch called.");
 
-  var url = "localhost:8081/api/v1/user";
+  var url = "http://localhost:8082/api/v1/users";
 
-  print("Accepted URL");
+  
+  /*
+  var tempResponse = await http.get(Uri.parse("http://localhost:8081/api/v1/medicine/"),
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Accept": "application/json"
+  });
+
+  print(tempResponse);
+
+  print("tempresponse COMPLETE");
+  */
 
   var response = await http.get(Uri.parse(url),
   headers: {
-    "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    "Accept": "*/*",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Connection": "keep-alive"
+    "Accept": "application/json"
   });
 
   print("Fetch passed.");
@@ -28,24 +37,54 @@ Future<List<Patient>> fetchPatients() async {
 
     print("Response code 200.");
 
+    
     var jsonData = json.decode(response.body);
 
+    /*
+    print(jsonData["messages"][0]["address"]);
+
+    Address abc = Address.fromJson(jsonData["messages"][0]["address"]);
+
+    print(abc.getCountry);
+
+    print(Patient.fromJson(jsonData["messages"][0]).getLastName);
+
+    Patient dad = Patient.fromJson(jsonData["messages"][0]);
+
+    print(dad.getLastName);
+    */
+    
+    
     List<Patient> patients = [];
 
-    for (var p in jsonData) {
-      Patient patient = patientJson(p);
-      patients.add(patient);
+    patients.add(Patient.fromJson(jsonData["messages"][0]));
+    patients.add(Patient.fromJson(jsonData["messages"][1]));
+    
+    /*
+    jsonData["messages"].length;
+
+    for(int i = 0; i < jsonData["messages"].length; i++) {
+      patients.add(Patient.fromJson(jsonData["messages"][i]));
     }
+
+    */
+   
+    
+
+    print("fuck");
+    
 
     // Parse all patients into a list
 
     /*
     List<Patient> patients = (patientJson(response.body) as List).map((i) => patientJson(i)).toList();
-  
+
+    
     for(Patient p in patients) {
       print(p.getFirstName);
     }
     */
+    
 
     return patients;
 
@@ -70,118 +109,27 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("My Patients")),
-      body: ListView(children: [ 
+      body: FutureBuilder<List<Patient>>(
+        future: futurePatients,
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Text(snapshot.data![index].getFirstName);
+              }
+            );
 
-        FutureBuilder<List<Patient>>(
-          future: futurePatients,
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              
-              return Container(
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text(snapshot.data![index].getFirstName);
-                  }
-                )
-              );
-
-            } else if(snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-
-            // Show loading spinner by default
-            return const CircularProgressIndicator();
+          } else if(snapshot.hasError) {
+            return Text('${snapshot.error}');
           }
 
-        ),
-        
-        
-        // TODO View a list of all patients here
+          // Show loading spinner by default
+          return const CircularProgressIndicator();
+        }
 
-        //foreach (Patient p in Patients) {
-        //
-        // The padding thing below
-        //
-        //}
-
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row( 
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-            
-              // Container holding patient name and ID
-              // TODO fix left align
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Column( children: const [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Patient Full Name")
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Patient ID")
-                  ),
-                ]),
-              ),
-              
-              
-              // Button for managing the selected patient
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                    child: SizedBox(
-                      width: screenWidth(context) * 0.15,
-                      height: 30,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlue[800],
-                          textStyle: const TextStyle(
-                            fontSize: 12, fontFamily: 'Georgia'
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            // TODO link this up to register account page
-                            context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-                        },
-                        child: const Text("Manage")
-                      ),
-                    ),
-                  ),
-                
-
-                //Button for removing the selected patient
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: SizedBox(
-                    width: screenWidth(context) * 0.15,
-                    height: 30,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red[800],
-                        textStyle: const TextStyle(
-                          fontSize: 12, fontFamily: 'Georgia'
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          // TODO link this up to register account page
-                          context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-                      },
-                      child: const Text("Remove")
-                    ),
-                  ),
-                ),
-              ]),
-
-          ]),
-        ),
-
-      ]),
+      ),
         
 
 
