@@ -1,10 +1,16 @@
 package com.mdonline.AccountService.Model.User;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Date;
+
+/**
+ * @Child Child of the User class
+ *
+ * This class holds the data of the doctor object.
+ */
 
 @Entity
 @Table(name="doctors")
@@ -36,9 +42,4 @@ public class Doctor extends User {
                 '}';
     }
 
-    @JsonIgnore
-    public void update(Doctor doctor){
-        this.update(doctor);
-        this.profession = doctor.profession;
-    }
 }

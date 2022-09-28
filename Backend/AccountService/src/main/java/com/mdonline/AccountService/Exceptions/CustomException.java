@@ -1,7 +1,12 @@
 package com.mdonline.AccountService.Exceptions;
 
-/*
-    This class creates the custom exception.
+/**
+ * This class creates the custom exception.
+ *
+ * @params:
+ *      - ErrorMessage: A simplified reason for the cause of the error
+ *      - ErrorCode: The exception message
+ *      - ErrorStatus: The HTTP response status
  */
 
 import org.springframework.http.HttpStatus;

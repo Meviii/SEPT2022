@@ -8,12 +8,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * This class holds the data of the TimeSlot object.
+ */
+
 public class TimeSlot {
     List<LocalDateTime> timeSlots;
 
     static int startTime = 7;
     static int endTime = 24;
 
+    /**
+     * The constructor constructs Day's time slots,
+     * Each Appointment timeslot is 15 minutes,
+     * Day's start time is set to 7am,
+     * Day's end time is set to 12pm
+     */
     public TimeSlot(Date date) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);

@@ -9,6 +9,11 @@ import com.mdonline.AccountService.Model.User.Doctor;
 import com.mdonline.AccountService.Model.User.Patient;
 import com.mdonline.AccountService.Model.User.User;
 
+/**
+ * This is a utility class designed for clean code by eliminating code redundancy and confusion
+ *
+ * Designed to hold utility functions including String de/serialization, parsing etc.
+ */
 public class Utility {
 
 

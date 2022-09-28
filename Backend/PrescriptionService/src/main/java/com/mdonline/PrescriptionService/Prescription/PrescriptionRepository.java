@@ -6,14 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+
+/**
+ * This interface handles the Prescription related database queries via JPA and Hibernate
+ */
 @Repository
 public interface PrescriptionRepository extends JpaRepository<PrescriptionEntity, Long> {
 
-    @Query(value = "SELECT * FROM Prescription WHERE patient_id = ?1 ORDER BY date DESC",
+    @Query(value = "SELECT * FROM Prescriptions WHERE patient_id = ?1 ORDER BY date DESC",
             nativeQuery = true)
     List<PrescriptionEntity> findPrescriptionByPatientIdOrderByDateDesc(long patientId);
 
-    @Query(value = "SELECT * FROM Prescription WHERE doctor_id = ?1 ORDER BY date DESC",
+    @Query(value = "SELECT * FROM Prescriptions WHERE doctor_id = ?1 ORDER BY date DESC",
             nativeQuery = true)
     List<PrescriptionEntity> findPrescriptionByDoctorIdOrderByDateDesc(long doctorId);
 }

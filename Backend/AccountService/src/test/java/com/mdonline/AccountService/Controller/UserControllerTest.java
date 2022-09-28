@@ -1,9 +1,7 @@
 package com.mdonline.AccountService.Controller;
 
-import com.mdonline.AccountService.Model.User.GenderOption;
-import com.mdonline.AccountService.Model.User.HealthStatus;
-import com.mdonline.AccountService.Model.User.Patient;
-import com.mdonline.AccountService.Model.User.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mdonline.AccountService.Model.User.*;
 import com.mdonline.AccountService.Repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +45,8 @@ class UserControllerTest {
 
     @Test
     void getAllUsers() {
-        List<User> userList = userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        UserList userList = new UserList(users);
         when(userController.getAllUsers()).thenReturn(userList);
         assertEquals(userList, userController.getAllUsers());
     }
@@ -73,7 +72,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser() {
+    void createUser() throws JsonProcessingException {
         Date date = new Date(-1);
 
         User patient = new Patient("email@gmail.com", "password", "Name", "Middle", "Last",

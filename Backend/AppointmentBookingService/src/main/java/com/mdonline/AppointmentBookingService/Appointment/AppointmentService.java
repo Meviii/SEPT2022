@@ -10,7 +10,7 @@ public interface AppointmentService {
 
     void deleteAppointmentById(Long id);
     AppointmentEntity getAppointmentById(Long id);
-    List<AppointmentEntity> getAppointmentsByPatientId(Long id);
+    List<AppointmentEntity> getAppointmentByPatientId(Long id);
     List<AppointmentEntity> getUpcomingAppointmentByPatientId(Long id);
     List<AppointmentEntity> getCompletedAppointmentByPatientId(Long id);
     List<AppointmentEntity> getAppointmentByDoctorId(Long id);
