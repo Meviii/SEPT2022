@@ -40,7 +40,6 @@ Future<List<Patient>> fetchPatients() async {
 class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   late Future<List<Patient>> futurePatients;
 
-
   @override
   void initState() {
     super.initState();
@@ -99,32 +98,7 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
                                 child: const Text("Manage")
                               ),
                             ),
-                          ),
-
-                          // Button for removing a patient !May not be necessary
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                            child: SizedBox(
-                              width: screenWidth(context) * 0.15,
-                              height: 30,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red[800],
-                                  textStyle: const TextStyle(
-                                    fontSize: 12, fontFamily: 'Georgia'
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    // TODO link this up to register account page
-                                    context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-                                },
-                                child: const Text("Remove")
-                              ),
-                            ),
-                          ),
-
-                        
+                          )
                         ])
                       ]
                     ),
