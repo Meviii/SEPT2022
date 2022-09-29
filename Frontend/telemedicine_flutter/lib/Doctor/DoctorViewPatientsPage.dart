@@ -9,7 +9,7 @@ Future<List<Patient>> fetchPatients() async {
 
   print("Fetch called.");
 
-  var url = "http://localhost:8082/api/v1/users";
+  var url = "http://localhost:8081/api/v1/users";
 
   var response = await http.get(Uri.parse(url),
   headers: {
@@ -25,21 +25,15 @@ Future<List<Patient>> fetchPatients() async {
     var jsonData = json.decode(response.body);
 
     List<Patient> patients = [];
-
-    // Temporarily add these patients - replace with for loop once UserModel is complete
-    patients.add(Patient.fromJson(jsonData["messages"][0]));
-    patients.add(Patient.fromJson(jsonData["messages"][1]));
     
-
-    /*
-
-    // FIX BELOW : by creating a separate doctor and user model
-
+    // Iterate through all users, only adding patient user types
     for(int i = 0; i < jsonData["messages"].length; i++) {
-      patients.add(Patient.fromJson(jsonData["messages"][i]));
-    }
 
-    */
+      if(jsonData["messages"][i]["userType"] == "Patient") {
+        patients.add(Patient.fromJson(jsonData["messages"][i]));
+      }
+      
+    }
 
     return patients;
 
