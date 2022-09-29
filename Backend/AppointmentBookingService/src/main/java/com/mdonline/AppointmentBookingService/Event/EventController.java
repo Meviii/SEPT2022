@@ -13,8 +13,14 @@ import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * WEB Endpoint controller/ URI Controller
+ */
+
 
 @RestController
 @RequestMapping(path="/api/v1/event")
@@ -26,19 +32,37 @@ public class EventController {
     @Autowired
     AppointmentService appointmentService;
 
+    /**
+     * Returns all the events(available days) by the doctor id
+     * @param id - doctor id
+     */
     @GetMapping(value = "/{id}")
     public List<EventEntity> getEventByUserId(@PathVariable Long id) { return service.getEventByUserId(id); }
 
+
+    /**
+     * Returns all the upcoming events(available days) by doctor id
+     * @param id - doctor id
+     */
     @GetMapping(value = "/upcoming/{id}")
     public List<EventEntity> getUpcomingEventByUserId(@PathVariable Long id) {
         return service.getUpcomingEventByUserId(id);
     }
 
+    /**
+     * Returns all the past events(available days) by doctor id
+     * @param id - doctor id
+     */
     @GetMapping(value = "/past/{id}")
     public List<EventEntity> getPastEventByUserId(@PathVariable Long id) {
         return service.getPastEventByUserId(id);
     }
 
+    /**
+     * Creates an event by a given valid payload
+     *
+     * @param event - Entity object of event
+     */
     @PostMapping(value = "/")
     public ResponseEntity<?> saveEvent(@Valid @RequestBody EventEntity event){
         try{
@@ -49,6 +73,11 @@ public class EventController {
         }
     }
 
+    /**
+     * Deletes an event by the given payload
+     *
+     * @param event - Entity object of event
+     */
     @DeleteMapping(value = "/")
     public ResponseEntity<?> deleteEvent(@RequestBody EventEntity event){
         try{
@@ -58,6 +87,12 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
+
+    /**
+     * Deletes an event by a given valid id
+     *
+     * @param id - id of event
+     */
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteEventById(@PathVariable Long id){
@@ -69,12 +104,20 @@ public class EventController {
         }
     }
 
+    /**
+     * Returns doctor's availability by the given payload
+     *
+     * @param payload - the payload contains Doctor id & Date
+     */
     @PostMapping(value = "/availability")
     public List<AppointmentTimeSlotImpl> getAvailableTime(@RequestBody Map<String, String> payload) throws ParseException {
         long id = Long.parseLong(payload.get("id"));
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = (java.util.Date) dateFormatter.parse(payload.get("date"));
-        return appointmentService.getAvailableTime(id, date);
+        EventEntity isAvailableOnDate = service.getEventByDoctorIdAndDate(id, date);
+        if(isAvailableOnDate != null){
+            return appointmentService.getAvailableTime(id, date);
+        }
+        return Collections.emptyList();
     }
-
 }

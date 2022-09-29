@@ -2,6 +2,9 @@ package com.mdonline.AppointmentBookingService.Appointment;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class holds the data of the Appointment timeslot object.
+ */
 public class AppointmentTimeSlotImpl implements AppointmentTimeSlot {
     LocalDateTime start;
     LocalDateTime end;

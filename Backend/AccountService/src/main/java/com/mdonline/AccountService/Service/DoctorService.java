@@ -4,6 +4,12 @@ import com.mdonline.AccountService.Repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Business logic of Doctor URI endpoints and data handling.
+ * Handled by User Service
+ *
+ * This class will be used for specific doctor related logic
+ */
 @Service
 public class DoctorService {
 
