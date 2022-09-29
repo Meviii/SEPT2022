@@ -70,6 +70,7 @@ class Patient {
     "healthStatus": healthStatus
   };
 
+  // TODO For nullable fields, return emtpy string for null values.
   int get getId => id;
   String get getEmail => email;
   String get getPassword => password;
