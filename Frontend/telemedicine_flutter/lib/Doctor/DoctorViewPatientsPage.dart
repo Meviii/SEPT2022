@@ -7,8 +7,6 @@ import 'dart:convert';
 
 Future<List<Patient>> fetchPatients() async {
 
-  print("Fetch called.");
-
   var url = "http://localhost:8081/api/v1/users";
 
   var response = await http.get(Uri.parse(url),
@@ -17,9 +15,6 @@ Future<List<Patient>> fetchPatients() async {
     "Accept": "application/json"
   });
 
-  print("Fetch passed.");
-
-  
   if(response.statusCode == 200) {
 
     var jsonData = json.decode(response.body);
