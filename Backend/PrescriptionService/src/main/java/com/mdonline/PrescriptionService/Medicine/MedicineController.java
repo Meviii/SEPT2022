@@ -1,5 +1,6 @@
 package com.mdonline.PrescriptionService.Medicine;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * WEB Endpoint controller/ URI Controller
+ */
 @RestController
-@RequestMapping(path="/api/v1")
+@RequestMapping(path="/api/v1/medicine")
 @CrossOrigin(origins = "*")
 public class MedicineController {
-
     MedicineService service;
 
     @Autowired
@@ -20,40 +23,76 @@ public class MedicineController {
         this.service = service;
     }
 
-    @GetMapping(value = "/medicine")
+    /**
+     * Returns all the Medicines
+     */
+    @GetMapping(value = "/")
     public List<MedicineEntity> getAllMedicines(){
         return service.getAllMedicines();
     }
 
-    @GetMapping(value = "/medicine/{id}")
+    /**
+     * Returns a Medicine by unique id
+     * @param id - medicine id
+     */
+    @GetMapping(value = "/{id}")
     public MedicineEntity getMedicineById(@PathVariable int id){
         return service.getMedicineById(id);
     }
 
-    @GetMapping(value = "/medicine/name/{name}")
-    public MedicineEntity getMedicineByName(@PathVariable String name){
-        return service.getMedicineByName(name);
+    /**
+     * Returns a Medicine by unique name
+     * @param medicineName - medicine name
+     */
+    @PostMapping(value = "/name")
+    public MedicineEntity getMedicineByName(@RequestBody ObjectNode medicineName){
+        return service.getMedicineByName(medicineName.get("name").asText());
     }
 
-    @PostMapping(value = "/medicine/save")
+    /**
+     * Creates a Medicine by a given valid payload
+     *
+     * @param medicineEntity - Entity object of medicine
+     */
+
+    @PostMapping(value = "/")
     public ResponseEntity<?> saveMedicine(@Valid @RequestBody MedicineEntity medicineEntity){
         MedicineEntity medicine = service.saveMedicine(medicineEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(medicine);
     }
 
-    @PutMapping(value = "/medicine/update")
+    /**
+     * Updates a Medicine by a given valid payload
+     *
+     * @param medicineEntity - Entity object of medicine
+     */
+
+    @PutMapping(value = "/")
     public ResponseEntity<?> updateMedicine(@Valid @RequestBody MedicineEntity medicineEntity){
         MedicineEntity medicine = service.updateMedicine(medicineEntity);
         return ResponseEntity.status(HttpStatus.OK).body(medicine);
     }
 
-    @DeleteMapping(value = "/medicine/delete")
+    /**
+     * Deletes a Medicine by a given payload
+     *
+     * @param medicineEntity - Entity object of medicine
+     */
+
+    @DeleteMapping(value = "/")
     public ResponseEntity<?> deleteMedicine(@RequestBody MedicineEntity medicineEntity){
         service.deleteMedicine(medicineEntity);
         return ResponseEntity.ok().body("MEDICINE DELETED.");
     }
 
-    @DeleteMapping(value = "/medicine/delete/{id}")
+    /**
+     * Deletes a Medicine by a given valid id
+     *
+     * @param id - id of medicine
+     */
+
+
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteMedicineById(@PathVariable int id){
         service.deleteById(id);
         return ResponseEntity.ok().body("MEDICINE DELETED.");

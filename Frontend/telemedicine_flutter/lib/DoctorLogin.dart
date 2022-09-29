@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'HelperFunctions.dart';
+import 'Doctor/DoctorMainPage.dart';
 
 class DoctorLogin extends StatefulWidget {
   const DoctorLogin({super.key});
@@ -131,7 +132,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                         onPressed: () {
                           Navigator.push(
                             // TODO link this up to forgot password page
-                            context, MaterialPageRoute(builder: (context) => DoctorLogin()));
+                            context, MaterialPageRoute(builder: (context) => DoctorMainPage()));
                         },
                         child: const Text("Forgot Password")
                       ),
