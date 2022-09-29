@@ -4,10 +4,10 @@ String medicineToJson(Medicine data) => json.encode(data.toJson());
 
 class Medicine {
 
-  int id;
+  String id;
   String name;
   String description;
-  int dosage;
+  String dosage;
 
   Medicine(this.id, this.name, this.description, this.dosage);
 
@@ -25,8 +25,8 @@ class Medicine {
     "dosage": dosage
   };
 
-  int get getId => id;
+  String get getId => id;
   String get getName => name;
   String get getDescription => description;
-  int get getDosage => dosage;
+  String get getDosage => dosage;
 }
