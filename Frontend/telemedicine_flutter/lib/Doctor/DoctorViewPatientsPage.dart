@@ -138,7 +138,7 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
                                 onPressed: () {
                                   Navigator.push(
                                     // TODO link this up to register account page
-                                    context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
+                                    context, MaterialPageRoute(builder: (context) => ManagePatientScreen(patient: snapshot.data![index])));
                                 },
                                 child: const Text("Manage")
                               ),
@@ -171,4 +171,36 @@ class DoctorViewPatientsPage extends StatefulWidget {
   @override
   createState() => _DoctorViewPatientsPageState();
 }
-  
+
+class ManagePatientScreen extends StatelessWidget {
+
+  const ManagePatientScreen({super.key, required this.patient});
+
+  final Patient patient;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}')
+      ),
+      body: ListView( children: [
+        Column( 
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Patient ID: ${patient.getId.toString()}'),
+            Text('Name: ${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}'),
+            Text('Gender: ${patient.getGender}'),
+            Text('DOB: ${patient.getBirth}'),
+            Text('Email: ${patient.getEmail}'),
+            Text('Phone: ${patient.getPhone}'),
+            Text('Health Status: ${patient.getHealthStatus}'),
+            Text('Health Information: ${patient.getHealthInformation}'),
+            Text('Height: ${patient.getHeight.toString()}cm'),
+            Text('Weight: ${patient.getWeight.toString()}kg'),
+          ]
+        )
+      ])
+    );
+  }
+}
