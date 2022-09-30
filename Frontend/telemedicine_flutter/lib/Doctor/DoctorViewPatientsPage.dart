@@ -2,9 +2,44 @@ import 'package:flutter/material.dart';
 import '../HelperFunctions.dart';
 import 'package:http/http.dart' as http;
 import '../Model/PatientModel.dart';
+import '../Model/AppointmentModel.dart';
 import 'dart:convert';
 
-Future<List<Patient>> fetchPatients() async {
+Future<List<Appointment>> fetchAppointments() async {
+
+  var url = "http://localhost:8082/api/v1/appointment/";
+
+  var response = await http.get(Uri.parse(url),
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Accept": "application/json"
+  });
+
+  if(response.statusCode == 200) {
+
+    var jsonData = json.decode(response.body);
+
+    // TODO : Temp until logged in doctor data can be retrieved
+    int currentDoctorId = 4;  
+
+    List<Appointment> appointments = [];
+    
+    // Iterate through all users, only adding patient user types
+    for(int i = 0; i < jsonData.length; i++) {
+
+      if(jsonData[i]["doctorId"] == currentDoctorId.toString()) {
+        appointments.add(Appointment.fromJson(jsonData[i]));
+      }
+    }
+
+    return appointments;
+
+  } else {
+    throw Exception("Failed to load appointments.");
+  }
+}
+
+Future<List<Patient>> fetchPatients(Future<List<Appointment>> appointments) async {
 
   var url = "http://localhost:8081/api/v1/users";
 
@@ -18,15 +53,24 @@ Future<List<Patient>> fetchPatients() async {
 
     var jsonData = json.decode(response.body);
 
+    List<Appointment> myAppointments = await appointments;
+
     List<Patient> patients = [];
     
     // Iterate through all users, only adding patient user types
     for(int i = 0; i < jsonData["messages"].length; i++) {
 
+      // Check if user type is a patient
       if(jsonData["messages"][i]["userType"] == "Patient") {
-        patients.add(Patient.fromJson(jsonData["messages"][i]));
+
+        // Check to see if patient has had an appointment with the current doctor
+        for(int j = 0; j < myAppointments.length; j++) {
+          if(myAppointments.elementAt(j).getPatientId == jsonData["messages"][i]["id"].toString()) {
+            patients.add(Patient.fromJson(jsonData["messages"][i]));
+            break;
+          }
+        }
       }
-      
     }
 
     return patients;
@@ -38,11 +82,13 @@ Future<List<Patient>> fetchPatients() async {
 
 class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   late Future<List<Patient>> futurePatients;
+  late Future<List<Appointment>> futureAppointments;
 
   @override
   void initState() {
     super.initState();
-    futurePatients = fetchPatients();
+    futureAppointments = fetchAppointments();
+    futurePatients = fetchPatients(futureAppointments);
   }
 
   @override
