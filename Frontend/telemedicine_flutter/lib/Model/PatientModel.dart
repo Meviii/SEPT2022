@@ -70,23 +70,79 @@ class Patient {
     "healthStatus": healthStatus
   };
 
-  // TODO For nullable fields, return emtpy string for null values.
   int get getId => id;
   String get getEmail => email;
   String get getPassword => password;
-  String? get getUserType => userType;
   String get getFirstName => firstName;
-  String? get getMiddleName => middleName;
   String get getLastName => lastName;
-  int? get getPhone => phone;
   DateTime get getBirth => birth;
-  String? get getGender => gender;
   Address? get getAddress => address;
-  bool? get getVerifiedStatus => verifiedStatus;
-  bool? get getDisabledStatus => disabledStatus;
   double get getHeight => height;
   double get getWeight => weight;
   String get getHealthInformation => healthInformation;
   String get getHealthStatus => healthStatus;
 
+  String? get getUserType {
+
+    if(userType == null) {
+      return "";
+    }
+
+    return userType;
+  }
+  
+  String? get getMiddleName {
+
+    if(middleName == null) {
+
+      return "";
+    }
+
+    return middleName;
+  }
+
+  String? get getPhone {
+    
+    if(phone == null) {
+      return "";
+    }
+
+    return phone.toString();
+    
+  }
+  
+  String? get getGender {
+    
+    if(gender == null) {
+      return "";
+    }
+
+    return gender;
+  }
+  
+  String get getVerifiedStatus {
+    
+    if(verifiedStatus == null) {
+      return "Unavailable";
+
+    } else if(verifiedStatus == true) {
+      return "True";
+
+    } else {
+      return "False";
+    }
+  }
+
+  String get getDisabledStatus {
+    
+    if(disabledStatus == null) {
+      return "Unavailable";
+
+    } else if(disabledStatus == true) {
+      return "True";
+
+    } else {
+      return "False";
+    }
+  }
 }
