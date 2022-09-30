@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import '../HelperFunctions.dart';
 import 'package:http/http.dart' as http;
 import '../Model/PatientModel.dart';
-import '../Model/AddressModel.dart';
 import 'dart:convert';
 
 Future<List<Patient>> fetchPatients() async {
 
-  print("Fetch called.");
-
-  var url = "http://localhost:8082/api/v1/users";
+  var url = "http://localhost:8081/api/v1/users";
 
   var response = await http.get(Uri.parse(url),
   headers: {
@@ -17,29 +14,20 @@ Future<List<Patient>> fetchPatients() async {
     "Accept": "application/json"
   });
 
-  print("Fetch passed.");
-
-  
   if(response.statusCode == 200) {
 
     var jsonData = json.decode(response.body);
 
     List<Patient> patients = [];
-
-    // Temporarily add these patients - replace with for loop once UserModel is complete
-    patients.add(Patient.fromJson(jsonData["messages"][0]));
-    patients.add(Patient.fromJson(jsonData["messages"][1]));
     
-
-    /*
-
-    // FIX BELOW : by creating a separate doctor and user model
-
+    // Iterate through all users, only adding patient user types
     for(int i = 0; i < jsonData["messages"].length; i++) {
-      patients.add(Patient.fromJson(jsonData["messages"][i]));
-    }
 
-    */
+      if(jsonData["messages"][i]["userType"] == "Patient") {
+        patients.add(Patient.fromJson(jsonData["messages"][i]));
+      }
+      
+    }
 
     return patients;
 
@@ -50,7 +38,6 @@ Future<List<Patient>> fetchPatients() async {
 
 class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   late Future<List<Patient>> futurePatients;
-
 
   @override
   void initState() {
@@ -110,32 +97,7 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
                                 child: const Text("Manage")
                               ),
                             ),
-                          ),
-
-                          // Button for removing a patient !May not be necessary
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                            child: SizedBox(
-                              width: screenWidth(context) * 0.15,
-                              height: 30,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red[800],
-                                  textStyle: const TextStyle(
-                                    fontSize: 12, fontFamily: 'Georgia'
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    // TODO link this up to register account page
-                                    context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-                                },
-                                child: const Text("Remove")
-                              ),
-                            ),
-                          ),
-
-                        
+                          )
                         ])
                       ]
                     ),
