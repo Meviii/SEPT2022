@@ -48,7 +48,8 @@ class Prescription {
 }
 
 // Method to convert a JSON medicine list to a list object
-List<Medicine> medicineListFromJson(Map<String, dynamic> json) {
+List<Medicine> medicineListFromJson(List<dynamic> json) {
+
   List<Medicine> medicines = [];
 
   for(int i = 0; i < json.length; i++) {
