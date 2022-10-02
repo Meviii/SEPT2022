@@ -3,7 +3,40 @@ import '../HelperFunctions.dart';
 import 'package:http/http.dart' as http;
 import '../Model/PatientModel.dart';
 import '../Model/AppointmentModel.dart';
+import '../Model/PrescriptionModel.dart';
+import '../Widgets/Accordion.dart';
 import 'dart:convert';
+
+Future<List<Prescription>> fetchPrescriptions(String patientId) async {
+
+  var url = "http://localhost:8085/api/v1/prescription/";
+
+  var response = await http.get(Uri.parse(url),
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Accept": "application/json"
+  });
+
+  if(response.statusCode == 200) {
+
+    var jsonData = json.decode(response.body);
+
+    List<Prescription> prescriptions = [];
+    
+    // Iterate through all users, only adding patient user types
+    for(int i = 0; i < jsonData.length; i++) {
+
+      if(jsonData[i]["patientId"] == patientId) {
+        prescriptions.add(Prescription.fromJson(jsonData[i]));
+      }
+    }
+
+    return prescriptions;
+
+  } else {
+    throw Exception("Failed to load prescriptions.");
+  }
+}
 
 Future<List<Appointment>> fetchAppointments() async {
 
@@ -106,7 +139,7 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
 
                 return Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
+                    border: Border.all(color: Color.fromARGB(255, 47, 47, 47))
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -132,18 +165,42 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.lightBlue[800],
                                   textStyle: const TextStyle(
-                                    fontSize: 12, fontFamily: 'Georgia'
+                                    fontSize: 10, fontFamily: 'Georgia'
                                   ),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
                                     // TODO link this up to register account page
-                                    context, MaterialPageRoute(builder: (context) => ManagePatientScreen(patient: snapshot.data![index])));
+                                    context, MaterialPageRoute(builder: (context) => DetailsPatientScreen(patient: snapshot.data![index])));
                                 },
-                                child: const Text("Manage")
+                                child: const Text("Details")
+                              ),
+                            ),
+                          ),
+
+                          // Button for viewing the patient prescriptions
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: SizedBox(
+                              width: screenWidth(context) * 0.15,
+                              height: 30,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                  textStyle: const TextStyle(
+                                    fontSize: 10, fontFamily: 'Georgia'
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    // TODO link this up to register account page
+                                    context, MaterialPageRoute(builder: (context) => DoctorViewPatientPrescriptionPage(patient: snapshot.data![index])));
+                                },
+                                child: const Text("Prescriptions")
                               ),
                             ),
                           )
+
                         ])
                       ]
                     ),
@@ -165,6 +222,7 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   }
 }
 
+// Widget for viewing list of patients
 class DoctorViewPatientsPage extends StatefulWidget {
   const DoctorViewPatientsPage({super.key});
 
@@ -172,9 +230,109 @@ class DoctorViewPatientsPage extends StatefulWidget {
   createState() => _DoctorViewPatientsPageState();
 }
 
-class ManagePatientScreen extends StatelessWidget {
+// Widget for viewing patient's prescriptions
+class DoctorViewPatientPrescriptionPage extends StatefulWidget {
+  const DoctorViewPatientPrescriptionPage({super.key, required this.patient});
 
-  const ManagePatientScreen({super.key, required this.patient});
+  final Patient patient;
+
+  @override
+  createState() => PrescriptionsPatientState();
+}
+
+// Screen for viewing patient prescriptions
+class PrescriptionsPatientState extends State<DoctorViewPatientPrescriptionPage> {
+
+  late Future<List<Prescription>> futurePrescriptions;
+
+  @override
+  void initState() {
+    super.initState();
+    futurePrescriptions = fetchPrescriptions(widget.patient.getId.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.patient.getFirstName} ${widget.patient.getMiddleName} ${widget.patient.getLastName}')
+      ),
+      body: Column( children: [
+        
+        // Button for adding a new prescription
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+          child: SizedBox(
+            width: screenWidth(context) * 0.15,
+            height: 30,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.orange,
+                textStyle: const TextStyle(
+                  fontSize: 10, fontFamily: 'Georgia'
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  // TODO link this up to a new add prescription page
+                  context, MaterialPageRoute(builder: (context) => DoctorViewPatientPrescriptionPage(patient: widget.patient)));
+              },
+              child: const Text("New Prescription")
+            ),
+          ),
+        ),
+
+        // List of all current patient prescriptions
+        Expanded(
+          child: FutureBuilder<List<Prescription>>(
+            future: futurePrescriptions,
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 30),
+                      child: Column( 
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                        Text('Prescription ID: ${snapshot.data![index].getId}'),
+                        Text('Duration: ${snapshot.data![index].getDuration}'),
+                        Text('Description: ${snapshot.data![index].getDescription}'),
+                        Text('Prescribed On: ${snapshot.data![index].getDate.toString()}'),
+                        Text('Prescribing Doctor ID: ${snapshot.data![index].getDoctorId}'),
+
+                        Accordion(
+                          title: 'View Medicines',
+                          medicineList: snapshot.data![index].getMedicines,
+                        )
+
+                      ]),
+                    );
+                  }
+                );
+
+              } else if(snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              // Show loading spinner by default
+              return const CircularProgressIndicator();
+            }
+          ),
+        )
+
+      ]),
+    );
+  }
+}
+
+// Screen for viewing patient details
+class DetailsPatientScreen extends StatelessWidget {
+
+  const DetailsPatientScreen({super.key, required this.patient});
 
   final Patient patient;
 
