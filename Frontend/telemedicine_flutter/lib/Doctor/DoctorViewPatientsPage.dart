@@ -293,12 +293,46 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   }
 }
 
-// Widget for viewing list of patients
+// Widget for viewing patients
 class DoctorViewPatientsPage extends StatefulWidget {
   const DoctorViewPatientsPage({super.key});
 
   @override
   createState() => _DoctorViewPatientsPageState();
+}
+
+// Widget for viewing patient details
+class DetailsPatientScreen extends StatelessWidget {
+
+  const DetailsPatientScreen({super.key, required this.patient});
+
+  final Patient patient;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}')
+      ),
+      body: ListView( children: [
+        Column( 
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Patient ID: ${patient.getId.toString()}'),
+            Text('Name: ${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}'),
+            Text('Gender: ${patient.getGender}'),
+            Text('DOB: ${patient.getBirth}'),
+            Text('Email: ${patient.getEmail}'),
+            Text('Phone: ${patient.getPhone}'),
+            Text('Health Status: ${patient.getHealthStatus}'),
+            Text('Health Information: ${patient.getHealthInformation}'),
+            Text('Height: ${patient.getHeight.toString()}cm'),
+            Text('Weight: ${patient.getWeight.toString()}kg'),
+          ]
+        )
+      ])
+    );
+  }
 }
 
 // Widget for adding a patient prescription
@@ -315,6 +349,7 @@ class DoctorAddPrescriptionPage extends StatefulWidget {
 class DoctorAddPrescriptionState extends State<DoctorAddPrescriptionPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // Placeholder prescription ID given, as backend handles ID management
   final String id = "0";
   late String duration;
   late String description;
@@ -339,46 +374,14 @@ class DoctorAddPrescriptionState extends State<DoctorAddPrescriptionPage> {
       ),
 
       body: Column( children: [
-        Expanded(
-          child: FutureBuilder<List<Medicine>>(
-            future: futureMedicines,
-            builder: (context, snapshot) {
-              if(snapshot.hasData) {
-                
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-
-                      return Column( 
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Medicine ID: ${snapshot.data![index].getId}'),
-                          Text('Name: ${snapshot.data![index].getName}'),
-                          Text('Description: ${snapshot.data![index].getDescription}'),
-                          Text('Dosage: ${snapshot.data![index].getDosage}'),
-                      ]);
-                    }
-                  ),
-                );
-
-              } else if(snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-
-              // Show loading spinner by default
-              return const CircularProgressIndicator(); 
-            }
-          ),
-        ),
 
         Form(
           key: _formKey,
           child: Center(
             child: Column(
               children: [
-
+                
+                // Text field for prescription duration
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
                   child: SizedBox(
@@ -405,6 +408,7 @@ class DoctorAddPrescriptionState extends State<DoctorAddPrescriptionPage> {
                   ),
                 ),
 
+                // Text field for prescription description
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
                   child: SizedBox(
@@ -428,9 +432,64 @@ class DoctorAddPrescriptionState extends State<DoctorAddPrescriptionPage> {
                     )
                   ),
                 ),
+                
+                FutureBuilder<List<Medicine>>(
+                  future: futureMedicines,
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData) {
 
-              
-                      // Form submission button
+                      
+                      Medicine? defaultValue = null;
+                      List<DropdownMenuItem<Medicine>> list = [];
+
+                      Map dropDownItemsMap = new Map();
+
+                      snapshot.data!.forEach((medicine) {
+
+                        int index = snapshot.data!.indexOf(medicine);
+
+                        dropDownItemsMap[index] = medicine;
+
+                        list.add(DropdownMenuItem(
+                          value: medicine,
+                          child: Text('$medicine.getName'), 
+
+                        ));
+
+                      });
+
+                      // Drop down list field for prescription medicines
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                        child: SizedBox(
+                          width: screenWidth(context) * 0.6,
+                          child: DropdownButton(
+                            value: defaultValue,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            
+                            items: list,
+
+                            onChanged: (Medicine? newValue) {
+                              setState(() {
+                                defaultValue = newValue!;
+                                print(newValue.getName);
+                              });
+
+                            },                    
+                          )
+                        ),
+                      );
+
+                    } else if(snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+
+                    // Show loading spinner by default
+                    return const CircularProgressIndicator(); 
+                  }
+                ),
+
+                // Form submission button
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 60, 0, 30),
                   child: SizedBox(
@@ -482,7 +541,7 @@ class DoctorViewPatientPrescriptionPage extends StatefulWidget {
   createState() => PrescriptionsPatientState();
 }
 
-// Screen for viewing patient prescriptions
+// State for viewing patient prescriptions
 class PrescriptionsPatientState extends State<DoctorViewPatientPrescriptionPage> {
 
   late Future<List<Prescription>> futurePrescriptions;
@@ -603,36 +662,3 @@ class PrescriptionsPatientState extends State<DoctorViewPatientPrescriptionPage>
   }
 }
 
-// Screen for viewing patient details
-class DetailsPatientScreen extends StatelessWidget {
-
-  const DetailsPatientScreen({super.key, required this.patient});
-
-  final Patient patient;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}')
-      ),
-      body: ListView( children: [
-        Column( 
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Patient ID: ${patient.getId.toString()}'),
-            Text('Name: ${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}'),
-            Text('Gender: ${patient.getGender}'),
-            Text('DOB: ${patient.getBirth}'),
-            Text('Email: ${patient.getEmail}'),
-            Text('Phone: ${patient.getPhone}'),
-            Text('Health Status: ${patient.getHealthStatus}'),
-            Text('Health Information: ${patient.getHealthInformation}'),
-            Text('Height: ${patient.getHeight.toString()}cm'),
-            Text('Weight: ${patient.getWeight.toString()}kg'),
-          ]
-        )
-      ])
-    );
-  }
-}
