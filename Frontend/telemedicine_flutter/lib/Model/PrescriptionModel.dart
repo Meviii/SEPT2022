@@ -29,8 +29,7 @@ class Prescription {
   ;
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "medicines": jsonEncode(medicines),
+    "medicines": medicines,
     "duration": duration,
     "description": description,
     "date": date.toString(),

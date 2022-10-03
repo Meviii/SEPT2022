@@ -4,8 +4,12 @@ import 'package:http/http.dart' as http;
 import '../Model/PatientModel.dart';
 import '../Model/AppointmentModel.dart';
 import '../Model/PrescriptionModel.dart';
+import '../Model/MedicineModel.dart';
 import '../Widgets/Accordion.dart';
 import 'dart:convert';
+
+// TODO : Temp until logged in doctor data can be retrieved
+const int currentDoctorId = 4;
 
 Future<List<Prescription>> fetchPrescriptions(String patientId) async {
 
@@ -38,6 +42,34 @@ Future<List<Prescription>> fetchPrescriptions(String patientId) async {
   }
 }
 
+Future<List<Medicine>> fetchMedicines() async {
+
+  var url = "http://localhost:8085/api/v1/medicine/";
+
+  var response = await http.get(Uri.parse(url),
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Accept": "application/json"
+  });
+
+  if(response.statusCode == 200) {
+
+    var jsonData = json.decode(response.body);
+
+    List<Medicine> medicines = [];
+    
+    // Iterate through all users, only adding patient user types
+    for(int i = 0; i < jsonData.length; i++) {
+      medicines.add(Medicine.fromJson(jsonData[i]));
+    }
+
+    return medicines;
+
+  } else {
+    throw Exception("Failed to load medicines.");
+  }
+}
+
 Future<List<Appointment>> fetchAppointments() async {
 
   var url = "http://localhost:8082/api/v1/appointment/";
@@ -51,9 +83,6 @@ Future<List<Appointment>> fetchAppointments() async {
   if(response.statusCode == 200) {
 
     var jsonData = json.decode(response.body);
-
-    // TODO : Temp until logged in doctor data can be retrieved
-    int currentDoctorId = 4;  
 
     List<Appointment> appointments = [];
     
@@ -110,6 +139,31 @@ Future<List<Patient>> fetchPatients(Future<List<Appointment>> appointments) asyn
 
   } else {
     throw Exception("Failed to load patients.");
+  }
+}
+
+Future<Prescription> createPrescription(Prescription prescription) async {
+  
+  final response = await http.post(
+
+    Uri.parse('http://localhost:8085/api/v1/prescription/'),
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+
+    // Convert the prescription to JSON
+    body: jsonEncode(prescription.toJson())
+  );
+
+  print(jsonEncode(prescription.toJson()));
+
+  if (response.statusCode == 201) {
+    // Produce the JSOn when creation is successful
+    return Prescription.fromJson(jsonDecode(response.body));
+
+  } else {
+    throw Exception('Failed to create prescription.');
   }
 }
 
@@ -230,6 +284,182 @@ class DoctorViewPatientsPage extends StatefulWidget {
   createState() => _DoctorViewPatientsPageState();
 }
 
+// Widget for adding a patient prescription
+class DoctorAddPrescriptionPage extends StatefulWidget {
+  const DoctorAddPrescriptionPage({super.key, required this.patient});
+
+  final Patient patient;
+
+  @override
+  createState() => DoctorAddPrescriptionState();
+}
+
+// State for adding a patient prescription
+class DoctorAddPrescriptionState extends State<DoctorAddPrescriptionPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final String id = "0";
+  late String duration;
+  late String description;
+  late List<Medicine> medicines;
+  late DateTime date;
+  late String doctorId;
+  late String patientId;
+
+  late Future<List<Medicine>> futureMedicines;
+
+  @override
+  void initState() {
+    super.initState();
+    futureMedicines = fetchMedicines();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Prescription for ${widget.patient.getFirstName} ${widget.patient.getMiddleName} ${widget.patient.getLastName}')
+      ),
+
+      body: Column( children: [
+        Expanded(
+          child: FutureBuilder<List<Medicine>>(
+            future: futureMedicines,
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+
+                      return Column( 
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Medicine ID: ${snapshot.data![index].getId}'),
+                          Text('Name: ${snapshot.data![index].getName}'),
+                          Text('Description: ${snapshot.data![index].getDescription}'),
+                          Text('Dosage: ${snapshot.data![index].getDosage}'),
+                      ]);
+                    }
+                  ),
+                );
+
+              } else if(snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              // Show loading spinner by default
+              return const CircularProgressIndicator(); 
+            }
+          ),
+        ),
+
+        Form(
+          key: _formKey,
+          child: Center(
+            child: Column(
+              children: [
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  child: SizedBox(
+                    width: screenWidth(context) * 0.6,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Duration',
+                      ),
+                      
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter a prescription duration';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        if(value != null) {
+                          
+                          duration = value;
+                        
+                        }
+                      },                    
+                    )
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  child: SizedBox(
+                    width: screenWidth(context) * 0.6,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Description',
+                      ),
+                      
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter a prescription description';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        if(value != null) {
+                          description = value;
+                        }
+                      },                    
+                    )
+                  ),
+                ),
+
+              
+                      // Form submission button
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 60, 0, 30),
+                  child: SizedBox(
+                    width: screenWidth(context) * 0.4,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if(_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+
+                          date = DateTime.now();
+                          doctorId = currentDoctorId.toString();;
+                          patientId = widget.patient.getId.toString();
+                          medicines = [];
+
+                          //duration = "5";
+                          
+                          //description = "I treid";
+
+                          // Call the POST request method to create the prescription
+                          createPrescription(Prescription(id, medicines, duration, description, date, doctorId, patientId));
+
+                          print("Prescription went thru!");
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorViewPatientPrescriptionPage(patient: widget.patient)));
+                        }
+                      },
+                      child: const Text("Create Prescription")
+                    ),
+                  ),
+                )
+                    
+                    
+                  
+              ])
+          )
+        ),
+      ])
+      
+      
+      
+      
+      
+    );
+  }
+}
+
 // Widget for viewing patient's prescriptions
 class DoctorViewPatientPrescriptionPage extends StatefulWidget {
   const DoctorViewPatientPrescriptionPage({super.key, required this.patient});
@@ -257,74 +487,73 @@ class PrescriptionsPatientState extends State<DoctorViewPatientPrescriptionPage>
       appBar: AppBar(
         title: Text('${widget.patient.getFirstName} ${widget.patient.getMiddleName} ${widget.patient.getLastName}')
       ),
-      body: Column( children: [
-        
-        // Button for adding a new prescription
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-          child: SizedBox(
-            width: screenWidth(context) * 0.15,
-            height: 30,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.orange,
-                textStyle: const TextStyle(
-                  fontSize: 10, fontFamily: 'Georgia'
+      body:
+        FutureBuilder<List<Prescription>>(
+          future: futurePrescriptions,
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              
+              // List of all current patient prescriptions
+              return Column( children: [
+
+                // Button for adding a new prescription
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: SizedBox(
+                    width: screenWidth(context) * 0.15,
+                    height: 30,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange,
+                        textStyle: const TextStyle(
+                          fontSize: 10, fontFamily: 'Georgia'
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => DoctorAddPrescriptionPage(patient: widget.patient)));
+                      },
+                      child: const Text("New Prescription")
+                    ),
+                  ),
                 ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  // TODO link this up to a new add prescription page
-                  context, MaterialPageRoute(builder: (context) => DoctorViewPatientPrescriptionPage(patient: widget.patient)));
-              },
-              child: const Text("New Prescription")
-            ),
-          ),
-        ),
 
-        // List of all current patient prescriptions
-        Expanded(
-          child: FutureBuilder<List<Prescription>>(
-            future: futurePrescriptions,
-            builder: (context, snapshot) {
-              if(snapshot.hasData) {
-                
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
 
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 30),
-                      child: Column( 
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                        Text('Prescription ID: ${snapshot.data![index].getId}'),
-                        Text('Duration: ${snapshot.data![index].getDuration}'),
-                        Text('Description: ${snapshot.data![index].getDescription}'),
-                        Text('Prescribed On: ${snapshot.data![index].getDate.toString()}'),
-                        Text('Prescribing Doctor ID: ${snapshot.data![index].getDoctorId}'),
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 30),
+                        child: Column( 
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text('Prescription ID: ${snapshot.data![index].getId}'),
+                          Text('Duration: ${snapshot.data![index].getDuration}'),
+                          Text('Description: ${snapshot.data![index].getDescription}'),
+                          Text('Prescribed On: ${snapshot.data![index].getDate.toString()}'),
+                          Text('Prescribing Doctor ID: ${snapshot.data![index].getDoctorId}'),
 
-                        Accordion(
-                          title: 'View Medicines',
-                          medicineList: snapshot.data![index].getMedicines,
-                        )
+                          Accordion(
+                            title: 'View Medicines',
+                            medicineList: snapshot.data![index].getMedicines,
+                          )
 
-                      ]),
-                    );
-                  }
-                );
+                        ]),
+                      );
+                    }
+                  ),
+                ),
+              ]);
 
-              } else if(snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-
-              // Show loading spinner by default
-              return const CircularProgressIndicator();
+            } else if(snapshot.hasError) {
+              return Text('${snapshot.error}');
             }
-          ),
-        )
 
-      ]),
+            // Show loading spinner by default
+            return const CircularProgressIndicator();
+          }
+        )
     );
   }
 }
