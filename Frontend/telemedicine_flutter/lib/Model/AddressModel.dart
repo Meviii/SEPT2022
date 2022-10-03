@@ -39,10 +39,57 @@ class Address {
     "country": country,
   };
 
-  int? get getPostcode => postCode;
-  String? get getCity => city;
-  String? get getCountry => country;
-  String? get getState => state;
-  String? get getStreetName => streetName;
-  int? get getStreetNo => streetNo;
+  String get getPostcode {
+    
+    if(postCode == null) {
+      return "";
+    }
+
+    return postCode.toString();
+  }
+
+  String? get getCity {
+    
+    if(city == null) {
+      return "";
+    }
+
+    return city;
+  }
+
+  String? get getCountry {
+
+    if(country == null) {
+      return "";
+    }
+
+    return country;
+  }
+  
+  String? get getState {
+
+    if(state == null) {
+      return "";
+    }
+
+    return state;
+  }
+
+  String? get getStreetName {
+
+    if(streetName == null) {
+      return "";
+    }
+
+    return streetName;
+  }
+
+  String get getStreetNo {
+    
+    if(streetNo == null) {
+      return "";
+    }
+
+    return streetNo.toString();
+  }
 }
