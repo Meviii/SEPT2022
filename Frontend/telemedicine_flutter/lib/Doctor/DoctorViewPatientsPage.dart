@@ -80,11 +80,11 @@ Future<List<Appointment>> fetchAppointments() async {
     "Accept": "application/json"
   });
 
+  List<Appointment> appointments = [];
+
   if(response.statusCode == 200) {
 
     var jsonData = json.decode(response.body);
-
-    List<Appointment> appointments = [];
     
     // Iterate through all users, only adding patient user types
     for(int i = 0; i < jsonData.length; i++) {
@@ -184,6 +184,7 @@ void deletePrescription(String prescriptionId) async {
   }
 }
 
+// State for viewing patients
 class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
   late Future<List<Patient>> futurePatients;
   late Future<List<Appointment>> futureAppointments;
@@ -210,18 +211,31 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
 
                 return Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Color.fromARGB(255, 47, 47, 47))
+                    border: const Border(
+                      bottom: BorderSide(width: 2, color:Color.fromARGB(255, 84, 84, 84)),
+                    ),
+                    color: Colors.grey[800],
                   ),
+
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column( 
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          Text('${snapshot.data![index].getFirstName} ${snapshot.data![index].getMiddleName} ${snapshot.data![index].getLastName}'),
-                          Text('ID: ${snapshot.data![index].getId.toString()}')
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
+                            child: Text('${snapshot.data![index].getFirstName} ${snapshot.data![index].getLastName}'),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                            child: Text(
+                              'ID: ${snapshot.data![index].getId.toString()}',
+                              style: const TextStyle(fontSize: 12)
+                            ),
+                          )
                         ]),
 
                         Row( children: [
@@ -230,19 +244,20 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                             child: SizedBox(
-                              width: screenWidth(context) * 0.15,
+                              width: screenWidth(context) * 0.2,
                               height: 30,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.lightBlue[800],
                                   textStyle: const TextStyle(
-                                    fontSize: 10, fontFamily: 'Georgia'
+                                    fontSize: 10, fontFamily: 'Roboto'
                                   ),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
-                                    // TODO link this up to register account page
-                                    context, MaterialPageRoute(builder: (context) => DetailsPatientScreen(patient: snapshot.data![index])));
+                                    context, MaterialPageRoute(
+                                      builder: (context) => DetailsPatientScreen(patient: snapshot.data![index])
+                                    ));
                                 },
                                 child: const Text("Details")
                               ),
@@ -251,21 +266,22 @@ class _DoctorViewPatientsPageState extends State<DoctorViewPatientsPage> {
 
                           // Button for viewing the patient prescriptions
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
-                              width: screenWidth(context) * 0.15,
+                              width: screenWidth(context) * 0.2,
                               height: 30,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.orange,
                                   textStyle: const TextStyle(
-                                    fontSize: 10, fontFamily: 'Georgia'
+                                    fontSize: 10, fontFamily: 'Roboto'
                                   ),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
-                                    // TODO link this up to register account page
-                                    context, MaterialPageRoute(builder: (context) => DoctorViewPatientPrescriptionPage(patient: snapshot.data![index])));
+                                    context, MaterialPageRoute(
+                                      builder: (context) => DoctorViewPatientPrescriptionPage(patient: snapshot.data![index])
+                                    ));
                                 },
                                 child: const Text("Prescriptions")
                               ),
