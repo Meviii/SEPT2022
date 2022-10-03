@@ -156,14 +156,31 @@ Future<Prescription> createPrescription(Prescription prescription) async {
     body: jsonEncode(prescription.toJson())
   );
 
-  print(jsonEncode(prescription.toJson()));
-
   if (response.statusCode == 201) {
     // Produce the JSOn when creation is successful
     return Prescription.fromJson(jsonDecode(response.body));
 
   } else {
     throw Exception('Failed to create prescription.');
+  }
+}
+
+void deletePrescription(String prescriptionId) async {
+
+  final response = await http.delete(
+
+    Uri.parse('http://localhost:8085/api/v1/prescription/$prescriptionId'),
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    }
+  );
+
+  if (response.statusCode == 200) {
+    // Produce message when deletion is successful
+
+  } else {
+    throw Exception('Failed to delete prescription.');
   }
 }
 
@@ -429,14 +446,9 @@ class DoctorAddPrescriptionState extends State<DoctorAddPrescriptionPage> {
                           patientId = widget.patient.getId.toString();
                           medicines = [];
 
-                          //duration = "5";
-                          
-                          //description = "I treid";
-
                           // Call the POST request method to create the prescription
                           createPrescription(Prescription(id, medicines, duration, description, date, doctorId, patientId));
 
-                          print("Prescription went thru!");
                           Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorViewPatientPrescriptionPage(patient: widget.patient)));
                         }
                       },
@@ -487,64 +499,94 @@ class PrescriptionsPatientState extends State<DoctorViewPatientPrescriptionPage>
       appBar: AppBar(
         title: Text('${widget.patient.getFirstName} ${widget.patient.getMiddleName} ${widget.patient.getLastName}')
       ),
-      body:
+      body: Column(children: [
+        
+        // Button for adding a new prescription
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+          child: SizedBox(
+            width: screenWidth(context) * 0.15,
+            height: 30,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.orange,
+                textStyle: const TextStyle(
+                  fontSize: 10, fontFamily: 'Georgia'
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => DoctorAddPrescriptionPage(patient: widget.patient)));
+              },
+              child: const Text("New Prescription")
+            ),
+          ),
+        ),
+
         FutureBuilder<List<Prescription>>(
           future: futurePrescriptions,
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               
               // List of all current patient prescriptions
-              return Column( children: [
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
 
-                // Button for adding a new prescription
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: SizedBox(
-                    width: screenWidth(context) * 0.15,
-                    height: 30,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.orange,
-                        textStyle: const TextStyle(
-                          fontSize: 10, fontFamily: 'Georgia'
-                        ),
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color.fromARGB(255, 47, 47, 47))
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => DoctorAddPrescriptionPage(patient: widget.patient)));
-                      },
-                      child: const Text("New Prescription")
-                    ),
-                  ),
-                ),
+                      child: Row(children: [
 
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
+                        Expanded(
+                          child: Column( 
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            Text('Prescription ID: ${snapshot.data![index].getId}'),
+                            Text('Duration: ${snapshot.data![index].getDuration}'),
+                            Text('Description: ${snapshot.data![index].getDescription}'),
+                            Text('Prescribed On: ${snapshot.data![index].getDate.toString()}'),
+                            Text('Prescribing Doctor ID: ${snapshot.data![index].getDoctorId}'),
 
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 30),
-                        child: Column( 
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Text('Prescription ID: ${snapshot.data![index].getId}'),
-                          Text('Duration: ${snapshot.data![index].getDuration}'),
-                          Text('Description: ${snapshot.data![index].getDescription}'),
-                          Text('Prescribed On: ${snapshot.data![index].getDate.toString()}'),
-                          Text('Prescribing Doctor ID: ${snapshot.data![index].getDoctorId}'),
+                            Accordion(
+                              title: 'View Medicines',
+                              medicineList: snapshot.data![index].getMedicines,
+                            )
 
-                          Accordion(
-                            title: 'View Medicines',
-                            medicineList: snapshot.data![index].getMedicines,
-                          )
+                          ]),
+                        ),
 
-                        ]),
-                      );
-                    }
-                  ),
-                ),
-              ]);
+                        // Button for removing the prescription
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                          child: SizedBox(
+                            width: screenWidth(context) * 0.15,
+                            height: 30,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                                textStyle: const TextStyle(
+                                  fontSize: 10, fontFamily: 'Georgia'
+                                ),
+                              ),
+                              onPressed: () {
+                                deletePrescription(snapshot.data![index].getId);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) => super.widget));
+                              },
+                              child: const Text("Remove")
+                            ),
+                          ),
+                        )
+                      ])
+                    );
+                  }
+                )
+              );
 
             } else if(snapshot.hasError) {
               return Text('${snapshot.error}');
@@ -554,6 +596,9 @@ class PrescriptionsPatientState extends State<DoctorViewPatientPrescriptionPage>
             return const CircularProgressIndicator();
           }
         )
+
+      ])
+        
     );
   }
 }
