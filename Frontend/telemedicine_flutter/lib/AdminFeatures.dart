@@ -74,6 +74,7 @@ class _AdminFeaturesState extends State<AdminFeatures> {
             )));
   }
 }
+
 //FirstScreen class and widget for the main page for the admin
 class FirstScreen extends StatelessWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -95,7 +96,8 @@ class FirstScreen extends StatelessWidget {
               "Account Management",
               style: TextStyle(fontSize: 25.0),
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const AccountManagement())),
           ),
         ),
         Padding(
@@ -132,6 +134,60 @@ class FirstScreen extends StatelessWidget {
     );
   }
 }
+
+class AccountManagement extends StatefulWidget {
+  const AccountManagement({Key? key}) : super(key: key);
+
+  @override
+  State<AccountManagement> createState() => _AccountManagementState();
+}
+
+class _AccountManagementState extends State<AccountManagement> {
+  TextEditingController textEditingController = TextEditingController();
+
+//   List<User> users = allUsers;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey,
+        title: const Text(
+          'Account Management',
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.notifications),
+              color: Colors.black,
+              onPressed: () {}),
+          IconButton(
+              icon: const Icon(Icons.question_mark_outlined),
+              color: Colors.black,
+              onPressed: () {}),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: ListView(children: const <Widget>[
+          Padding(
+            padding: EdgeInsets.all(15),
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+                labelText: 'Search',
+                hintText: 'Serach for an account',
+              ),
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
 //Page for the account creation button
 class AccountCreation extends StatefulWidget {
   const AccountCreation({Key? key}) : super(key: key);
@@ -168,116 +224,112 @@ class _AccountCreationState extends State<AccountCreation> {
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Form(
-          child: ListView(children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'First Name',
-                  hintText: 'Enter First Name',
+            child: ListView(children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'First Name',
+                    hintText: 'Enter First Name',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Last Name',
-                  hintText: 'Enter Last Name',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Last Name',
+                    hintText: 'Enter Last Name',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                  hintText: 'Enter Email',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
+                    hintText: 'Enter Email',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Phone Number',
-                  hintText: 'Enter Phone Number',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Phone Number',
+                    hintText: 'Enter Phone Number',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: 'Enter Password',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    hintText: 'Enter Password',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm Password',
-                  hintText: 'Re-enter Password',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirm Password',
+                    hintText: 'Re-enter Password',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'D.O.B',
-                  hintText: 'DD/MM/YY',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'D.O.B',
+                    hintText: 'DD/MM/YY',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: GenderDropdownItem()
-              ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Weight',
-                  hintText: 'Enter weight in kg',
+              const Padding(
+                  padding: EdgeInsets.all(15), child: GenderDropdownItem()),
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Weight',
+                    hintText: 'Enter weight in kg',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Address',
-                  hintText: 'Enter Address',
+              const Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Address',
+                    hintText: 'Enter Address',
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: UserDropdownItem()
-              ),
-            ElevatedButton(
+              const Padding(
+                  padding: EdgeInsets.all(15), child: UserDropdownItem()),
+              ElevatedButton(
                 onPressed: () {},
                 child: const Text('Submit'),
               )
-          ]),
-            ),
+            ]),
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -314,6 +366,7 @@ class _AccountCreationState extends State<AccountCreation> {
         ));
   }
 }
+
 //Class and widget for the DataGeneration button
 class DataGeneration extends StatefulWidget {
   const DataGeneration({Key? key}) : super(key: key);
@@ -427,6 +480,7 @@ class _DataGenerationState extends State<DataGeneration> {
         ));
   }
 }
+
 //List for the dropdown options in the AccountCreation page. This dropdownlist
 //is for the gender selection
 List<DropdownMenuItem<String>> get getGenderDropdownItems {
@@ -451,13 +505,12 @@ class _GenderDropdownItemState extends State<GenderDropdownItem> {
   Widget build(BuildContext context) {
     return DropdownButton(
         value: selectedValue,
-      onChanged: (String? newValue){
-        setState(() {
-          selectedValue = newValue!;
-        });
-      },
-      items: getGenderDropdownItems
-      );
+        onChanged: (String? newValue) {
+          setState(() {
+            selectedValue = newValue!;
+          });
+        },
+        items: getGenderDropdownItems);
   }
 }
 
@@ -484,12 +537,11 @@ class _UserDropdownItemState extends State<UserDropdownItem> {
   Widget build(BuildContext context) {
     return DropdownButton(
         value: selectedValue,
-      onChanged: (String? newValue){
-        setState(() {
-          selectedValue = newValue!;
-        });
-      },
-      items: getRoleDropdownItems
-      );
+        onChanged: (String? newValue) {
+          setState(() {
+            selectedValue = newValue!;
+          });
+        },
+        items: getRoleDropdownItems);
   }
 }
