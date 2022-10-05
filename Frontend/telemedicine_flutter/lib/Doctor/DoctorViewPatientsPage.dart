@@ -328,23 +328,107 @@ class DetailsPatientScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}')
+        title: Text('${patient.getFirstName} ${patient.getLastName}')
       ),
       body: ListView( children: [
-        Column( 
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Patient ID: ${patient.getId.toString()}'),
-            Text('Name: ${patient.getFirstName} ${patient.getMiddleName} ${patient.getLastName}'),
-            Text('Gender: ${patient.getGender}'),
-            Text('DOB: ${patient.getBirth}'),
-            Text('Email: ${patient.getEmail}'),
-            Text('Phone: ${patient.getPhone}'),
-            Text('Health Status: ${patient.getHealthStatus}'),
-            Text('Health Information: ${patient.getHealthInformation}'),
-            Text('Height: ${patient.getHeight.toString()}cm'),
-            Text('Weight: ${patient.getWeight.toString()}kg'),
-          ]
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column( 
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Patient ID:  ',
+                      style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                    Text('${patient.getId.toString()}'),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Name:  ',
+                      style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                    Text('${patient.getFirstName} ${patient.getLastName}'),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Gender:  ',
+                      style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                    Text('${patient.getGender![0].toUpperCase()}${patient.getGender!.substring(1).toLowerCase()}'),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'DOB:  ',
+                      style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                    Text('${patient.getBirth}'),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Email:  ',
+                      style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                    Text('${patient.getEmail}'),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text('Phone: ${patient.getPhone}'),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text('Health Status: ${patient.getHealthStatus[0].toUpperCase()}${patient.getHealthStatus.substring(1).toLowerCase()}'),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text('Health Information: ${patient.getHealthInformation}'),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text('Height: ${patient.getHeight.toString()}cm'),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text('Weight: ${patient.getWeight.toString()}kg'),
+              ),
+
+            ]
+          ),
         )
       ])
     );
