@@ -3,7 +3,8 @@ package com.mdonline.AccountService.Controller;
 import com.mdonline.AccountService.Exceptions.CustomException;
 import com.mdonline.AccountService.Model.Admin;
 import com.mdonline.AccountService.Service.AdminService;
-import com.mdonline.AccountService.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,14 @@ import java.util.List;
 @RequestMapping(path="/api/v1/admins")
 public class AdminController {
 
-    private AdminService adminService;
-    private Utility utility;
-
+    private final AdminService adminService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
     /**
      * Main constructor for the admin controller with admin service
-     * @param adminService
      */
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
-        this.utility = new Utility();
     }
 
     /**
@@ -41,6 +39,7 @@ public class AdminController {
         Admin admin = adminService.getAdminById(id);
 
         if (admin == null){
+            LOGGER.info("Couldn't find admin with ID: " + id);
             throw new CustomException("Admin doesn't exist.", HttpStatus.NOT_FOUND);
         }
 
@@ -55,6 +54,7 @@ public class AdminController {
         List<Admin> admins = adminService.getAllAdmin();
 
         if (admins.isEmpty()){
+            LOGGER.info("Couldn't find admins.");
             throw new CustomException("No admins currently.", HttpStatus.OK);
         }
 
@@ -71,6 +71,7 @@ public class AdminController {
         Admin admin = adminService.getAdminByEmail(email);
 
         if (admin == null){
+            LOGGER.info("Couldn't find admin with email: " + email);
             throw new CustomException("Admin doesn't exist.", HttpStatus.NOT_FOUND);
         }
 
@@ -88,7 +89,8 @@ public class AdminController {
 
         Boolean isUpdated = adminService.updateAdmin(admin, id);
 
-        if (isUpdated == false){
+        if (!isUpdated){
+            LOGGER.warn("Couldn't update admin with ID: " + id);
             throw new CustomException("Couldn't update", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Admin updated.", HttpStatus.OK);
@@ -103,7 +105,8 @@ public class AdminController {
     public ResponseEntity<?> createAdmin(@RequestBody Admin admin) {
 
         Boolean isCreated = adminService.createAdmin(admin);
-        if (isCreated == false){
+        if (!isCreated){
+            LOGGER.warn("Couldn't create admin.");
             throw new CustomException("Couldn't create. Might already exist", HttpStatus.BAD_REQUEST);
         }
 
@@ -120,7 +123,8 @@ public class AdminController {
 
         Boolean isDeleted = adminService.deleteAdmin(id);
 
-        if (isDeleted == false){
+        if (!isDeleted){
+            LOGGER.warn("Couldn't delete admin with ID: " + id);
             throw new CustomException("Couldn't delete.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Admin deleted.", HttpStatus.OK);
@@ -135,7 +139,8 @@ public class AdminController {
 
         Boolean isDeleted = adminService.deleteAll();
 
-        if (isDeleted == false){
+        if (!isDeleted){
+            LOGGER.warn("Couldn't delete admins.");
             throw new CustomException("Couldn't delete all.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("All admins deleted.", HttpStatus.OK);
