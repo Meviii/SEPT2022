@@ -4,6 +4,8 @@ import com.mdonline.AccountService.Model.User.User;
 import com.mdonline.AccountService.Model.User.UserList;
 import com.mdonline.AccountService.Repository.UserRepository;
 import com.mdonline.AccountService.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     Utility utility;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     /**
      * Main constructor for the User service.
@@ -29,7 +32,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.utility = new Utility();
         this.passwordEncoder = passwordEncoder;
-        System.out.println("User Service layer created.");
+        LOGGER.info("User service started.");
     }
 
     /**
@@ -38,8 +41,8 @@ public class UserService {
      * @Return - UserList
      */
     public UserList getAllUsers() {
-        UserList userList = new UserList(userRepository.findAll());
-        return userList;
+        LOGGER.info("Getting all users.");
+        return new UserList(userRepository.findAll());
     }
 
     /**
@@ -49,6 +52,7 @@ public class UserService {
      * @Return - User OR null
      */
     public User getUserById(long id){
+        LOGGER.info("Getting user with ID: " + id);
         return userRepository.findById(id);
 
     }
@@ -60,6 +64,7 @@ public class UserService {
      * @Return - User OR null
      */
     public User getUserByEmail(String email) {
+        LOGGER.info("Getting user with Email: " + email);
         return userRepository.findByEmail(email);
     }
 
@@ -72,8 +77,8 @@ public class UserService {
      * @Return - Boolean value representing if user has been updated
      */
     public Boolean updateUser(User user, long id){
-        Boolean isUpdated = true;
-
+        boolean isUpdated = true;
+        LOGGER.info("Updating user with ID: " + id);
         try{
             user.setId(id);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -93,8 +98,8 @@ public class UserService {
      * @Return - Boolean value representing if user has been created
      */
     public Boolean createUser(User user) {
-        Boolean isCreated = true;
-
+        boolean isCreated = true;
+        LOGGER.info("Creating user.");
         try{
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
@@ -113,7 +118,8 @@ public class UserService {
      * @Return - Boolean value representing if user has been deleted
      */
     public Boolean deleteUser(long id){
-        Boolean isDeleted = true;
+        LOGGER.info("Deleting user with ID: " + id);
+        boolean isDeleted = true;
         try {
             userRepository.deleteById(id);
         }catch (Exception e){
@@ -128,7 +134,8 @@ public class UserService {
      * @Return - Boolean value representing if users have been deleted
      */
     public Boolean deleteAll() {
-        Boolean isDeleted = true;
+        LOGGER.info("Deleting all users.");
+        boolean isDeleted = true;
         try {
             userRepository.deleteAll();
         }catch (Exception e){

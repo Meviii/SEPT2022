@@ -1,5 +1,7 @@
 package com.mdonline.AccountService.Exceptions;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * This class creates the custom exception.
  *
@@ -8,9 +10,6 @@ package com.mdonline.AccountService.Exceptions;
  *      - ErrorCode: The exception message
  *      - ErrorStatus: The HTTP response status
  */
-
-import org.springframework.http.HttpStatus;
-
 public class CustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 

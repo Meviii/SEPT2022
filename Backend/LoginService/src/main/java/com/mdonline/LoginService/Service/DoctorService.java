@@ -1,6 +1,8 @@
 package com.mdonline.LoginService.Service;
 
 import com.mdonline.LoginService.Repository.DoctorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,11 @@ import org.springframework.stereotype.Service;
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DoctorService.class);
 
     @Autowired
     public DoctorService(DoctorRepository doctorRepository) {
         this.doctorRepository = doctorRepository;
-        System.out.println("Doctor Service layer created.");
+        LOGGER.info("Doctor service started.");
     }
 }

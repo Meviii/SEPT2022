@@ -1,7 +1,7 @@
 package com.mdonline.LoginService.Controller;
 
-import com.mdonline.LoginService.Security.Auth.AuthRequest;
-import com.mdonline.LoginService.Security.Auth.AuthResponse;
+import com.mdonline.LoginService.Model.Auth.AuthRequest;
+import com.mdonline.LoginService.Model.Auth.AuthResponse;
 import com.mdonline.LoginService.Service.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class AuthController {
             AuthResponse response = authService.canAuthenticate(request);
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {
-            LOGGER.trace("Bad Credentials: failed to auth");
+            LOGGER.info("Bad Credentials: failed to auth");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (Exception e){
             LOGGER.error("Exception: failed to auth");

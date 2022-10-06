@@ -47,7 +47,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
+        LOGGER.trace("Internal filtering");
         // Break filter if there is no Authorization bearer
         if (!hasAuthorizationBearer(request)) {
             filterChain.doFilter(request, response);
@@ -104,6 +104,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
      * @param token - Request token
      */
     private void setAuthenticationContext(String token, HttpServletRequest request) {
+        LOGGER.trace("Setting authentication context for JWT");
         UserDetails userDetails = getUserDetails(token);
 
         UsernamePasswordAuthenticationToken
@@ -122,6 +123,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
      * @Return - UserDetails
      */
     private UserDetails getUserDetails(String token) {
+        LOGGER.trace("Getting User Details from JWT");
         // TODO : Separate tasks for doctor and patient
         User userDetails = new User();
 
