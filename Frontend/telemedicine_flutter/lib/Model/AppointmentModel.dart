@@ -37,6 +37,6 @@ class Appointment {
   String get getPatientId => patientId;
   String get getDoctorId => doctorId;
   String get getPaymentAmount => paymentAmount;
-  String get getStart => start.toString();
-  String get getEnd => end.toString();
+  DateTime get getStart => start;
+  DateTime get getEnd => end;
 }

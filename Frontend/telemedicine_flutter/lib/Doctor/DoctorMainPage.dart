@@ -102,7 +102,7 @@ class DoctorMainPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       // TODO link this up to register account page
-                      context, MaterialPageRoute(builder: (context) => DoctorViewAppointmentsPage()));
+                      context, MaterialPageRoute(builder: (context) => const DoctorViewAppointmentsScreen()));
                   },
                   child: const Align(
                     alignment: Alignment.center,
