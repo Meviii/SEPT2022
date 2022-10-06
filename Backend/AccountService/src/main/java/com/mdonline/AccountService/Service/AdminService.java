@@ -2,6 +2,8 @@ package com.mdonline.AccountService.Service;
 
 import com.mdonline.AccountService.Model.Admin;
 import com.mdonline.AccountService.Repository.AdminRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ public class AdminService {
 
     AdminRepository adminRepository;
     PasswordEncoder passwordEncoder;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
 
     /**
      * Main constructor for the Admin service.
@@ -27,7 +30,7 @@ public class AdminService {
     public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
-        System.out.println("Admin service layer created.");
+        LOGGER.info("Admin service started.");
     }
 
     /**
@@ -37,6 +40,7 @@ public class AdminService {
      * @Return - Admin OR null
      */
     public Admin getAdminById(long id){
+        LOGGER.info("Getting admin with ID: " + id);
         return adminRepository.findById(id);
     }
 
@@ -46,7 +50,7 @@ public class AdminService {
      * @Return - List<Admin>
      */
     public List<Admin> getAllAdmin(){
-
+        LOGGER.info("Getting all admins");
         return adminRepository.findAll();
     }
 
@@ -58,6 +62,7 @@ public class AdminService {
      * @Return - Admin OR null
      */
     public Admin getAdminByEmail(String email){
+        LOGGER.info("Getting Admin with Email: " + email);
         return adminRepository.findByEmail(email);
     }
 
@@ -70,7 +75,8 @@ public class AdminService {
      * @Return - Boolean value representing if admin has been updated
      */
     public Boolean updateAdmin(Admin toUpdate, long id) {
-        Boolean isUpdated = true;
+        boolean isUpdated = true;
+        LOGGER.info("Updating admin with ID: " + id);
         try {
             toUpdate.setId(id);
             toUpdate.setPassword(passwordEncoder.encode(toUpdate.getPassword()));
@@ -90,7 +96,8 @@ public class AdminService {
      * @Return - Boolean value representing if admin has been created
      */
     public Boolean createAdmin(Admin toCreate) {
-        Boolean isCreated = true;
+        LOGGER.info("Creating admin.");
+        boolean isCreated = true;
         try {
             toCreate.setPassword(passwordEncoder.encode(toCreate.getPassword()));
             adminRepository.save(toCreate);
@@ -109,7 +116,8 @@ public class AdminService {
      * @Return - Boolean value representing if admin has been deleted
      */
     public Boolean deleteAdmin(long id) {
-        Boolean isDeleted = true;
+        LOGGER.info("Deleting admin with ID: " + id);
+        boolean isDeleted = true;
         try {
             adminRepository.delete(adminRepository.findById(id));
         }catch (Exception e){
@@ -124,7 +132,8 @@ public class AdminService {
      * @Return - Boolean value representing if admins have been deleted
      */
     public Boolean deleteAll() {
-        Boolean isDeleted = true;
+        LOGGER.info("Deleting all admins.");
+        boolean isDeleted = true;
         try {
             adminRepository.deleteAll();
         }catch (Exception e){
