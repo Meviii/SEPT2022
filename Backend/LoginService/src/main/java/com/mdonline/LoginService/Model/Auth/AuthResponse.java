@@ -1,4 +1,4 @@
-package com.mdonline.LoginService.Security.Auth;
+package com.mdonline.LoginService.Model.Auth;
 
 public class AuthResponse {
     private String email;
