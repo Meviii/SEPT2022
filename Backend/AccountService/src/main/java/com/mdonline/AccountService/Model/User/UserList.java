@@ -22,12 +22,12 @@ public class UserList {
         this.users = users;
     }
 
-    public List<User> getMessages() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setMessages(List<User> messages) {
-        this.users = messages;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @JsonIgnore
