@@ -14,16 +14,17 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AppointmentController.class)
 public class AppointmentControllerTest {
@@ -134,7 +135,7 @@ public class AppointmentControllerTest {
 
     @Test
     public void testGetAllAppointments() throws Exception {
-        Mockito.when(service.getAllAppointments()).thenReturn(Stream.concat(upcomingAppointmentList().stream(), completedAppointmentList().stream()).toList());
+        Mockito.when(service.getAllAppointments()).thenReturn(Stream.concat(upcomingAppointmentList().stream(), completedAppointmentList().stream()).collect(Collectors.toList()));
         mockMvc.perform(get("/api/v1/appointment/")).andExpect(status().isOk());
     }
 
