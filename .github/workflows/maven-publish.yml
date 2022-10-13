@@ -65,4 +65,58 @@ jobs:
 
       - name: Build with Maven
         run: mvn -DskipTests -B package --file Backend/PrescriptionService/pom.xml
+  appointmentservice:
+     runs-on: ubuntu-latest
+     permissions:
+        contents: read
+        packages: write
+
+     steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - name: Build with Maven
+        run: mvn -DskipTests -B package --file Backend/AppointmentBookingService/pom.xml
+  chatservice:
+     runs-on: ubuntu-latest
+     permissions:
+        contents: read
+        packages: write
+
+     steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - name: Build with Maven
+        run: mvn -DskipTests -B package --file Backend/ChatService/pom.xml
+  messageservice:
+     runs-on: ubuntu-latest
+     permissions:
+        contents: read
+        packages: write
+
+     steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - name: Build with Maven
+        run: mvn -DskipTests -B package --file Backend/MessageService/pom.xml
     
