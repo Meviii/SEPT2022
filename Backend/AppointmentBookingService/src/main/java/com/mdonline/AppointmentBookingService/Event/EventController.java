@@ -2,6 +2,8 @@ package com.mdonline.AppointmentBookingService.Event;
 
 import com.mdonline.AppointmentBookingService.Appointment.AppointmentTimeSlotImpl;
 import com.mdonline.AppointmentBookingService.Appointment.AppointmentService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,8 @@ import java.util.Map;
 public class EventController {
     @Autowired
     EventService service;
+
+    private static final Logger LOGGER = LogManager.getLogger(EventController.class);
 
     @Autowired
     AppointmentService appointmentService;
@@ -67,6 +71,7 @@ public class EventController {
     public ResponseEntity<?> saveEvent(@Valid @RequestBody EventEntity event){
         try{
             EventEntity saveEvent = service.saveEvent(event);
+            LOGGER.info("EVENT CREATED.");
             return ResponseEntity.status(HttpStatus.CREATED).body(saveEvent);
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -82,6 +87,7 @@ public class EventController {
     public ResponseEntity<?> deleteEvent(@RequestBody EventEntity event){
         try{
             service.deleteEvent(event);
+            LOGGER.info("EVENT DELETED.");
             return ResponseEntity.ok().body("EVENT DELETED.");
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -98,6 +104,7 @@ public class EventController {
     public ResponseEntity<?> deleteEventById(@PathVariable Long id){
         try{
             service.deleteEventById(id);
+            LOGGER.info("EVENT DELETED.");
             return ResponseEntity.ok().body("EVENT DELETED.");
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
