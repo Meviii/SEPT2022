@@ -12,6 +12,7 @@ class _MedicalDetails_screenState extends State<MedicalDetails_screen> {
   
   String? _dropdownValue = 'Nothing';
   int _selectedIndex = 0;
+  String textFieldValue = '';
   
   void dropdownCallback(String? selectedValue){
     if (selectedValue is String){
@@ -40,8 +41,7 @@ class _MedicalDetails_screenState extends State<MedicalDetails_screen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.red,
-            title: const Text('Menu bar for md online'),
+            title: const Text('Medical Details'),
             actions: [
               IconButton(
                 icon: const Icon(Icons.notifications_none),
@@ -87,32 +87,69 @@ class _MedicalDetails_screenState extends State<MedicalDetails_screen> {
                     child: const Text('Health Information',textScaleFactor: 1.8),
                     
                     ),
-                  
+                  SizedBox(height: 20,),
+
                   Container(
+                    
                     margin: const EdgeInsetsDirectional.fromSTEB(40, 40, 40, 70),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Add Health Information'
                       ),
                       maxLines: 4,
                       maxLength: 124,
+                      
+                      onChanged: (value) => setState(()=> textFieldValue = value),
                     ),
                     
+                  
+
                   ),
                   
+
+                  ElevatedButton(
+                    child: const Text('Save Changes'),
+                    onPressed: () {
+                      print(_dropdownValue);
+                      print(textFieldValue);
+                    },
+                  )
                 ]
               ),
                 bottomNavigationBar: BottomNavigationBar(
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-                    BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: 'Chat'),
-                    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-                  ],
-                  currentIndex: _selectedIndex,
-                  selectedItemColor: Colors.red,
-                  onTap: onItemTap,
-                ),
+                  type: BottomNavigationBarType.fixed,
+                  items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                    label: 'Profile',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.chat,
+                      color: Colors.black,
+                    ),
+                    label: 'Chat',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.more,
+                      color: Colors.black,
+                    ),
+                    label: 'More',
+                  ),
+              ],
+            ),
           ),
           
       );

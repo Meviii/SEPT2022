@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'MedicalDetails_screen.dart';
+import 'Patient_Prescribed_Medicine/Prescription_List_screen.dart';
 
 class Profile_screen extends StatelessWidget{
 
@@ -34,10 +35,12 @@ class Profile_screen extends StatelessWidget{
                 
               )
             ),
-            const Card(
+            Card(
               child: ListTile(
                 title: Text('My medicine'),
-                
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Prescription_list_screen()));
+                }
               )
             ),
             const Card(
