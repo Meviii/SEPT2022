@@ -14,144 +14,168 @@ class DoctorMainPage extends StatelessWidget {
       appBar: AppBar(title: const Text("MD Telemedicine")),
       body: ListView(children: [ 
 
-        // My Profile button
+        
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: SizedBox(
-            width: screenWidth(context),
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[800],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0)),
-                textStyle: const TextStyle(
-                  fontSize: 16, fontFamily: 'Georgia', 
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              // My Profile button
+              SizedBox(
+                width: screenWidth(context) * 0.4,
+                height: 150,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lime[800],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 16, fontFamily: 'Georgia', 
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      // TODO link this up to register account page
+                      context, MaterialPageRoute(builder: (context) => DoctorViewProfilePage()));
+                  },
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text("My Profile")
+                  )
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  // TODO link this up to register account page
-                  context, MaterialPageRoute(builder: (context) => DoctorViewProfilePage()));
-              },
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("My Profile")
-              )
-            ),
+
+              // My Patients button
+              SizedBox(
+                width: screenWidth(context) * 0.4,
+                height: 150,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lime[800],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 16, fontFamily: 'Georgia', 
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      // TODO link this up to register account page
+                      context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
+                  },
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text("My Patients")
+                  )
+                ),
+              ),
+
+            ],
           ),
         ),
 
-        // My Patients button
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: SizedBox(
-            width: screenWidth(context),
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[800],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0)),
-                textStyle: const TextStyle(
-                  fontSize: 16, fontFamily: 'Georgia', 
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  // TODO link this up to register account page
-                  context, MaterialPageRoute(builder: (context) => DoctorViewPatientsPage()));
-              },
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("My Patients")
-              )
-            ),
-          ),
-        ),
+       
 
         // My Appoinments button
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: SizedBox(
-            width: screenWidth(context),
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[800],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0)),
-                textStyle: const TextStyle(
-                  fontSize: 16, fontFamily: 'Georgia', 
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              SizedBox(
+                width: screenWidth(context) * 0.4,
+                height: 150,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lime[800],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 16, fontFamily: 'Georgia', 
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      // TODO link this up to register account page
+                      context, MaterialPageRoute(builder: (context) => const DoctorViewAppointmentsScreen()));
+                  },
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text("My Appointments")
+                  )
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  // TODO link this up to register account page
-                  context, MaterialPageRoute(builder: (context) => DoctorViewAppointmentsPage()));
-              },
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("My Appointments")
-              )
-            ),
+
+              // My Availabilities button
+              SizedBox(
+                width: screenWidth(context) * 0.4,
+                height: 150,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lime[800],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 16, fontFamily: 'Georgia', 
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      // TODO link this up to register account page
+                      context, MaterialPageRoute(builder: (context) => DoctorViewAvailabilitiesPage()));
+                  },
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text("My Availabilities")
+                  )
+                ),
+              ),
+
+            ],
           ),
         ),
 
-        // My Availabilities button
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: SizedBox(
-            width: screenWidth(context),
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[800],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0)),
-                textStyle: const TextStyle(
-                  fontSize: 16, fontFamily: 'Georgia', 
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  // TODO link this up to register account page
-                  context, MaterialPageRoute(builder: (context) => DoctorViewAvailabilitiesPage()));
-              },
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("My Availabilities")
-              )
-            ),
-          ),
-        ),
+        
 
         // Chat Menu button
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: SizedBox(
-            width: screenWidth(context),
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red[800],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0)),
-                textStyle: const TextStyle(
-                  fontSize: 16, fontFamily: 'Georgia', 
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            
+            SizedBox(
+              width: screenWidth(context) * 0.4,
+              height: 150,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.lime[800],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 16, fontFamily: 'Georgia', 
+                  ),
                 ),
+                onPressed: () {
+                  Navigator.push(
+                    // TODO link this up to register account page
+                    context, MaterialPageRoute(builder: (context) => DoctorMainPage()));
+                },
+                child: const Align(
+                  alignment: Alignment.center,
+                  child: Text("Chat Online")
+                )
               ),
-              onPressed: () {
-                Navigator.push(
-                  // TODO link this up to register account page
-                  context, MaterialPageRoute(builder: (context) => DoctorMainPage()));
-              },
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Chat Online")
-              )
             ),
-          ),
+
+            SizedBox(width: screenWidth(context) * 0.4)
+
+          ],
         ),
         
       ])
