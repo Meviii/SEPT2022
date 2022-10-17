@@ -1,6 +1,8 @@
 package com.mdonline.PrescriptionService.Medicine;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class MedicineController {
     MedicineService service;
+
+    private static final Logger LOGGER = LogManager.getLogger(MedicineController.class);
 
     @Autowired
     public MedicineController(MedicineService service) {
@@ -58,6 +62,7 @@ public class MedicineController {
     @PostMapping(value = "/")
     public ResponseEntity<?> saveMedicine(@Valid @RequestBody MedicineEntity medicineEntity){
         MedicineEntity medicine = service.saveMedicine(medicineEntity);
+        LOGGER.info("MEDICINE CREATED.");
         return ResponseEntity.status(HttpStatus.CREATED).body(medicine);
     }
 
@@ -70,6 +75,7 @@ public class MedicineController {
     @PutMapping(value = "/")
     public ResponseEntity<?> updateMedicine(@Valid @RequestBody MedicineEntity medicineEntity){
         MedicineEntity medicine = service.updateMedicine(medicineEntity);
+        LOGGER.info("MEDICINE UPDATED.");
         return ResponseEntity.status(HttpStatus.OK).body(medicine);
     }
 
@@ -82,6 +88,7 @@ public class MedicineController {
     @DeleteMapping(value = "/")
     public ResponseEntity<?> deleteMedicine(@RequestBody MedicineEntity medicineEntity){
         service.deleteMedicine(medicineEntity);
+        LOGGER.info("MEDICINE DELETED.");
         return ResponseEntity.ok().body("MEDICINE DELETED.");
     }
 
@@ -95,6 +102,7 @@ public class MedicineController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteMedicineById(@PathVariable int id){
         service.deleteById(id);
+        LOGGER.info("MEDICINE DELETED.");
         return ResponseEntity.ok().body("MEDICINE DELETED.");
     }
 
