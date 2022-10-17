@@ -33,4 +33,5 @@ jobs:
         mvn -DskipTests -B package --file Backend/AppointmentBookingService/pom.xml
         mvn -DskipTests -B package --file Backend/ChatService/pom.xml
         mvn -DskipTests -B package --file Backend/MessageService/pom.xml
+        mvn -DskipTests -B package --file Backend/LoginService/pom.xml
       
