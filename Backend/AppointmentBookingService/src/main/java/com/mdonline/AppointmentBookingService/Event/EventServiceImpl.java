@@ -43,15 +43,6 @@ public class EventServiceImpl implements EventService{
     public void deleteEventById(Long id) { repository.deleteById(id); }
 
     /**
-     * Finds and returns an Event by id if id is found in the datastore.
-     *
-     * @param id - Event id
-     * @Return - Event OR null
-     */
-    @Override
-    public EventEntity getEventById(Long id) { return repository.findById(id).get(); }
-
-    /**
      * Finds and returns Event list by Doctor id if it is found in the datastore.
      *
      * @param id - Doctor id
