@@ -21,6 +21,10 @@ class Prescription_view_screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<int> card_colour = [255,255,255,255];
+    List<double> user_info_card_hw = [100,300];
+    List<double> info_card_hw = [200,450];
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -35,33 +39,36 @@ class Prescription_view_screen extends StatelessWidget {
             Column(
               children: [
                 Center(
+                  // This is the card that shows all the doctor information which gave this preescription
                   child: Card(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Color.fromARGB(card_colour[0],card_colour[1],card_colour[2],card_colour[3]),
                     child: SizedBox(
-                      height: 100,
-                      width: 300,
+                      height: user_info_card_hw[0],
+                      width: user_info_card_hw[1],
                       child:Center(child: Text("Doctor id: "+Doctor_name))),
                   ),
                 ),
                 Center(
+                  // This card shows the patients information for which the prescription was assigned to
                   child: Card(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Color.fromARGB(card_colour[0],card_colour[1],card_colour[2],card_colour[3]),
                     child: SizedBox(
-                      height: 100,
-                      width: 300,
+                      height: user_info_card_hw[0],
+                      width: user_info_card_hw[1],
                       child:Center(child: Text("Patient id: "+Patient_name))),
                   ),
                 ),
-                const SizedBox(
-                    
-                    child:Text("Prescription Information")
+                const SizedBox(  
+                  child:Text("Prescription Information")
                 ),
                 Center(
+                  // This card shows the specific prescriptions description which would have 
+                  // been written by the doctor who assigned the prescription
                   child: Card(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Color.fromARGB(card_colour[0],card_colour[1],card_colour[2],card_colour[3]),
                     child: SizedBox(
-                      height: 200,
-                      width: 450,
+                      height: info_card_hw[0],
+                      width: info_card_hw[1],
                       child:Text(Prescription_info)),
                   ),
                 ),
@@ -70,6 +77,8 @@ class Prescription_view_screen extends StatelessWidget {
                     child:Text("Medicine List")
                 ),
                 Center(
+                  // Show the list of medicine assigned to a specific prescription 
+                  // in a table format with columns id, medicine name,medicine description, dosage
                   child: DataTable(
                     columns: const [
                       DataColumn(label: Text("id")),

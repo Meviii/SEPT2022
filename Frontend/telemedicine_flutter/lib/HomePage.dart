@@ -3,7 +3,7 @@ import 'PatientLogin.dart';
 import 'DoctorLogin.dart';
 import 'AdminLogin.dart';
 import 'HelperFunctions.dart';
-import 'Patient/Patient_Profile/Profile_screen.dart';
+import 'Patient/Patient_Profile/Patient_Profile_Tab/Profile_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
