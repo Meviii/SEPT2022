@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'PatientLogin.dart';
 import 'DoctorLogin.dart';
+import 'AdminLogin.dart';
 import 'HelperFunctions.dart';
-import 'Patient/Patient_Profile/Profile_screen.dart';
+import 'Patient/Patient_Profile/Patient_Profile_Tab/Profile_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,9 +12,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: const Text('MD Online')),
-      body: ListView(children: [ 
-        Center( 
-
+      body: ListView(children: [
+        Center(
           // Navigation buttons
           child: Column(children: [
             Padding(
@@ -23,7 +23,10 @@ class HomePage extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   child: const Text('Admin Login'),
-                  onPressed: () => print('Admin button pressed')
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AdminLogin()));
+                  },
                 ),
               ),
             ),
@@ -36,7 +39,9 @@ class HomePage extends StatelessWidget {
                   child: const Text('Patient Login'),
                   onPressed: () {
                     Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => PatientLogin()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PatientLogin()));
                   },
                 ),
               ),
@@ -47,17 +52,18 @@ class HomePage extends StatelessWidget {
                 width: screenWidth(context) * 0.4,
                 height: 50,
                 child: ElevatedButton(
-                  child: const Text('Doctor Login'),
-                  onPressed: () {
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => DoctorLogin()));
-                  }
-                ),
+                    child: const Text('Doctor Login'),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DoctorLogin()));
+                    }),
               ),
             )
           ]),
-        ),]
-      ),
+        ),
+      ]),
     );
   }
 }

@@ -31,3 +31,24 @@ build/
 
 ### VS Code ###
 .vscode/
+Frontend/telemedicine_flutter/linux/flutter/generated_plugin_registrant.h
+Frontend/telemedicine_flutter/linux/flutter/generated_plugin_registrant.cc
+Frontend/telemedicine_flutter/macos/Flutter/GeneratedPluginRegistrant.swift
+Frontend/telemedicine_flutter/linux/flutter/generated_plugins.cmake
+Frontend/telemedicine_flutter/windows/flutter/generated_plugin_registrant.cc
+Frontend/telemedicine_flutter/windows/flutter/generated_plugin_registrant.h
+Frontend/telemedicine_flutter/windows/flutter/generated_plugins.cmake
+Frontend/telemedicine_flutter/linux/flutter/generated_plugin_registrant.cc
+Frontend/telemedicine_flutter/linux/flutter/generated_plugin_registrant.h
+Frontend/telemedicine_flutter/linux/flutter/generated_plugins.cmake
+Frontend/telemedicine_flutter/macos/Flutter/GeneratedPluginRegistrant.swift
+Frontend/telemedicine_flutter/windows/flutter/generated_plugin_registrant.cc
+Frontend/telemedicine_flutter/windows/flutter/generated_plugin_registrant.h
+Frontend/telemedicine_flutter/windows/flutter/generated_plugins.cmake
+Frontend/telemedicine_flutter/linux/flutter/generated_plugin_registrant.cc
+Frontend/telemedicine_flutter/linux/flutter/generated_plugin_registrant.h
+Frontend/telemedicine_flutter/linux/flutter/generated_plugins.cmake
+Frontend/telemedicine_flutter/macos/Flutter/GeneratedPluginRegistrant.swift
+Frontend/telemedicine_flutter/windows/flutter/generated_plugin_registrant.cc
+Frontend/telemedicine_flutter/windows/flutter/generated_plugin_registrant.h
+Frontend/telemedicine_flutter/windows/flutter/generated_plugins.cmake
