@@ -1,7 +1,7 @@
-Software Engineering: Process and Tools
-COSC2299 - Semester 2 2022
+#Software Engineering: Process and Tools
+##COSC2299 - Semester 2 2022
 
-Contributors:
+###Contributors:
 - Nathan Boc - s3717205
 - Mevlut Saluk - s3717696
 - Christodoulos Voulismas - s3850105
