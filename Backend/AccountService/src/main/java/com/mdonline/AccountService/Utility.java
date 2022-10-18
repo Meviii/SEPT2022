@@ -4,14 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mdonline.AccountService.Model.Admin;
 import com.mdonline.AccountService.Model.User.Doctor;
 import com.mdonline.AccountService.Model.User.Patient;
 import com.mdonline.AccountService.Model.User.User;
 
 /**
  * This is a utility class designed for clean code by eliminating code redundancy and confusion
- *
  * Designed to hold utility functions including String de/serialization, parsing etc.
  */
 public class Utility {
@@ -36,26 +34,11 @@ public class Utility {
         return toReturn;
     }
 
-    // This function returns the User object of the received json string.
-    public Admin jsonStringToAdmin(String jsonString) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        Admin toReturn = mapper.readValue(jsonString, Admin.class);
-
-        return toReturn;
-    }
-
     // Checks to see if received json string is of specified user type
     public boolean checkUserTypeFromJsonString(String jsonString, String userType) {
         String stringToCheck = String.format("\"usertype\": \"%s\"", userType);
-        boolean toReturn = false;
 
-        if (jsonString.toLowerCase().contains(stringToCheck.toLowerCase())) {
-            toReturn = true;
-        }
-
-        return toReturn;
+        return jsonString.toLowerCase().contains(stringToCheck.toLowerCase());
     }
 
 }

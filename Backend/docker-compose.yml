@@ -1,0 +1,101 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    platform: linux/x86_64
+    image: mysql:8.0.20
+    restart: always
+    environment:
+      MYSQL_DATABASE: mdonline
+      MYSQL_PASSWORD: Mevsept123
+      MYSQL_ROOT_PASSWORD: Mevsept123
+    ports:
+      - "3307:3306"
+    networks:
+      - mdonline-net
+    volumes:
+      - db:/var/lib/mysql
+
+  accountservice:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./AccountService
+    ports:
+      - "8081:8081"
+    volumes:
+      - .m2:/root/.m2
+
+  loginservice:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./LoginService
+    ports:
+      - "8084:8084"
+    volumes:
+      - .m2:/root/.m2
+
+  chatservice:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./ChatService
+    ports:
+      - "8083:8083"
+    volumes:
+      - .m2:/root/.m2
+
+  appointmentservice:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./AppointmentBookingService
+    ports:
+      - "8082:8082"
+    volumes:
+      - .m2:/root/.m2
+
+  messageservice:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./MessageService
+    ports:
+      - "8087:8087"
+    volumes:
+      - .m2:/root/.m2
+
+  prescriptionservice:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./MessageService
+    ports:
+      - "8085:8085"
+    volumes:
+      - .m2:/root/.m2
+
+  discoveryserver:
+    depends_on:
+      - mysqldb
+    networks:
+      - mdonline-net
+    build: ./DiscoveryServer
+    ports:
+      - "8761:8761"
+    volumes:
+      - .m2:/root/.m2
+
+
+volumes:
+  db:
+
+networks:
+  mdonline-net:

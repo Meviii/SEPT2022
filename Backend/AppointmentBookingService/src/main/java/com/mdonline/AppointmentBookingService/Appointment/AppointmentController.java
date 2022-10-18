@@ -1,4 +1,6 @@
 package com.mdonline.AppointmentBookingService.Appointment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import java.util.List;
 public class AppointmentController {
     @Autowired
     AppointmentService service;
+
+    private static final Logger LOGGER = LogManager.getLogger(AppointmentController.class);
 
     /**
      * Returns all the appointments
@@ -107,6 +111,7 @@ public class AppointmentController {
     public ResponseEntity<?> saveAppointment(@Valid @RequestBody AppointmentEntity appointment){
         try {
             AppointmentEntity appointmentEntity  = service.saveAppointment(appointment);
+            LOGGER.info("APPOINTMENT CREATED.");
             return ResponseEntity.status(HttpStatus.CREATED).body(appointmentEntity);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -122,6 +127,7 @@ public class AppointmentController {
     public ResponseEntity<?> updateAppointment(@Valid @RequestBody AppointmentEntity appointment){
         try {
             AppointmentEntity appointmentEntity  = service.updateAppointment(appointment);
+            LOGGER.info("APPOINTMENT UPDATED.");
             return ResponseEntity.status(HttpStatus.OK).body(appointmentEntity);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -137,6 +143,7 @@ public class AppointmentController {
     public ResponseEntity<?> deleteAppointment(@RequestBody AppointmentEntity appointment){
         try {
             service.deleteAppointment(appointment);
+            LOGGER.info("APPOINTMENT DELETED.");
             return ResponseEntity.ok().body("APPOINTMENT DELETED.");
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -154,6 +161,7 @@ public class AppointmentController {
     public ResponseEntity<?> deleteAppointmentById(@PathVariable Long id){
         try {
             service.deleteAppointmentById(id);
+            LOGGER.info("APPOINTMENT DELETED.");
             return ResponseEntity.ok().body("APPOINTMENT DELETED.");
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());

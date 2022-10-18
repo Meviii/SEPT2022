@@ -1,42 +1,35 @@
 package com.mdonline.LoginService.Service;
 
-import com.mdonline.LoginService.Security.Auth.AuthRequest;
-import com.mdonline.LoginService.Security.Auth.AuthResponse;
-import com.mdonline.LoginService.Security.Jwt.JwtTokenUtil;
+import com.mdonline.LoginService.Model.Auth.AuthRequest;
+import com.mdonline.LoginService.Model.Auth.AuthResponse;
 import com.mdonline.LoginService.Model.User;
-import com.mdonline.LoginService.Utility;
+import com.mdonline.LoginService.Security.Jwt.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AuthService {
 
-    private final UserService userService;
-    private final Utility utility;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final RestTemplate restTemplate;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
 
     /**
      * Main constructor for the Auth service.
      *
-     * @param userService - Initializes global admin repository
-     * @param passwordEncoder - Initializes global Bcrypt password encoder
      * @param authenticationManager - Initializes the Authentication Manager which authenticates an auth request
      * @param jwtTokenUtil - Initializes the JWT Token utility class
      * @param restTemplate - Initializes the Rest Template for microservice communication
      */
     @Autowired
-    public AuthService(UserService userService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, RestTemplate restTemplate) {
-        this.userService = userService;
-        this.utility = new Utility();
-        this.passwordEncoder = passwordEncoder;
+    public AuthService(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, RestTemplate restTemplate) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.restTemplate = restTemplate;
@@ -49,7 +42,7 @@ public class AuthService {
      * @Return - AuthResponse
      */
     public AuthResponse canAuthenticate(AuthRequest request) {
-
+        LOGGER.info("Authenticating JWT");
         // Authenticate user passed by auth request
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -70,7 +63,12 @@ public class AuthService {
      * @param jsonString - JsonString of user payload
      */
     public void register(String jsonString) {
-
-        restTemplate.postForObject("http://account-service/api/v1/user", jsonString, String.class);
+        LOGGER.info("Registering User via AccountService");
+        try {
+            restTemplate.postForObject("http://account-service/api/v1/user", jsonString, String.class);
+        }catch (Exception e){
+            LOGGER.warn("Couldn't register user. AccountService might not be on");
+        }
     }
 }
+

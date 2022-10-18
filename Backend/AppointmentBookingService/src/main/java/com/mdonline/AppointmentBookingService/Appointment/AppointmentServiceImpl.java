@@ -67,18 +67,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void deleteAppointmentById(Long id) { repository.deleteById(id); }
 
     /**
-     * Finds and returns an Appointment by id if id is found in the datastore.
-     *
-     * @param id - Appointment id
-     * @Return - Appointment OR null
-     */
-
-    @Override
-    public AppointmentEntity getAppointmentById(Long id) {
-        return repository.findById(id).get();
-    }
-
-    /**
      * Finds and returns Appointment list by Patient id if it is found in the datastore.
      *
      * @param id - Patient id

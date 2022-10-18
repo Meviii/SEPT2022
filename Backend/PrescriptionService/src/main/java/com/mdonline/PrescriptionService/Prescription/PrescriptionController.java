@@ -1,5 +1,7 @@
 package com.mdonline.PrescriptionService.Prescription;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import java.util.List;
 public class PrescriptionController {
 
     private PrescriptionService service;
+
+    private static final Logger LOGGER = LogManager.getLogger(PrescriptionController.class);
 
     @Autowired
     public PrescriptionController(PrescriptionService service) {
@@ -71,6 +75,7 @@ public class PrescriptionController {
     public ResponseEntity<?> savePrescription(@Valid @RequestBody PrescriptionEntity prescription){
         try{
             PrescriptionEntity prescriptionEntity = service.savePrescription(prescription);
+            LOGGER.info("PRESCRIPTION CREATED.");
             return ResponseEntity.status(HttpStatus.CREATED).body(prescriptionEntity);
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -87,6 +92,7 @@ public class PrescriptionController {
     public ResponseEntity<?> updatePrescription(@Valid @RequestBody PrescriptionEntity prescription){
         try{
             PrescriptionEntity prescriptionEntity = service.updatePrescription(prescription);
+            LOGGER.info("PRESCRIPTION UPDATED.");
             return ResponseEntity.status(HttpStatus.OK).body(prescriptionEntity);
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -103,6 +109,7 @@ public class PrescriptionController {
     public ResponseEntity<?> deletePrescription(@RequestBody PrescriptionEntity prescription){
         try{
             service.deletePrescription(prescription);
+            LOGGER.info("PRESCRIPTION DELETED.");
             return ResponseEntity.ok().body("PRESCRIPTION DELETED.");
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -118,6 +125,7 @@ public class PrescriptionController {
     public ResponseEntity<?> deletePrescriptionById(@PathVariable int id){
         try{
             service.deletePrescriptionById(id);
+            LOGGER.info("PRESCRIPTION DELETED.");
             return ResponseEntity.ok().body("PRESCRIPTION DELETED.");
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());

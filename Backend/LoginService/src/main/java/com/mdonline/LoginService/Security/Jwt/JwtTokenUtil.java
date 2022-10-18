@@ -34,6 +34,7 @@ public class JwtTokenUtil {
      * @Return - This function returns a JWT token in String format
      */
     public String generateAccessToken(User user){
+        LOGGER.trace("Generating access token.");
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
@@ -55,7 +56,7 @@ public class JwtTokenUtil {
      */
     public boolean validateAccessToken(String token) {
         try {
-            LOGGER.trace("Validating access token...");
+            LOGGER.trace("Validating access token.");
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
             byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
             Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
@@ -74,7 +75,7 @@ public class JwtTokenUtil {
         } catch (UnsupportedJwtException ex) {
             LOGGER.error("JWT is not supported", ex);
         }
-        LOGGER.error("Failed to validate access token...");
+        LOGGER.warn("Failed to validate access token.");
         return false;
     }
 
@@ -85,6 +86,7 @@ public class JwtTokenUtil {
      * @Return - subject of token
      */
     public String getSubject(String token) {
+        LOGGER.trace("Getting subject of token.");
         return parseClaims(token).getSubject();
     }
 
@@ -98,7 +100,7 @@ public class JwtTokenUtil {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
+        LOGGER.trace("Parsing claims.");
         return Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()

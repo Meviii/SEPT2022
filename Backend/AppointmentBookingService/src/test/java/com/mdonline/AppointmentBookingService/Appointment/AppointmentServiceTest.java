@@ -16,6 +16,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -123,7 +124,7 @@ public class AppointmentServiceTest {
 
     @Test
     public void testGetAllAppointments(){
-        Mockito.when(repository.findAll()).thenReturn(Stream.concat(upcomingAppointmentList().stream(), completedAppointmentList().stream()).toList());
+        Mockito.when(repository.findAll()).thenReturn(Stream.concat(upcomingAppointmentList().stream(), completedAppointmentList().stream()).collect(Collectors.toList()));
         assertEquals(4, service.getAllAppointments().size());
     }
 

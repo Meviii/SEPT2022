@@ -6,6 +6,8 @@ import com.mdonline.AccountService.Model.User.User;
 import com.mdonline.AccountService.Model.User.UserList;
 import com.mdonline.AccountService.Service.UserService;
 import com.mdonline.AccountService.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/api/v1/users")
 public class UserController {
 
-    private UserService userService;
-    private Utility utility;
+    private final UserService userService;
+    private final Utility utility;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     /**
      * Main constructor for the user controller with user service
-     * @param userService
      */
     @Autowired
     public UserController(UserService userService){
@@ -40,6 +42,7 @@ public class UserController {
         UserList toReturn = userService.getAllUsers();
 
         if (toReturn.isEmpty()){
+            LOGGER.info("Couldn't find users.");
             throw new CustomException("No users currently.", HttpStatus.NOT_FOUND);
         }
         return toReturn;
@@ -55,6 +58,7 @@ public class UserController {
         User toReturn = userService.getUserById(id);
 
         if (toReturn == null){
+            LOGGER.info("Couldn't find user with ID: " + id);
             throw new CustomException("User doesn't not exist", HttpStatus.NOT_FOUND);
         }
 
@@ -71,6 +75,7 @@ public class UserController {
         User toReturn = userService.getUserByEmail(email);
 
         if (toReturn == null){
+            LOGGER.info("Couldn't find user with email: " + email);
             throw new CustomException("User doesn't exist", HttpStatus.NOT_FOUND);
         }
 
@@ -89,7 +94,8 @@ public class UserController {
         User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
         Boolean isUpdated = userService.updateUser(toUpdate, id);
 
-        if (isUpdated == false){
+        if (!isUpdated){
+            LOGGER.warn("Couldn't update user with ID: " + id);
             throw new CustomException("Couldn't update user", HttpStatus.BAD_REQUEST);
         }
 
@@ -106,7 +112,8 @@ public class UserController {
         User toUpdate = utility.jsonStringToDoctorOrPatient(jsonString);
         Boolean isCreated = userService.createUser(toUpdate);
 
-        if (isCreated == false){
+        if (!isCreated){
+            LOGGER.warn("Couldn't create user.");
             throw new CustomException("Couldn't create user", HttpStatus.BAD_REQUEST);
         }
 
@@ -123,7 +130,8 @@ public class UserController {
 
         Boolean isDeleted = userService.deleteUser(id);
 
-        if (isDeleted == false){
+        if (!isDeleted){
+            LOGGER.warn("Couldn't delete user with ID: " + id);
             throw new CustomException("Couldn't delete user", HttpStatus.BAD_REQUEST);
         }
 
@@ -138,7 +146,8 @@ public class UserController {
     public ResponseEntity<String> deleteUser(){
         Boolean isDeleted = userService.deleteAll();
 
-        if (isDeleted == false){
+        if (!isDeleted){
+            LOGGER.warn("Couldn't delete users.");
             throw new CustomException("Couldn't delete users", HttpStatus.BAD_REQUEST);
         }
 
