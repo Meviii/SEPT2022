@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telemedicine_flutter/Patient/Patient_Profile/Patient_Profile_Tab/Profile_screen.dart';
 import 'HelperFunctions.dart';
 
 class PatientLogin extends StatefulWidget {
@@ -82,6 +83,22 @@ class _PatientLoginState extends State<PatientLogin> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 60, 0, 60),
+                      child: SizedBox(
+                        width: screenWidth(context) * 0.4,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context) => Profile_screen()));
+                          },
+                          child: const Text("Profile")
+                        ),
+                      ),
+                    )
                   ]
                 )
               )
