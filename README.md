@@ -9,6 +9,7 @@
 - Abida Mohammadi - s3811920
 - Sankeath Suriya Arachchiralalage - s3897982
 
+
 # Backend Services
 ### Requirements
 
@@ -50,45 +51,27 @@ This can be ignored as GitHub Actions will create a new Jar file on each push(or
 6. This will containerise all backend services and the database.
 
 # Frontend Services
+
 ### Requirements
 
-
-
 For running the flutter application you will need:
-
-
-
-
 
 - [JDK 17](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Google Chrome](https://www.google.com/intl/en_au/chrome/)
 - [Flutter](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwnbmaBhD-ARIsAGTPcfXixsuYpUsxCGaPS3SP9KJ1Yuyh3sgC785ncj8gk5qhqEK1d-DnuNYaAqqHEALw_wcB&gclsrc=aw.ds)
 - CLI (Command-Line Interface) such as [Gitbash](https://git-scm.com/downloads), Powershell, etc.
 
-
-
-
 ### Running the application
-
-
 
 1. Pull code
 
-
-
 2. Ensure the backend services are running
-
-
 
 3. Open your CLI and change the current directory to "./SEPT2022/Frontend/telemedicine_flutter"
 
-
-
 4. Run the following command to execute the Flutter application. (Note that running this application may take a while to load)
-
-
-
 
 ```shell
 flutter run -d Chrome
 ```
+=======
